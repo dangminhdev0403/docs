@@ -83,7 +83,7 @@ async function loadContent(filename) {
                 img.setAttribute('src', "/java-spring-mvc/" + currentSrc);
             } else {
                 // Nếu chạy trên production
-                img.setAttribute('src', "//docs/java-spring-mvc" + currentSrc);
+                img.setAttribute('src', "https://dangminhdev0403.github.io/docs/java-spring-mvc" + currentSrc);
             }
         });
         
