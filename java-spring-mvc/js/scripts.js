@@ -78,13 +78,15 @@ async function loadContent(filename) {
             let currentSrc = img.getAttribute('src');
           
             let newSrc = "/java-spring-mvc/"+currentSrc;
-            img.setAttribute('src', newSrc);
+          
+
          
            
                 
-            // if (window.location.hostname !== 'localhost' && window.location.hostname !== "127.0.0.1" ) {
-            //     img.setAttribute('src', newSrc);
-            // }
+            if (window.location.hostname !== 'localhost' && window.location.hostname !== "127.0.0.1" ) {
+                newSrc ="docs"+newSrc;
+            }
+            img.setAttribute('src', newSrc);
         });
         
     } catch (error) {
