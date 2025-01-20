@@ -17,24 +17,24 @@
     </li>
     <li>Đổi cột username thành name bên model User (hoặc thêm cột name cũng được)</li>
     <li>Tạo 2 Role là ADMIN và USER
-           <img src="/img/chap11/1.png" width="105%" style="object-fit: cover;">
+           <img src="img/chap11/1.png" width="105%" style="object-fit: cover;">
 
     </li>
     <li>Tạo 2 tài khoản với 2 quyền đó :User và Admin (đặt pass là 12345 thôi cho dễ :v)
       <p class="text-warning">Do ta thêm quyền (role) cho model User nên nhớ thêm input vào form nhé</p>
       <p>UserController</p>
-           <img src="/img/chap11/2.png" width="105%" style="object-fit: cover;">
+           <img src="img/chap11/2.png" width="105%" style="object-fit: cover;">
 
       <p>JSP file Create:</p>
-                 <img src="/img/chap11/3.png" width="105%" style="object-fit: cover;">
+                 <img src="img/chap11/3.png" width="105%" style="object-fit: cover;">
 
       <p>View Create</p>
-        <img src="/img/chap11/4.png" width="105%" style="object-fit: cover;">
+        <img src="img/chap11/4.png" width="105%" style="object-fit: cover;">
         
     </li>
     <li>Tạo bằng dao diện Amin ấy nhé !
       <p>Đây là thứ ta cần</p>
-              <img src="/img/chap11/5.png" width="105%" style="object-fit: cover;">
+              <img src="img/chap11/5.png" width="105%" style="object-fit: cover;">
 
     </li>
     <p>Nhớ áp dụng vào cả update ấy nhé</p>
@@ -63,7 +63,7 @@
       <p><b>Mapper</b> thường được sử dụng để chuyển đổi giữa <b>DTO (Data Transfer Object)</b> và Entity hoặc giữa các đối tượng thuộc các lớp khác nhau.</p>
 
       <p>Ví dụ : form register của mình có thêm First Name , Last Name,confirmPass: </p>
-           <img src="/img/chap11/6.png" width="105%" style="object-fit: cover;">
+           <img src="img/chap11/6.png" width="105%" style="object-fit: cover;">
 
       <p class="text-danger">Bây giờ mọi người dùng <b> model.addAttribute("user",new User());</b> thì bị thiếu mất 2 cột đúng ko.Chả lẽ đi tạo :v , nhất là cột confirmPass lưu vô db để làm gì.</p>
       <p class="text-warning">Nếu giữ tư duy  tạo cột liên tục như vậy(cũng được) những chả khác gì ta lưu thừa dữ liệu không cần thiết vào database.Hay còn gọi là lưu dữ liệu rác.</p>
@@ -73,20 +73,20 @@
         
   <li>  Trước tiên tạo cho mình 2 class mapper/UserMapper.java và dto/UserResDTO.java ở package domain
 
-               <img src="/img/chap11/7.png" width="105%" style="object-fit: cover;">
+               <img src="img/chap11/7.png" width="105%" style="object-fit: cover;">
 <p>Tự nhìn hình mà gõ theo đi nhé</p>
-                <img src="/img/chap11/8.png" width="105%" style="object-fit: cover;">
+                <img src="img/chap11/8.png" width="105%" style="object-fit: cover;">
 
                 <li>Áp dụng vào UserController</li>
               
                   <p>Từ lí thuyết nãy giờ , ta có  thể suy ra ngay là ta sẽ truyền DTO thay vì model. Sau đó chuyển DTO sang model bên backend.</p>
               
 
-                <img src="/img/chap11/9.png" width="105%" style="object-fit: cover;">
+                <img src="img/chap11/9.png" width="105%" style="object-fit: cover;">
                 <p>Thành quả:</p>
                           <div style="display: flex; gap:1rem">
-                                  <img src="/img/chap11/10.png" width="105%" style="object-fit: cover;">
-                                  <img src="/img/chap11/11.png" width="105%" style="object-fit: cover;">
+                                  <img src="img/chap11/10.png" width="105%" style="object-fit: cover;">
+                                  <img src="img/chap11/11.png" width="105%" style="object-fit: cover;">
                           </div>
 
 
@@ -113,15 +113,15 @@
 
  <p>Xài thôi (nhớ đọc docs nhé) </p>
  <p>Tớ sẽ validation với 1 trường thôi những cái khác tương tự</p>
-              <img src="/img/chap11/12.png" width="105%" style="object-fit: cover;">
-              <img src="/img/chap11/13.png" width="105%" style="object-fit: cover;">
+              <img src="img/chap11/12.png" width="105%" style="object-fit: cover;">
+              <img src="img/chap11/13.png" width="105%" style="object-fit: cover;">
               <p class="text-info">Không diền gì ở trang register ấn submit.Nếu quay lại trang register là thành công rồi và check log(vì mình đã viết mã  System.out):</p>
 
-              <img src="/img/chap11/14.png" width="135%" style="object-fit: cover;">
+              <img src="img/chap11/14.png" width="135%" style="object-fit: cover;">
 <p>Cuối cùng ta sẽ trả về view:</p>
 
-   <img src="/img/chap11/15.png" width="105%" style="object-fit: cover;">
-              <img src="/img/chap11/16.png" width="105%" style="object-fit: cover;">
+   <img src="img/chap11/15.png" width="105%" style="object-fit: cover;">
+              <img src="img/chap11/16.png" width="105%" style="object-fit: cover;">
 
       </li>
     </ol>

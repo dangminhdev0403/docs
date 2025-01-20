@@ -29,15 +29,15 @@ lần restart server (hoặc máy tính), sẽ cần login lạ(Phần này có 
         <ul>
             <li>Chọn provider, mặc định khi sử dụng username/password, Spring sử dụng
 <b>DaoAuthticationProvider</b>
-           <img src="/img/chap12/1.png" width="155%" style="object-fit: cover;">
+           <img src="img/chap12/1.png" width="155%" style="object-fit: cover;">
 
 </li>
 <li>Sử dụng UserDetailsService <b class="text-danger">(Cái này là của Spring cung cấp không phải mình viết)</b> để lấy thông tin user:
-    <img src="/img/chap12/2.png" width="155%" style="object-fit: cover;">
+    <img src="img/chap12/2.png" width="155%" style="object-fit: cover;">
 
 </li>
 <li>   
-    : Nạp user vào Context <img src="/img/chap12/3.png" width="155%" style="object-fit: cover;">
+    : Nạp user vào Context <img src="img/chap12/3.png" width="155%" style="object-fit: cover;">
 </li>
         </ul>
 
@@ -88,7 +88,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 }</pre>
 </div>
 
-  <img src="/img/chap12/4.png" width="135%" style="object-fit: cover;">
+  <img src="img/chap12/4.png" width="135%" style="object-fit: cover;">
 <li>
     Ghi đè cấu hình tại class SecurityConfiguration
 
@@ -125,7 +125,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 </pre>
 </div>
 
- <img src="/img/chap12/5.png" width="135%" style="object-fit: cover;">
+ <img src="img/chap12/5.png" width="135%" style="object-fit: cover;">
 </li>
 </li>
 <li> 
@@ -135,7 +135,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 <li>Chuyển form login của Spring sang form của chúng ta
 <p class="text-danger">ở file login.jsp hãy  cho action="/login" , 2 input có name là username , password</p>
 <p class="text-danger">Cái này không đổi được đâu nhé!Và đừng quên thêm csrf token</p>
-<img src="/img/chap12/6.png" width="135%" style="object-fit: cover;">
+<img src="img/chap12/6.png" width="135%" style="object-fit: cover;">
   Tiếp tục  Ghi đè cấu hình tại class SecurityConfiguration
     <div class="code-block">
   <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
@@ -160,11 +160,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     }</pre>
 </div>
 
-<img src="/img/chap12/7.png" width="135%" style="object-fit: cover;">
+<img src="img/chap12/7.png" width="135%" style="object-fit: cover;">
 
 <p class="text-info">Ở đây tớ cố tình bắt enpoint @GetMapping("/") phải đăng nhập mới truy cập:</p>
 Khi sai thông tin
-        <img src="/img/chap12/8.png" width="135%" style="object-fit: cover;">
+        <img src="img/chap12/8.png" width="135%" style="object-fit: cover;">
    <p class="text-warning">Còn khi đúng nó sẽ đẩy về trang / thôi :v</p>     
     
 
@@ -186,7 +186,7 @@ Khi sai thông tin
 
 </ol>
     <p>Lấy Quyền người dùng khi đăng nhập thành công</p>
-           <img src="/img/chap12/10.png" width="85%" style="object-fit: cover;">
+           <img src="img/chap12/10.png" width="85%" style="object-fit: cover;">
 
            <p>Tạo class (@Bean) CustomSuccessHandle để ghi đè cấu hình</p>
             <div class="code-block">
@@ -248,16 +248,16 @@ Khi sai thông tin
 }
 </pre>
 </div>
-           <img src="/img/chap12/11.png" width="105%" style="object-fit: cover;">
+           <img src="img/chap12/11.png" width="105%" style="object-fit: cover;">
 
            <p>Ghi đè config tại SecurityConfiguration</p>
 
 
 
-                      <img src="/img/chap12/14.png" width="105%" style="object-fit: cover;">
-                      <img src="/img/chap12/12.png" width="105%" style="object-fit: cover;">
+                      <img src="img/chap12/14.png" width="105%" style="object-fit: cover;">
+                      <img src="img/chap12/12.png" width="105%" style="object-fit: cover;">
                       <p>Tạo route từ chối đăng nhập</p>
-                      <img src="/img/chap12/13.png" width="105%" style="object-fit: cover;">
+                      <img src="img/chap12/13.png" width="105%" style="object-fit: cover;">
 
                       <p class="text-info">Tự test nhé :v</p>
 

@@ -43,7 +43,7 @@ Tạo thêm thư mục(pakage) phục vụ cho mô hình
     Đống thư mục này cùng cấp với file Application.java ấy nhé, sai là lỗi đỏ
     mắt
   </p>
-  <img src="/img/chap4/1.png" alt="" width="35%" />
+  <img src="img/chap4/1.png" alt="" width="35%" />
 </ol>
 
 <p>
@@ -51,7 +51,7 @@ Tạo thêm thư mục(pakage) phục vụ cho mô hình
   <b>HelloController.java </b> đi và kết quả:
 </p>
 
-<img src="/img/chap4/2.png" alt="" width="75%" />
+<img src="img/chap4/2.png" alt="" width="75%" />
 <p>404 Not Found , Oh! No</p>
 <p>Dao diện trả ra lỗi , cứ bĩnh tĩnh , đọc tiếp lỗi xem nó bảo gì</p>
 <p>
@@ -63,8 +63,8 @@ Tạo thêm thư mục(pakage) phục vụ cho mô hình
   resources/static nhé , đâm ra ta phải tạo 1 file html thôi.
 </p>
 <div style="display: flex; gap: 3rem">
-  <img src="/img/chap4/3.png" alt="" width="35%" />
-  <img src="/img/chap4/6.png" alt="" width="75%" />
+  <img src="img/chap4/3.png" alt="" width="35%" />
+  <img src="img/chap4/6.png" alt="" width="75%" />
 </div>
 <p>
   Ở đây tớ tạo 1 file hello.html thì bên Controller cũng phải return thế nhé!
@@ -73,9 +73,9 @@ Tạo thêm thư mục(pakage) phục vụ cho mô hình
   Như đã nói , theo cấu hình mặc định của Spring thì nó sẽ nằm ở thư mục
   resources/static nên ta chỉ cần return tên file thôi nhé
 </p>
-<img src="/img/chap4/4.png" alt="" width="75%" />
+<img src="img/chap4/4.png" alt="" width="75%" />
 <p>Kết quả:</p>
-<img src="/img/chap4/7.png" alt="" width="75%" />
+<img src="img/chap4/7.png" alt="" width="75%" />
 <p class="text-danger">
   Vấn đề tiếp theo là chúng ta lại chẳng cần file view static(tĩnh) cái ta cần
   là vew dynamic(động) cơ nghĩa là phải có backend ở đây là JavaSpring
@@ -126,7 +126,7 @@ Tạo thêm thư mục(pakage) phục vụ cho mô hình
       >
     </div>
 
-    <img src="/img/chap4/8.png" alt="" width="75%" />
+    <img src="img/chap4/8.png" alt="" width="75%" />
   </li>
   <li>
     Tạo thêm file webapp/WEB-INF/view/hello.jsp (cùng cấp với forder java nhé)
@@ -138,8 +138,8 @@ Tạo thêm thư mục(pakage) phục vụ cho mô hình
     </div>
   </li>
   <div style="display: flex; gap: 3rem">
-    <img src="/img/chap4/9.png" alt="" width="75%" />
-    <img src="/img/chap4/10.png" alt="" width="105%" />
+    <img src="img/chap4/9.png" alt="" width="75%" />
+    <img src="img/chap4/10.png" alt="" width="105%" />
   </div>
   <li>
     Xoá đuôi .html ở controller đi , Tạo class WebMvcConfig.java trong thư mục
@@ -177,24 +177,24 @@ public class WebMvcConfig implements WebMvcConfigurer {
     </div>
 
     <div style="display: flex; gap: 3rem">
-      <img src="/img/chap4/11.png" alt="" width="105%" />
-      <img src="/img/chap4/13.png" alt="" width="85%" />
+      <img src="img/chap4/11.png" alt="" width="105%" />
+      <img src="img/chap4/13.png" alt="" width="85%" />
     </div>
   </li>
 
   <li>
     Kết quả:
 
-    <img src="/img/chap4/12.png" alt="" width="105%" />
+    <img src="img/chap4/12.png" alt="" width="105%" />
   </li>
   <li>
     Vẫn thiếu css , js đúng không ? Do ta đã config tại đây:
 
-    <img src="/img/chap4/15.png" alt="" width="105%" />
+    <img src="img/chap4/15.png" alt="" width="105%" />
     tức là ta đã đặt bí danh (alias) cho web dynamic cụ thể nếu ta link css từ
     /css/style.css nghĩa là ta sẽ trỏ tới /resources/admin/css/style.css trong
     hệ thống vì vậy đừng quên tạo file css nữa nhé ,
-    <img src="/img/chap4/16.jpg" alt="" width="105%" />
+    <img src="img/chap4/16.jpg" alt="" width="105%" />
 
     <p>
       ở package webapp Tạo thêm file resources/admin/css/style.css viết css liên
@@ -202,7 +202,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
       link css
     </p>
 
-    <img src="/img/chap4/14.png" alt="" width="105%" />
+    <img src="img/chap4/14.png" alt="" width="105%" />
 
     <p class="text-warning">phần js làm tương tự nhé</p>
     <p>Tại sao ? Đơn giản là ta đã config</p>
