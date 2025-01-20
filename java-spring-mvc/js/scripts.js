@@ -73,18 +73,19 @@ async function loadContent(filename) {
         const html = await response.text();
         content.innerHTML = html;
         const imgs = document.querySelectorAll('img');
-        // imgs.forEach(img => {
-        //     let currentSrc = img.getAttribute('src');
+       
+        imgs.forEach(img => {
+            let currentSrc = img.getAttribute('src');
           
-        //     let newSrc = "/docs-teach-javaspring-mvc"+currentSrc;
-            
+            let newSrc = "/java-spring-mvc/"+currentSrc;
+            img.setAttribute('src', newSrc);
          
            
                 
-        //     if (window.location.hostname !== 'localhost' && window.location.hostname !== "127.0.0.1" ) {
-        //         img.setAttribute('src', newSrc);
-        //     }
-        // });
+            // if (window.location.hostname !== 'localhost' && window.location.hostname !== "127.0.0.1" ) {
+            //     img.setAttribute('src', newSrc);
+            // }
+        });
         
     } catch (error) {
         content.innerHTML = `
