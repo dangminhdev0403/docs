@@ -75,18 +75,16 @@ async function loadContent(filename) {
         const imgs = document.querySelectorAll('img');
        
         imgs.forEach(img => {
+            // Lấy đường dẫn hiện tại
             let currentSrc = img.getAttribute('src');
-          
-            let newSrc = "/java-spring-mvc/"+currentSrc;
-          
 
-         
-           
-                
-            if (window.location.hostname !== 'localhost' && window.location.hostname !== "127.0.0.1" ) {
-                newSrc ="docs"+newSrc;
+            // Nếu đang chạy trên localhost
+            if (window.location.hostname === 'localhost' || window.location.hostname === "127.0.0.1") {
+                img.setAttribute('src', "/java-spring-mvc/" + currentSrc);
+            } else {
+                // Nếu chạy trên production
+                img.setAttribute('src', "/docs/java-spring-mvc" + currentSrc);
             }
-            img.setAttribute('src', newSrc);
         });
         
     } catch (error) {
