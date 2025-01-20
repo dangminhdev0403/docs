@@ -1,0 +1,210 @@
+<h1 class="heading" style="text-align: center">
+  Mô hình MVC (Model View Controller) với Spring
+</h1>
+<ol>
+  <li>
+    View: chịu trách nhiệm render (hiển thị) giao diện website (cái người dùng
+    nhìn thấy)
+  </li>
+  <li>
+    Model: các đối tượng sử dụng hệ thống được mô hình hóa qua OOP (lập trình
+    hướng đối tượng). Với Spring, Models bao gồm các tables tại databases
+  </li>
+  <li>
+    Controller: chịu trách nhiệm xử lý data. Lấy dữ liệu từ Model, xử lý, và đưa
+    cho View hiển thị
+  </li>
+  <li>
+    Với Spring Framework, mô hình MVC được tích hợp thông qua “web modules”
+  </li>
+</ol>
+<h3>
+  Áp dụng MVC tài liệu
+  <a
+    href="https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/mvc.html"
+    target="_blank"
+    >Tại đây</a
+  >
+</h3>
+<p class="text-danger">
+  Việc đầu tiên là tắt cái bảo mật Spring Sericurity đi nhé! Sau này có User ta
+  sẽ config sau
+</p>
+Tạo thêm thư mục(pakage) phục vụ cho mô hình
+<ol>
+  <li>config:cấu hình lại Spring</li>
+  <li>
+    controller(tạo từ đầu rồi nhé): dùng logic code , trả về view(nếu cần)
+  </li>
+  <li>service: logic code</li>
+  <li>repository: thao tác với database</li>
+  <li>model(cái này chắc khỏi nói :v)</li>
+  <p class="text-danger">
+    Đống thư mục này cùng cấp với file Application.java ấy nhé, sai là lỗi đỏ
+    mắt
+  </p>
+  <img src="/img/chap4/1.png" alt="" width="35%" />
+</ol>
+
+<p>
+  Bây giờ này mọi người xoá <b>@ResponseBody</b> ở bên file
+  <b>HelloController.java </b> đi và kết quả:
+</p>
+
+<img src="/img/chap4/2.png" alt="" width="75%" />
+<p>404 Not Found , Oh! No</p>
+<p>Dao diện trả ra lỗi , cứ bĩnh tĩnh , đọc tiếp lỗi xem nó bảo gì</p>
+<p>
+  No static resource ok. (gg dịch ra) : thì nó đang bảo ko tìm thấy view tĩnh là
+  ok,...Vậy ta phải tạo cho nó 1 view tĩnh (tức file hmtl ấy)
+</p>
+<p>
+  Vậy thì tạo ở đâu , theo cấu hình mặc định của Spring thì nó sẽ nằm ở thư mục
+  resources/static nhé , đâm ra ta phải tạo 1 file html thôi.
+</p>
+<div style="display: flex; gap: 3rem">
+  <img src="/img/chap4/3.png" alt="" width="35%" />
+  <img src="/img/chap4/6.png" alt="" width="75%" />
+</div>
+<p>
+  Ở đây tớ tạo 1 file hello.html thì bên Controller cũng phải return thế nhé!
+</p>
+<p>
+  Như đã nói , theo cấu hình mặc định của Spring thì nó sẽ nằm ở thư mục
+  resources/static nên ta chỉ cần return tên file thôi nhé
+</p>
+<img src="/img/chap4/4.png" alt="" width="75%" />
+<p>Kết quả:</p>
+<img src="/img/chap4/7.png" alt="" width="75%" />
+<p class="text-danger">
+  Vấn đề tiếp theo là chúng ta lại chẳng cần file view static(tĩnh) cái ta cần
+  là vew dynamic(động) cơ nghĩa là phải có backend ở đây là JavaSpring
+</p>
+<p class="text-warning">
+  Cái này thì Spring nó không có cấu hình đâu nên ta phải đi làm
+</p>
+<p>
+  Ở đây mình sẽ hướng dẫn mọi người setting 1 View Engine là JSP file nhé! (Java
+  Server Pages)
+</p>
+<p>
+  View Engine thì hiểu đơn giản là file html thôi nhưng nó sẽ code được ngôn ngữ
+  (java, js,php) trực tiếp bên trong file đó luôn
+</p>
+<p>
+  Mọi người không phải lo là: sau này Em dùng View Engine khác thì sao anh? vì
+  về bản chất nó như nhau hết, khác mỗi cú pháp :v
+</p>
+<p>
+  Tài liệu setting tại
+  <a
+    href="https://howtodoinjava.com/spring-boot/spring-boot-jsp-view-example/"
+    target="_blank"
+    >Đây</a
+  >
+</p>
+<ol>
+  <h3>Settup View Engine(JSP)</h3>
+  <li>
+    <h4>Add 3 dependencies vào file pom.xml</h4>
+    <div class="code-block">
+      <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+      <pre>
+ &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.tomcat.embed&lt;/groupId&gt;
+            &lt;artifactId&gt;tomcat-embed-jasper&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;jakarta.servlet.jsp.jstl&lt;/groupId&gt;
+            &lt;artifactId&gt;jakarta.servlet.jsp.jstl-api&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.glassfish.web&lt;/groupId&gt;
+            &lt;artifactId&gt;jakarta.servlet.jsp.jstl&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</pre
+      >
+    </div>
+
+    <img src="/img/chap4/8.png" alt="" width="75%" />
+  </li>
+  <li>
+    Tạo thêm file webapp/WEB-INF/view/hello.jsp (cùng cấp với forder java nhé)
+    sau đó copy nội dung trang hello.html sang hello.jsp đồng thời thêm đoạn vào
+    đầu file <br />
+    <div class="code-block">
+      <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+      <pre>   <%@page contentType="text/html" pageEncoding="UTF-8" %> </pre>
+    </div>
+  </li>
+  <div style="display: flex; gap: 3rem">
+    <img src="/img/chap4/9.png" alt="" width="75%" />
+    <img src="/img/chap4/10.png" alt="" width="105%" />
+  </div>
+  <li>
+    Xoá đuôi .html ở controller đi , Tạo class WebMvcConfig.java trong thư mục
+    config ,copy code dưới sau đó chạy lại dự án nhé !
+    <div class="code-block">
+      <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+      <pre>
+@Configuration
+@EnableWebMvc
+public class WebMvcConfig implements WebMvcConfigurer {
+    @Bean
+    public ViewResolver viewResolver() {
+        final InternalResourceViewResolver bean = new InternalResourceViewResolver();
+        bean.setViewClass(JstlView.class);
+        bean.setPrefix("/WEB-INF/view/");
+        bean.setSuffix(".jsp");
+        return bean;
+    }
+
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        registry.viewResolver(viewResolver());
+    }
+      @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/css/**").addResourceLocations("/resources/admin/css/");
+        registry.addResourceHandler("/js/**").addResourceLocations("/resources/admin/js/");
+      
+
+    }
+}
+
+</pre
+      >
+    </div>
+
+    <div style="display: flex; gap: 3rem">
+      <img src="/img/chap4/11.png" alt="" width="105%" />
+      <img src="/img/chap4/13.png" alt="" width="85%" />
+    </div>
+  </li>
+
+  <li>
+    Kết quả:
+
+    <img src="/img/chap4/12.png" alt="" width="105%" />
+  </li>
+  <li>
+    Vẫn thiếu css , js đúng không ? Do ta đã config tại đây:
+
+    <img src="/img/chap4/15.png" alt="" width="105%" />
+    tức là ta đã đặt bí danh (alias) cho web dynamic cụ thể nếu ta link css từ
+    /css/style.css nghĩa là ta sẽ trỏ tới /resources/admin/css/style.css trong
+    hệ thống vì vậy đừng quên tạo file css nữa nhé ,
+    <img src="/img/chap4/16.jpg" alt="" width="105%" />
+
+    <p>
+      ở package webapp Tạo thêm file resources/admin/css/style.css viết css liên
+      quan dến trang jsp vừa nãy để test nhé , ở đây tớ cho chữ đỏ và đừng quên
+      link css
+    </p>
+
+    <img src="/img/chap4/14.png" alt="" width="105%" />
+
+    <p class="text-warning">phần js làm tương tự nhé</p>
+    <p>Tại sao ? Đơn giản là ta đã config</p>
+  </li>
+</ol>

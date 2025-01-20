@@ -1,0 +1,77 @@
+<header>
+  <h1 class="heading">Về phong cách code</h1>
+  <p class="text-info">Từng đấy đã ngợp chưa :v chưa thì tiếp nào.</p>
+  <p>Nếu mọi người làm việc với 1 framework(đặc biết là backend) thường thì:</p>
+  <ol>
+    <li>
+      Chia nhỏ các phần ra để dễ kiểm soát (controller,service,view ,..bla..bla)
+    </li>
+    <li>
+      Giờ thử đọc code của mấy ông làm lâu năm xem,Ta sẽ toàn nhìn thấy hàm
+      trong interface việc tìm class(implements) chứa logic code cực khó.
+    </li>
+    <li>
+      Đến Spring nó cũng chỉ cho ta xem interface và ta chỉ có kế thừa lại và
+      dùng
+    </li>
+    <li>
+      Trong khoá này và những khoá về sau(nếu có) mình sẽ hướng mọi người phong
+      cách code tương tự vậy
+    </li>
+    <li>
+      Tóm lại, từ chương này về sau ta sẽ code theo kiểu ném ra interface(chứa
+      hàm với mục đích riêng ...) logic code sẽ để ở nơi khác
+    </li>
+    <li>
+      Chắc chắn 1 điều, với tư duy code này ae out trình hết mấy đứa cùng trường
+      :v.
+    </li>
+  </ol>
+</header>
+<section>
+  <h2 class="heading">Yếu tố thiết yếu</h2>
+  <p class="text-danger">
+    Không có khái niệm đâu là code tối ưu nhất với dự án kể cả với các ngôn ngữ
+    khác (JS,PHP,GoLang,..)
+  </p>
+  <p class="text-info">
+    Bỏ tư duy code chỉ cần hiểu , mà phải code sao cho phục vụ và giải quyết tốt
+    bài toán của chúng ta.=&gt; đến lúc đấy tự hiểu :v
+  </p>
+
+  <ol>
+    Hãy luôn ưu tiên code theo 3 yếu tố:
+    <li>Code phải có khả năng mở rộng(phát triển trong tương lai)</li>
+
+    <li>
+      Phải bảo trì được(chải ai biết sau này có bug hay không ,..code lỗi xong
+      vứt là dở :v)
+    </li>
+    <li>
+      Code phải có khả năng test(viết testcase - thường thì học cao mới thở
+      được)
+    </li>
+  </ol>
+
+  <h2 class="heading">Cách code với implement</h2>
+  <p class="text-warning">Đọc là biết là ta sẽ code như thế nào rồi nhé :v</p>
+  <ol>
+    <li>
+      Ở đây chúng ta viết logic ở phần Service. =&gt  chuyển tất cả class trong package serivce thành interface
+    </li>
+    <li>Tạo thêm package <b> impl(impliment)</b> kế thừa lại những interface đó </li>
+    <li>Code sẽ dài ra.Đúng . Nhưng sẽ đảm bảo tính ràng buộc khi kế thừa lại:Lỗi cái báo luôn =&gt dễ fix bug.</li>
+    <li>Ông nào lười thì code kiểu cũ cũng được :v </li>
+    <li>Cuối cùng khai báo Service interface  vào controller. Việc chạy logic Spring lo hết :v . </li>
+  </ol>
+ 
+  <p>  Mình sẽ làm 1 chức năng thôi nhé! Những chức năng khác tương tự thôi</p>
+                    <img src="/img/chap14/1.png" width="105%" style="object-fit: cover;">
+                    <img src="/img/chap14/2.png" width="105%" style="object-fit: cover;">
+                    <img src="/img/chap14/3.png" width="105%" style="object-fit: cover;">
+
+                    <p class="text-info">Chạy dự án lên code vẫn bình thường là oke :v</p>
+                    
+
+   
+</section>

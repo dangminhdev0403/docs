@@ -1,0 +1,128 @@
+<header>
+  <h1 class="heading">Các khái niệm về Spring (Phần này dài ấy ,ông nào lười đọc thì nghe giảng cho nhanh)</h1>
+</header>
+<ol type="I" style="font-size: 1rem;">
+  <li>
+     <h3 class="heading">Java Spring là gì ?</h3>
+     <p class="text-warning">Lưu ý: đừng ai đi gg dịch mấy cái từ tiếng anh trong thư viện.Vì nó không mang ý nghĩa gì đâu. </p>
+
+     <p>
+
+        <ol>
+            <li>
+    Java Spring là một "framework" sử dụng ngôn ngữ Java.
+<p class=" text-danger">=> để học Spring, chúng ta "bắt buộc" cần biết "cú pháp của java"</p>
+Khi nó là framework, nó thưởng "huge" (to lớn), và cung cấp bộ khung/hạ tầng để chúng
+ta tạo dự án/code nhanh hơn.
+            </li>
+            <li>
+                Spring Boot là gì ?
+                <p>Spring Boot = Spring + Boot
+Boot === Bootstrapping app (chạy dự án lên/start app)</p>
+Mục đích
+<ol>
+<li>  - Làm đơn giản hóa quá trình xây dựng Java app sử dụng Spring framework</li>
+<li>- Giảm thiểu tối đa quá trình "cấu hình" cho dự án:</li>
+<li>+ đơn giản hóa quá trình cài đặt thư viện, quản lý cấu hình thông qua maven...
+</li>
+<li>- cung cấp sẵn server để chạy ứng dụng (embedded HTTP server)
+</li>
+<li>không cần phải cài đặt server riêng lẻ (chương trước chạy có cần setup gì đâu :v)</li>
+</ol>
+                  
+
+
+
+            </li>
+
+        </ol>
+       
+
+
+        <p>Khái niệm chỉ thế thôi :v nói thêm các ông cũng chả nhớ để làm gì</p>
+     </p>
+    
+    
+   </li>
+  <li><h3 class="heading">Cấu trúc dự án Spring</h3 >
+
+    <p>Như ở chương trước ta đã Hello World với Spring nên hôm nay ta sẽ đi vào phân tích cấu trúc thư mục trong Spring (tớ sẽ chỉ đề cập những file chúng ta sẽ thao tác thôi nhé!)</p>
+          <img src="/img/chap2/1.png" alt="" width="35%" />
+
+          <ol>Các thư mục viết code
+            <li>- src : thư mục chứa code “chính” của dự án</li>
+            <li>resources : chứa nguồn tài nguyên của dự án như frontend (html, css, js, images),
+file cấu hình…</li>
+            <li>test: thư mục viết code test(chả bao h động :v)</li>
+            <li>target: mã nguồn java sau khi được dịch (JVM sẽ chạy thư mục target)</li>
+           
+          </ol>
+          <ol>Maven và Gradle ? (Trong khoá học này ta sủ dụng Maven) 
+            <li> hiểu 1 cách đơn giản:  giúp build dự án cho java</li>
+            <li>về cách sử dụng thì như nhau thôi : lên mạng tìm > import dependencies > Dùng >Hết. </li>
+            <li>(ưu hay nhược thì sau này phải vào đúng bài toán của chúng ta mới biết được)</li>
+            <li> Trong dự án của spring có 2 file:
+                <ol>
+<li>mvnw => dành cho macos</li>
+<li>mvnw.cmd => dành cho windows</li>
+<li>=> nhờ có 2 file này, chúng ta có thể sử dụng các câu lệnh của maven mà không cần cài
+đặt thủ công (đã test ở chương trước )</li>
+
+
+                </ol>
+                 <li><p>pom.xml (với Maven),  build.gradle.kts (với Gradle)</p>
+    <ol type="i">
+        <li>- sử dụng để xử lý project (compile/build & run)
+            </li>
+    </ol>
+</li>
+</li>
+
+ </ol>
+
+  </li>
+ 
+  <li>Kiến trúc của Spring Framework 
+    <ol>
+        <li>
+<p>Tài liệu :<a href="https://docs.spring.io/spring-framework/docs/3.0.x/spring-framework-reference/html/overview.html" target="_blank">link</a></p>
+
+        </li>
+        <li>với nội dung khoá này ,mình sẽ không học hết trên tài liệu đâu nhưng tớ sẽ điểm qua những ý chính:
+            
+        <ol type="i">
+            <li>
+                <ol>
+   spring container:
+   <li>  (đọc cái biết luôn): là thùng chứa(gg dịch) hay là một thành phần cốt lõi của Spring Framework ( một thôi nhé không phải all đâu), </li>
+   <li>Quản lý tất cả các Bean</li>
+   <li>Container thực hiện việc cung cấp các phụ thuộc cho bean, giúp các bean không cần tự mình tạo ra các đối tượng phụ thuộc. hay còn gọi là Dependency Injection (DI)</li>
+   <li>Inversion of Control (IoC)
+IoC là nguyên tắc mà Container chịu trách nhiệm điều khiển luồng ứng dụng và quản lý các đối tượng, thay vì để chúng tự quản lý.</li>
+
+                </ol>
+             
+                
+                
+               
+
+            </li>
+
+            <li>Bean là bất kỳ đối tượng nào được định nghĩa trong Spring Container thông qua file cấu hình XML, Java configuration, hoặc annotation. Spring Container kiểm soát toàn bộ vòng đời của các bean.(hiểu nhanh là class trong Java ấy v:)</li>
+            <li>Dependency Injection (nghe giảng nhé :v)</li>
+            <li> Annotation (chú thích), là cách chúng ta “trang trí” class của Java. (decorator)
+Mục đích là “tăng thêm sức mạnh” cho class đấy (meta-data)</li>
+        </ol>
+
+        </li>
+    </ol>
+
+
+  </li>
+
+
+</ol>
+
+
+<br>    ======================================================================================================================<br>
+   <p class="text-danger" > Hết rồi chả còn gì đâu, tìm hiểu qua qua thôi , vào code là đống này nó tự vào đầu hết :v </p >

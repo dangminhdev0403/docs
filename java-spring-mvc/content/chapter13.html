@@ -1,0 +1,136 @@
+<header>
+  <h1 class="heading">Đăng xuất và Session</h1>
+  <p class="text-info">
+   Ý tưởng: 
+   <ul>
+   <li> Khi đăng nhập ta sẽ lưu thông tin người dùng thông qua <b>Session</b></li>
+   <li>Khi đăng xuất xoá <b>Session</b></li>
+   </ul>
+
+  </p>
+<p class="text-info">
+  Tạo form với action ="/logout" ở view index.jsp để test chức năng này
+   </p> 
+ 
+</header>
+<section>
+    <h2 class="heading">Session  </h2>
+    <p>Tài liệu tại <a href="https://www.baeldung.com/cs/web-sessions" target="_blank">Đây</a></p>
+    <ul>
+        Hiểu 1 cách đơn giản, Session là việc server:
+<li> Lưu thông tin user vào Memory (RAM), với id để xác định user đấy là ai</li>
+<li> Mỗi request client gửi lên server, sẽ cần đính kèm “key”/id</li>
+<li> Server sẽ dựa vào key client gửi lên, để biết client đấy là ai</li>
+
+    </ul>
+      <h2 class="heading">Cơ chế Session mặc định của Spring  </h2>
+      <ul>
+        <li>Được lưu tại client thông qua cookies</li>
+        <li> Được lưu tại Memory đân ra  restart project lại sẽ mất thông tin </li>
+        <li>Spring-Session sẽ cung cấp springSessionRepositoryFilter (đây là Filter)</li>
+        <li>Đọc đến đây lại phải ghi đè cấu hình :v </li>
+        <li>Tuy nhiên ta chỉ cho nó biết cần lưu cái gì(ở đây là thông tin người dùng).Còn lưu thế nào Spring Session lo hết.</li>
+      </ul>
+    
+</section>
+<section>
+
+      <h2 class="heading">Tích hợp Spring Session</h2>
+      <ol>
+        <li>Thêm dependency vào pom.xml 
+
+
+            <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+    &lt;dependency&gt;
+ &lt;groupId&gt;org.springframework.session&lt;/groupId&gt;
+ &lt;artifactId&gt;spring-session-jdbc&lt;/artifactId&gt;
+ &lt;/dependency&gt;
+  </pre>
+</div>
+
+        </li>
+        <li>
+            Cấu hình với spring tại  application.properties
+
+            <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>spring.session.store-type=jdbc
+spring.session.timeout=30m
+#spring.session.jdbc.initialize-schema=always
+#server.servlet.session.timeout
+#spring.session.jdbc.table-name=SPRING_SESSION</pre>
+</div>
+
+
+        </li>
+        <li>Chạy lại project
+                                  <img src="/img/chap12/15.png" width="105%" style="object-fit: cover;">
+
+        </li>
+        <li>Ghi đè config tại SecurityConfiguration
+
+            <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>@Bean
+        public SpringSessionRememberMeServices rememberMeServices() {
+                SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
+                // optionally customize
+                rememberMeServices.setAlwaysRemember(true);
+                rememberMeServices.setRememberMeParameterName("remember");
+                return rememberMeServices;
+        }</pre>
+</div>
+
+                                  <img src="/img/chap13/1.png" width="105%" style="object-fit: cover;">
+
+                                  <p>Hã đăng nhập lại và check kết quả ở 2 bảng session</p>
+                                                                    <img src="/img/chap13/2.png" width="105%" style="object-fit: cover;">
+                                                                    <p class="text-danger">Bây giờ sau mỗi lần chạy lại project , ta không càn phải đăng nhập lại.</p>
+
+
+
+        </li>
+        <li>Giới hạn đăng nhập
+
+            <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+   .sessionManagement((sessionManagement) -> sessionManagement
+.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Đảm bảo session được tạo ra khi cần
+.invalidSessionUrl("/login?expired=true") // Chuyển hướng đến trang login khi session hết hạn
+.maximumSessions(1) // giới hạn người dùng trong phiên đăng nhập
+.maxSessionsPreventsLogin(false)) //Người sau đá người trước
+
+        .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true) // Đảm bảo session được hủy khi logout
+                        .logoutSuccessUrl("/login?logout") // Chuyển hướng sau khi đăng xuất thành công 
+                        )</pre>
+</div>
+
+                                  <img src="/img/chap13/3.png" width="105%" style="object-fit: cover;">
+
+
+        </li>
+        <li>Lưu thông tin người dùng vào Session.
+<p class="text-info">Tớ sẽ lưu tên và email của User thôi nhé! Thông tin khác tương tự</p>
+                                  <img src="/img/chap13/4.png" width="105%" style="object-fit: cover;">
+
+        </li>
+        <li>Vì lưu ở Session nếu chúng ta muốn in ra client ở đây là JSP file  bên JSP sẽ gán thông tin chúng ta truyền vào biến  <b>sessionScope</b> Đọc thêm tại <a href="https://www.javatips.net/blog/reading-session-attributes-using-jstl" target="_blank">Đây</a>
+          <img src="/img/chap13/5.png" width="105%" style="object-fit: cover;"></li>
+
+          <li>Kết quả: <p>khi ta chưa đăng nhập </p>
+                      <img src="/img/chap13/6.png" width="105%" style="object-fit: cover;">
+                  <p>Login xong:   </p>  
+                  <img src="/img/chap13/7.png" width="105%" style="object-fit: cover;">
+               
+                    </li>
+
+         
+      </ol>
+
+</section>

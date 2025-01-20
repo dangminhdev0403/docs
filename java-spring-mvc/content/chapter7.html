@@ -1,0 +1,436 @@
+<header>
+  <h1 class="heading">CRUD User</h1>
+  <p class="text-danger">
+    Đến đây rồi đừng ai hỏi CRUD là gì .Ai không biết khái niệm cơ bản này tớ
+    khuyên thật là học lại nhé!
+  </p>
+  <ol class="text-warning">
+    Với tớ thì có 1 yêu cầu nho nhỏ , mọi người cứ coi như bài tập của mình cx
+    được
+    <li>
+      Đây là khoá học backend ,Tớ sẽ không kiếm template để các bạn code theo
+      đâu.
+    </li>
+    <li>
+      Mọi người phải tự kiếm hoặc tự viết fontend dựa theo yêu cầu của mình
+    </li>
+    <li>
+      Phèn phèn thôi , chỉ cần đủ dùng là được, càng đẹp càng khổ các ông :v
+    </li>
+    <li>
+      Phải đảm bảo project mọi người code theo mình đến giờ đều chạy ổn định
+    </li>
+  </ol>
+  <p>OK ! Vào việc ....</p>
+</header>
+
+<section>
+  <h2>Phân chia dự án</h2>
+  <p style="white-space: nowrap">
+    Chúng ta sẽ bắt đầu với vai trò Admin , nên hãy phân chia code cho hợp lí. Ở
+    đây tớ sẽ chia tách <b>controller</b> và <b>views</b> theo đúng vai trò :
+  </p>
+
+  <ol>
+    <li>admin</li>
+    <li>
+      client(user cx được mà nên đặt theo nghĩa cách người dùng thao tác với
+      web)
+    </li>
+    <img src="/img/chap7/1.png" alt="" width="105%" />
+
+    <li>Và đừng quên config nhé!</li>
+    <img src="/img/chap7/2.png" alt="" width="105%" />
+    <li class="text-danger">
+      Chạy lại dự án ! Nếu không vấn đề gì xảy ra là ok!
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>Model User</h2>
+  <p class="text-danger">
+    Đến đây rồi mà ông nào không biết database kết nối với Spring là cái nào thì
+    mình chịu nhé :v
+  </p>
+  <ol>
+    <li>
+      Trước tiên mọi người vô trình quản lí database của mình nhé.Như db
+      <b>test</b> của mình hiện đang không có bảng nào
+    </li>
+    <img src="/img/chap7/3.png" alt="" width="55%" />
+    <li>
+      Mọi người sửa giúp mình package model thành domain nhé(ý nghĩa của nó vãn
+      là model thôi) Tạo cho mình class là 1 đối tượng User.java
+    </li>
+    <li>
+      Trang trí đầu class là 1 annotation là:
+
+      <ol>
+        <li>
+          <b> @Entity</b>(annotation cho Spring biết đây là 1 model) thêm
+          <b>@Table("tên_bảng")</b>(nếu không muốn Spring tự đặt tên bảng)
+        </li>
+        <li>@Id (cho biết thuộc tính này là cột id của bảng)</li>
+      </ol>
+    </li>
+
+    <div class="code-block">
+      <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+      <pre>
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  //  GenerationType.IDENTITY :id tự động tăng
+    private Long id;
+    private String username;
+    private String password;
+    private String name ;
+    private String email;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+}
+</pre
+      >
+    </div>
+
+    <img src="/img/chap7/4.png" alt="" width="105%" />
+    <li>
+      Chạy lại dự án check lại db , Spring tự tạo cho mọi người bảng users là
+      oke nhé !Diệu kì
+    </li>
+    <img src="/img/chap7/5.png" alt="" width="105%" />
+
+    <li>Vậy là chẳng cần phải tạo bảng thủ công nữa rồi (Spring làm hết :v)</li>
+  </ol>
+</section>
+<section>
+  <h2>View User</h2>
+  <ol style="white-space: nowrap">
+    <li>
+      Hãy tạo UserController.java trong mục admin
+      <span class="text-danger">Nhớ thêm @Controller vào đầu class</span>
+    </li>
+    <li>
+      Tạo 1 endpoint với @GetMapping:<b>/admin/user/create</b>(url dẫn tới view
+      tạo mới người dùng)
+    </li>
+    <li>
+      Tạo 1 endpoint với @GetMapping:<b>/admin/user/update/1</b>(url dẫn tới
+      view cập nhật người dùng có id là 1, không cập nhật password)
+    </li>
+    <li>
+      Tạo 1 endpoint với @GetMapping:<b>/admin/user/list</b>(url dẫn tới view
+      danh sách người dùng với dữ liệu cứng ở html)
+    </li>
+    <li>
+      Chúng ta muốn ấn vào thẻ a của html thì get đết link (ở đây là list ,trang
+      tạo mới, update) thì mọi người chỉ cần điền enpoint tương ứng vào href
+      thôi nhé
+    </li>
+    <img
+      src="/img/chap7/9.png"
+      alt=""
+      width="85%"
+      style="object-fit: cover"
+    />
+
+    <li>Tự làm nhé :v ra như này là được</li>
+    <div style="display: flex; gap: 3rem">
+      <img src="/img/chap7/6.png" alt="" width="55%" />
+      <img src="/img/chap7/7.png" alt="" width="55%" />
+      <img src="/img/chap7/8.png" alt="" width="55%" />
+    </div>
+  </ol>
+</section>
+
+<section>
+  <h2>Create User</h2>
+  <ol>
+    <li>
+      Ta sẽ truyền giá trị nhận vào là Model (cho Spring biết ta sẽ thao tác với
+      model) vào hàm createUser
+    </li>
+
+    <div class="code-block">
+      <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+      <pre>
+ @GetMapping("/create")
+    public String getCreateUserPage(Model model) {
+          model.addAttribute("user", new User()) ; // Truyền đối tượng User mới cho view  
+        return "/admin/user/create";
+    }</pre
+      >
+    </div>
+
+    <img
+      src="/img/chap7/10.png"
+      alt=""
+      width="105%"
+      style="object-fit: cover"
+    />
+    <li>Tạo user thì thao tác với form (method:POST) 
+        thêm tiếp đoạn code này vào đầu file jsp nhé.
+        &lt;%@ taglib prefix="form"
+uri="http://www.springframework.org/tags/form" %&gt;
+
+ <div class="code-block">
+      <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+      <pre> &lt;%@ taglib prefix="form"uri="http://www.springframework.org/tags/form" %&gt;</pre>
+    </div>
+    <li>
+        thêm form:  vào thẻ form , input, thay thuộc tính name bằng path ="tên_biến" ta muốn truyền vào.
+         <img
+      src="/img/chap7/11.png"
+      alt=""
+      width="105%"
+      style="object-fit: cover"
+    />
+    </li>
+    <li>
+        thêm thuộc tính  modelAttribute ="user" (user ta đã truyền xuống từ controller) và action="/admin/user/create" với method POST
+    </li>
+    <img
+      src="/img/chap7/12.png"
+      alt=""
+      width="55%"
+      style="object-fit: cover"
+    />
+    <li>
+        Với taglib này ta sẽ truyền  nhanh đối tượng User mới mà không cần thuộc tính name
+    </li>
+    <li>Viết @PostMapping("/admin/user/create"") bên controller.</li>
+    <li>  thao tác với database sẽ viết trong Repository, Logic code sẽ viết trong Service, controller chỉ dùng thôi nhé.
+<p>file  UserRepository</p>
+        <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.minh.demo.domain.User;
+
+@Repository
+public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
+    
+}
+
+</pre>
+
+
+
+</div>
+<p>file  UserService</p>
+
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>import org.springframework.stereotype.Service;
+
+import com.minh.demo.domain.User;
+import com.minh.demo.repository.UserRepository;
+
+@Service
+public class UserService {
+    private final UserRepository userRepository ;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository ;
+    }
+
+  public User  handleSaveUser(User user ){
+       return this.userRepository.save(user);
+    }
+}
+
+</pre>
+</div>
+<p>Thêm đoạn này vào UserController.java</p>
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>   private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+
+    @PostMapping("admin/user/create")
+    public String handleCreateUser(User user) {
+        this.userService.handleSaveUser(user);
+
+      //  return "admin/user/list" ;// render dữ liệu vào list.jsp
+        return "redirect:/admin/user/list"; // đi tới endponit @GetMapping("/admin/user/list")
+    }
+</pre>
+</div>
+
+
+    </li>
+    Bây giờ test nhé .Tớ sẽ thử với dữ liệu !
+    <img src="img/chap7/13.png" alt="">
+    <p> Nếu thành công (chạy về endpoint list) hãy check database !(còn lỗi thì xem lại code nhé!)</p>
+     <img src="img/chap7/14.png" alt="">
+    </li>
+  </ol>
+</section>
+<section>
+    <h3>Read list User</h3>
+    <p class="text-warning">Chúng ta sẽ tiến hành show dữ liệu ra. Trước tiên mọi người nên insert bằng SQL cho nhiều data :v lười quá thì để 1 data cx được</p>
+    <ol><li>
+        ở đây tớ sẽ thêm trực tiếp bằng lệnh sql nhé:
+         <img
+      src="/img/chap7/15.png"
+      alt=""
+      width="105%"
+      style="object-fit: cover"
+    />
+    </li>
+<li>
+    <p>Thêm function này vào UserService</p>
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>public List &lt;User&gt; getAllUser(){
+        return this.userRepository.findAll();
+    }</pre>
+</div>
+
+ <p> sử dụng  function trong UserController với enpoint @GetMapping("/admin/user/list")</p>
+   
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>   public String getListUserPage(Model model) {
+        List &lt;User&gt;users = this.userService.getAllUser();
+        model.addAttribute("users", users);
+        return "/admin/user/list";
+    }</pre>
+</div>
+
+<p> Thêm taglib jstl(gõ jstl là gì trên mạng để tìm hiểu nhé) vào đầu trang list.jsp</p>
+   
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre> &lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;</pre>
+</div>
+
+<p>file list.jsp</p>
+     <img
+      src="/img/chap7/16.png"
+      alt=""
+      width="105%"
+      style="object-fit: cover"
+    />
+</li>
+
+<li>Kết quả
+
+     <img
+      src="/img/chap7/17.png"
+      alt=""
+      width="105%"
+      style="object-fit: cover"
+    />
+
+    <p class="text-warning">Hãy thử thêm 1 user xem số lượng có tăng lên ko nhé!</p>
+</li>
+
+
+</ol>
+</section>
+
+<section>
+    <h3>Update User</h3>
+    <p class="text-danger">Với file update.jsp làm tương tự như create.jsp  nhưng hãy thêm 1 <b>form:input có path=id nhé</b></p>
+    <ol>
+        <li>
+            <p>Thêm vào class UserService</p>
+            <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre> public User getUserById(Long id){
+        Optional&lt;User&gt; user = this.userRepository.findById(id);
+        if(user.isEmpty()) return null ;
+        return user.get();
+    }</pre>
+</div>
+<p>File UserController</p>
+     <img
+      src="/img/chap7/18.png"
+      alt=""
+      width="105%"
+      style="object-fit: cover"
+    />
+</li>
+<li>Kết quả:
+    <img
+      src="/img/chap7/19.png"
+      alt=""
+      width="105%"
+      style="object-fit: cover"
+    />
+</li>
+<p class="text-warning">Mọi người biết tại sao khi tạo User tớ lại đặt hàm là <b>handleSaveUser</b> thay vì <b>handleCreateUser</b> không ? Hãy thử tư duy và áp dụng nhé ! </p>
+    </ol>
+</section>
+
+<section>
+    <h3>Delete User</h3>
+    <p class="text-warning">Sau một chuỗi code dài kia thì mọi người hãy thử code chức năng xoá User theo id này nhé(thêm thẻ a , rồi viết logic ...)</p>
+    <p class="text-danger">Mình sẽ cung cấp hàm xoá tại UserService</p>
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre> public void deleteUserById(Long id){
+        this.userRepository.deleteById(id);
+    }</pre>
+</div>
+
+
+</section>
+
+<section>
+    <h3>Mã hoá mật khẩu</h3>
+    <p class="text-warning"> không có dự án nào mà để thông tin mật khẩu lộ kiểu này đâu nên chúng ta cần mã hoá lại nhé</p>
+    <p>Với Spring thì có nhiều thuật toán thì mình dùng 1 cái là được rồi</p>
+    <ol>
+        <li>tạo thêm file SecurityConfiguration.java tại folder config</li>
+        <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>@Configuration
+public class SecurityConfiguration {
+     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+}</pre>
+</div>
+
+
+
+
+        <img src="/img/chap7/20.png" width="105%" >
+  <li>Cập nhật UserService</li>
+          <img src="/img/chap7/21.png" width="105%" >
+  <li>Kết quả sau mỗi lần tạo mới hoặc cập nhật user</li>
+          <img src="/img/chap7/22.png" width="105%" >
+    </ol>
+</section>
+
+<p>===============================================================================================================================================================</p>
+<p class="text-danger">Vậy là xong CRUD cơ bản với Spring rồi đó. Dễ mà</p>

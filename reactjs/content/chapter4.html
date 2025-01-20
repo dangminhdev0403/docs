@@ -1,0 +1,42 @@
+
+  <h1 class="heading" style="text-align: center;">Kiến trúc ứng dụng web</h1>
+
+<section>
+    <h3>Cái mảng này thì rộng lắm nhưng ở đây tớ sẽ chỉ đề cập đến 2 kiến trúc phần mềm thôi đó là:Monolithic và Microservices</h3>
+
+    <p>
+        Đây là các phong cách tổ chức và thiết kế ứng dụng phần mềm dựa trên cách quản lý, triển khai và duy trì các thành phần của hệ thống:
+
+
+<ol><li>Monolithic là một kiểu kiến trúc ứng dụng trong đó tất cả các thành phần của hệ thống (frontend, backend, database logic, ...) được phát triển và triển khai trong một ứng dụng duy nhất..</li>
+<li>Microservices : Ứng dụng được chia thành nhiều dịch vụ nhỏ, độc lập và có thể triển khai riêng lẻ.</li></ol>
+    </p>
+
+ 
+<h3>Stateful và Stateless</h3>
+<ol>
+    <li>
+        Stateful ( không phải Statefull):
+        <ol>
+            <li> Ứng dụng hoặc dịch vụ lưu trữ trạng thái của người dùng hoặc hệ thống giữa các lần yêu cầu.</li>
+            <li>Chắc chắn rồi , với mô hình MVC ta sẽ lưu trữ thông tin  về trạng thái của người dùng hoặc ứng dụng thông qua Session </li>
+        </ol>
+
+
+    </li>
+    <li>
+<ol>
+    Stateless
+    <li> Có nghĩa là mỗi yêu cầu từ người dùng được xử lý độc lập mà không có thông tin nào được lưu trữ từ các yêu cầu trước đó.</li>
+    <li>Tức là mỗi lần yêu cầu (truy cập enpoint) bên phía client(fontend) phải gửi all thông tin cần thiết. (mô hình API RESTful)</li>
+
+</ol>
+
+    </li>
+</ol>
+
+<p>Đọc là biết thôi , nên mình sẽ không đề cập đến ưu và nhược điểm nhé! Bản thân tớ thì thích code Rest API hơn vì nó nhàn đời :v Còn bây giờ là món chính</p>
+
+
+
+</section>

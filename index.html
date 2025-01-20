@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Portfolio Gallery</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: #000000;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --text: #ffffff;
+            --accent1: #6366f1;
+            --accent2: #8b5cf6;
+            --hover: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            padding: 4rem 2rem;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 6rem;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: var(--accent1);
+            filter: blur(150px);
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+
+        .header h1 {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--accent1), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.7;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 3rem;
+            perspective: 1000px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 2.5rem;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.1), transparent 40%);
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            transform: translateZ(30px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .project-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            transform: translateZ(20px);
+        }
+
+        .project-description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            opacity: 0.7;
+            margin-bottom: 2rem;
+            transform: translateZ(15px);
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            transform: translateZ(25px);
+        }
+
+        .tech-tag {
+            padding: 0.6rem 1.2rem;
+            border-radius: 100px;
+            background: rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .project-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: var(--accent2);
+            filter: blur(200px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .glow-1 { top: 20%; left: -20%; }
+        .glow-2 { bottom: -10%; right: -10%; }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 3rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Tài liệu học tập</h1>
+            <p>Do Đặng Minh biên soạn.Chỉ dẹp cái trang chủ thôi :v</p>
+        </div>
+        
+        <div class="projects-grid">
+            <a href="java-spring-mvc" class="project-link">
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <h3 class="project-title">Java Spring MVC</h3>
+                        <p class="project-description"></p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Java</span>
+                            <span class="tech-tag">Java Spring</span>
+                            
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="reactjs" class="project-link">
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="project-title">ReactJS</h3>
+                      
+                        <div class="project-tech">
+                                <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Nodejs</span>
+                            <span class="tech-tag">React</span>
+                        
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="./project3" class="project-link">
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6zm-2-8h-4V7h4v2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="project-title">Và Còn nữa</h3>
+                        <p class="project-description">Án vào đây nó ko load gì đâu :v</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">WebAssembly</span>
+                            <span class="tech-tag">Rust</span>
+                            <span class="tech-tag">D3.js</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Particles.js Config
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle"
+                },
+                "opacity": {
+                    "value": 0.2,
+                    "random": true
+                },
+                "size": {
+                    "value": 3,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.1,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                }
+            },
+            "retina_detect": true
+        });
+
+        // 3D Card Effect
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xRotation = ((y - rect.height / 2) / rect.height) * -20;
+                const yRotation = ((x - rect.width / 2) / rect.width) * 20;
+                
+                card.style.transform = `
+                    perspective(1000px)
+                    rotateX(${xRotation}deg)
+                    rotateY(${yRotation}deg)
+                    scale3d(1.05, 1.05, 1.05)
+                `;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
+        });
+
+        // Initial Animation
+        anime({
+            targets: '.project-card',
+            translateY: [100, 0],
+            opacity: [0, 1],
+            duration: 1500,
+            delay: anime.stagger(200),
+            easing: 'easeOutExpo'
+        });
+
+        anime({
+            targets: '.header',
+            translateY: [-50, 0],
+            opacity: [0, 1],
+            duration: 2000,
+            easing: 'easeOutExpo'
+        });
+    </script>
+</body>
+</html>

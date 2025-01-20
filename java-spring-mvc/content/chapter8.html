@@ -1,0 +1,101 @@
+<header>
+  <h1 class="heading">Relationships với Spring Data</h1>
+  <p>Áp dụng các mối quan hệ của table database với Entity</p>
+</header>
+<p class="text-warning">
+  Tại sao mình lại tách ra 1 chương riêng thay vì gộp vào <b>chương 7</b>. Đơn
+  giản là giúp mọi người dễ tiếp cận.
+</p>
+
+<section>
+  <h2>Ôn lại Relationships trong SQL</h2>
+  <p class="text-danger">Học SQL đi nhé rồi phần này mới vào :v</p>
+
+  <b>Đây không phải là dạy từ đầu đâu nên tớ chỉ điểm qua những ý chính:</b>
+  <ol>
+    Có 3 loại quan hệ chính:
+    <li>one-to-one : quan hệ 1 - 1</li>
+    <li>one-to-many và many-to-one : quan hệ 1 - Nhiều</li>
+    <li>many-to-many : quan hệ Nhiều - Nhiều</li>
+  </ol>
+
+  <ol>
+    Chia thành 2 hình thức:
+
+    <li>
+      Unidirectional ( quan hệ 1 chiều /unique) : là quan hệ giữa 2 table, mà
+      trong đó bên sở hữu - bên có foreign key (khóa ngoại)
+    </li>
+    <li>Bi-directional : quan hệ 2 chiều</li>
+  </ol>
+  <p class="text-danger">
+    Trong khoá học này, tớ sẽ không hướng dẫn tất cả trường hợp đâu.Mọi người
+    cần phải đọc tài liệu và áp dụng
+  </p>
+</section>
+<section>
+  <h2 style="white-space: nowrap">
+    Relationships với Spring Data (thực ra là hirbernate ấy vì nó mới làm được)
+  </h2>
+  <p style="font-size: large">
+    Tài liệu tại:
+    <a
+      href="https://docs.jboss.org/hibernate/orm/6.4/introduction/html_single/Hibernate_Introduction.html#associations"
+      target="_blank"
+      >đây</a
+    >
+  </p>
+  <p class="text-warning">Bây giờ ta sẽ di vào áp dụng thôi.</p>
+  <ol>
+    <li>
+      Tớ sẽ làm với Role(vai trò), sau này với các model thì tuỳ vào cách tư duy
+      và áp dụng thôi: <br />
+      <b>
+        1 Role thì có nhiều User,1 User thì chỉ có 1 Role (quan hệ: 1-nhiều )
+      </b>
+      <p>
+        Khoá ngoại thì thằng nhiều (ở đây là User) sẽ cầm nhé , tức là bảng
+        <b>users</b> sẽ phải có thêm cột (role_id)
+      </p>
+      <p class="text-danger">
+        Đừng có tạo thủ công ấy nhé :v ta sẽ tạo bằng Spring (code Java)
+      </p>
+    </li>
+    <li>
+      Trước mắt ta sẽ tạo model Role .
+      <b style="white-space: nowrap"
+        >Muốn role chứa nhiều User thì ta sẽ khai báo List &lt;User&gt; thay vì
+        User nhé.</b
+      >
+      <img src="/img/chap8/1.png" width="135%" style="object-fit: cover" />
+      <p>Tự gõ cho nhớ chứ ai để copy code mãi :v</p>
+    </li>
+    <li>
+      Và model User
+      <b class="text-danger" style="white-space: nowrap"
+        >Lưu ý tớ đặt @OneToMany(mappedBy = "role") bên phía Role thì khi khai
+        báo bên User tên biến của Role cũng phải là role nhé</b
+      >
+      <img src="/img/chap8/2.png" width="135%" style="object-fit: cover" />
+    </li>
+    <li>
+      Kết quả:
+
+      <img src="/img/chap8/3.png" width="105%" style="object-fit: cover" />
+      <p style="white-space: nowrap">
+        Để xem mối quan hệ rõ ràng hơn hãy xuất database ra file sql rồi truy
+        cập vào:
+        <a href="https://dbdiagram.io/" target="_blank"
+          >https://dbdiagram.io/</a
+        >
+      </p>
+      <img src="/img/chap8/4.png" width="105%" style="object-fit: cover" />
+    </li>
+  </ol>
+</section>
+
+<section>
+  <p class="text-danger">
+    Bây giờ hãy tự làm chức năng thêm , xem , sửa Role nhé (Chưa làm Xoá!)
+  </p>
+</section>

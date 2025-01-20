@@ -1,0 +1,163 @@
+<header>
+  <h1 class="heading">
+    Upload files với Spring <br />
+    tài liệu tại <a href="https://spring.io/guides/gs/uploading-files">đây</a>
+  </h1>
+  <p class="text-warning">
+    Xong chương này thì gần như tự code được web MVC rồi :v
+  </p>
+
+  <ol>
+    <li>
+      Tớ thêm cột avatar :LongText vào model User , sau này products , ... thì
+      làm tương tự
+    </li>
+    <li>Chúng ta sẽ lưu file vào trong 1 folder của project.</li>
+    <li>
+      Nguyên tắc:Lưu thì lưu toàn bộ đường dẫn thực tới file , nghĩa là không
+      lưu mỗi tên, không đặt alias,...
+    </li>
+  </ol>
+</header>
+
+<section>
+  <h1>1. Model User</h1>
+  <img src="/img/chap9/1.png" width="105%" style="object-fit: cover" />
+  <h2>View User</h2>
+  <p>
+    Tớ sẽ sử dụng view update.jsp của User nhé(vì đỡ phải điền lại từ đầu :v)
+  </p>
+  <p class="text-danger">
+    Đừng ông nào thêm form:input với path là file nhé, vì ta lưu đường dẫn đến
+    file (text) chứ không phải lưu cái file đấy
+  </p>
+  <p>
+    Do vậy ta sẽ dùng thẻ input ,type ="file" của html với name ="avatar" , Ở
+    đây ta sẽ thao tác với 1 file
+  </p>
+  <img src="/img/chap9/2.png" width="105%" style="object-fit: cover" />
+  <img src="/img/chap9/3.png" width="105%" style="object-fit: cover" />
+  <h2>
+    Ta sẽ tạo UploadService.java để chuyên sử lí việc này. Tớ đã viết rồi copy
+    và test thôi
+  </h2>
+  <p>Nao ai đằng cấp thì viết lại cho pro vip hơn nhé :v</p>
+
+  <div class="code-block">
+    <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+    <pre>
+@Service
+public class UploadService {
+    private final ServletContext servletContext;
+
+    public UploadService(
+            ServletContext servletContext) {
+
+        this.servletContext = servletContext;
+    }
+
+    public String handleSaveUploadFile(MultipartFile file, HttpServletRequest request) {
+        if (file.isEmpty()) {
+            return null;
+        }
+
+        // Đường dẫn ánh xạ trong ResourceHandler
+        String uploadPath = "/upload/";
+        String uploadPathServer = "resources/upload/";
+        String rootPath = servletContext.getRealPath(uploadPathServer);
+        String fileUrl = null;
+
+        try {
+            // Kiểm tra và tạo thư mục nếu chưa tồn tại
+            File uploadDir = new File(rootPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            // Tạo tên file duy nhất
+            String uniqueFileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
+            File serverFile = new File(uploadDir, uniqueFileName);
+
+            // Ghi file lên server
+            file.transferTo(serverFile);
+
+            // Xây dựng URL đầy đủ
+            String serverName = request.getServerName();
+            int serverPort = request.getServerPort();
+            String contextPath = request.getContextPath();
+
+            fileUrl = "http://" + serverName + ":" + serverPort + contextPath + uploadPath + uniqueFileName;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return fileUrl; // Trả về URL đầy đủ
+    }
+
+    public boolean handleDeleteFile(String urlFile) {
+
+        String fileName = getLastSegment(urlFile) ;
+
+        String rootPath = this.servletContext.getRealPath("/resources/upload");
+
+        try {
+            // Đường dẫn tới thư mục target
+            File dir = new File(rootPath + File.separator );
+
+            if (!dir.exists()) {
+                System.out.println("Thư mục không tồn tại.");
+                return false;
+            }
+
+            // Đường dẫn tới file cần xóa
+            File serverFile = new File(dir.getAbsolutePath() + File.separator + fileName);
+
+            // Kiểm tra xem file có tồn tại không
+            if (serverFile.exists()) {
+                if (serverFile.delete()) {
+                    // System.out.println("File đã được xóa thành công.");
+                    return true; // Xóa thành công
+                } else {
+                    // System.out.println("Không thể xóa file.");
+                    return false; // Xóa thất bại
+                }
+            } else {
+                // System.out.println("File không tồn tại.");
+                return false; // File không tồn tại
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // Xóa thất bại do lỗi
+        }
+    }
+
+    public static String getLastSegment(String input) {
+        if (input == null || input.isEmpty()) {
+            return null; // Trả về null nếu chuỗi rỗng hoặc không hợp lệ
+        }
+
+        String[] parts = input.split("/"); // Tách chuỗi theo dấu "/"
+        return parts[parts.length - 1]; // Lấy phần tử cuối cùng
+    }
+
+}
+</pre
+    >
+  </div>
+
+  <p>
+    Cập nhật Controller , tớ sẽ dùng 1 annotation là
+    @RequestParam("tên_truyền_ở_name_input")
+  </p>
+  <img src="/img/chap9/4.png" width="105%" style="object-fit: cover" />
+  <p>Và đừng quên config:</p>
+  <img src="/img/chap9/5.png" width="105%" style="object-fit: cover" />
+</section>
+
+<section>
+  <p class="text-warning">
+    Vậy là xong rồi đó ! Còn render view cái này mọi người tự làm nhé :v có gì
+    đâu
+  </p>
+</section>

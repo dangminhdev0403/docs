@@ -1,0 +1,264 @@
+<header>
+  <h1 class="heading">Đăng nhập và Phân Quyền</h1>
+  <p class="text-info">
+    Bây giờ mọi người có thể bật Spring Sercurity lên.Mình sẽ hướng dẫn cấu hình
+  </p>
+  <p class="text-danger">
+    Chương này yêu cầu phải cấu hình cẩn thận.Sai là phải code lại
+  </p>
+  <p class="text-danger">Tốt nhất ném code từ các chương trước lên git.</p>
+</header>
+
+<section>
+  <ol>
+    <li>
+      <h2 class="heading">Quay lại Spring Sericurity</h2>
+
+      <ol type="A">
+        <li>Luồng hoạt động của spring security
+
+            <ol type="I">
+                <li>Default login: Với user lưu tại memory. Memory tức là lưu tại RAM của máy tính. Mỗi
+lần restart server (hoặc máy tính), sẽ cần login lạ(Phần này có tài liệu + code nhưng mình sẽ không đưa vì chả ai đi login bằng RAM :v)</li>
+<li>
+<li>
+    Luồng login gồm các bước sau:
+<ol>
+    <li>Truy cập page Login, nhập username ,pas đã config và nhấn nút submit.</li>
+    <li>Spring Security chạy Filter để lọc request:
+        <ul>
+            <li>Chọn provider, mặc định khi sử dụng username/password, Spring sử dụng
+<b>DaoAuthticationProvider</b>
+           <img src="/img/chap12/1.png" width="155%" style="object-fit: cover;">
+
+</li>
+<li>Sử dụng UserDetailsService <b class="text-danger">(Cái này là của Spring cung cấp không phải mình viết)</b> để lấy thông tin user:
+    <img src="/img/chap12/2.png" width="155%" style="object-fit: cover;">
+
+</li>
+<li>   
+    : Nạp user vào Context <img src="/img/chap12/3.png" width="155%" style="object-fit: cover;">
+</li>
+        </ul>
+
+    </li>
+    <li>Tham khảo cách Spring Sercurity Hoạt động : <a href="https://www.youtube.com/watch?v=oAa0MXCtqrs" target="_blank">part1</a>,  <a href="https://www.youtube.com/watch?v=XGcjblyepX0&feature=youtu.be">part2</a>
+    <p>Xem nó chạy như nào thôi :v không nhất thiết phải code theo video.</p>
+    </li>
+</ol>
+</li>
+
+
+</li>
+            </ol>
+        </li>
+
+      </ol>
+    </li>
+    <li> <h1 class="heading">Cấu hình Login</h1></li>
+    <p class="text-danger">Minh xin phép nhắc lại lần nữa là chúng ta sẽ bật Spring Sercurity lên nhé.</p>
+    <ol>
+<li>Việc của chúng ta sẽ phải ghi đè cái <b>UserDetailsService</b> theo ý chúng ta.Tức là config đăng nhập với dữ liệu trên database.
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>@Service
+public class CustomUserDetailsService implements UserDetailsService {
+    private final UserService userService;
+
+    public CustomUserDetailsService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        com.minh.demo.domain.User user = this.userService.getUserByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Không tìm thấy User");
+
+        }
+        @SuppressWarnings("null")
+        org.springframework.security.core.userdetails.User loginUser = new User(
+                user.getEmail(),
+                user.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+
+        return loginUser;
+    }
+
+}</pre>
+</div>
+
+  <img src="/img/chap12/4.png" width="135%" style="object-fit: cover;">
+<li>
+    Ghi đè cấu hình tại class SecurityConfiguration
+
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>  @Bean
+    public UserDetailsService userDetailsService(UserService userService) {
+        return new CustomUserDetailsService(userService);
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http,
+            PasswordEncoder passwordEncoder,
+            UserDetailsService userDetailsService) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = http
+                .getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
+
+        return authenticationManagerBuilder.build();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authProvider(
+            PasswordEncoder passwordEncoder,
+            UserDetailsService userDetailsService) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        authProvider.setHideUserNotFoundExceptions(false);
+        return authProvider;
+    }
+</pre>
+</div>
+
+ <img src="/img/chap12/5.png" width="135%" style="object-fit: cover;">
+</li>
+</li>
+<li> 
+    Chạy lại project và Test 
+</li>
+
+<li>Chuyển form login của Spring sang form của chúng ta
+<p class="text-danger">ở file login.jsp hãy  cho action="/login" , 2 input có name là username , password</p>
+<p class="text-danger">Cái này không đổi được đâu nhé!Và đừng quên thêm csrf token</p>
+<img src="/img/chap12/6.png" width="135%" style="object-fit: cover;">
+  Tiếp tục  Ghi đè cấu hình tại class SecurityConfiguration
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre> 
+    //thêm request không yêu cầu đăng nhập vào biến appted
+    String[] appted = { "/login", "/client/**", "/css/**", "/js/**", "/auth/**", "/register" };
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD,
+                                DispatcherType.INCLUDE)
+                        .permitAll()
+                        .requestMatchers(appted) // cho phép truy cập không cần login
+                        .permitAll()
+                        .anyRequest().authenticated()) // cần đăng nhập
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .failureUrl("/login?error")
+                        .permitAll());
+        return http.build();
+    }</pre>
+</div>
+
+<img src="/img/chap12/7.png" width="135%" style="object-fit: cover;">
+
+<p class="text-info">Ở đây tớ cố tình bắt enpoint @GetMapping("/") phải đăng nhập mới truy cập:</p>
+Khi sai thông tin
+        <img src="/img/chap12/8.png" width="135%" style="object-fit: cover;">
+   <p class="text-warning">Còn khi đúng nó sẽ đẩy về trang / thôi :v</p>     
+    
+
+</li>
+
+
+    </ol>
+  </ol>
+</section>
+<section>
+          <h2 class="heading">Phân Quyền</h2>
+          <p>Tài liệu tại : <a href="https://docs.spring.io/spring-security/reference/servlet/authorization/index.html" target="_blank">Đây</a> </p>
+<p class="text-info">2 cái tài khoản Admin và User sẽ được dùng  trong chương học  này</p>
+<ol>
+    Ta sẽ chỉ làm với 2 quyền cơ bản(sau này to ra thì tương tự):
+    <li>Admin: truy cập được trang quản trị (tức các enpoint liên quan đến /admin/...)</li>
+    <li>User:không vào được trang quản trị, chỉ có xem , mua hàng,...Cố tình vào sẽ đẩy sang trang 404 hoặc 403</li>
+    <li>Admin đăng nhập sẽ đẩy về trang quản trị, User đăng nhập thì đẩy về trang chủ @GetMapping("/")</li>
+
+</ol>
+    <p>Lấy Quyền người dùng khi đăng nhập thành công</p>
+           <img src="/img/chap12/10.png" width="85%" style="object-fit: cover;">
+
+           <p>Tạo class (@Bean) CustomSuccessHandle để ghi đè cấu hình</p>
+            <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>public class CustomSuccessHandle implements AuthenticationSuccessHandler {
+
+
+    private  UserService userService;
+
+    public CustomSuccessHandle(UserService userService) {
+        this.userService = userService;
+    }
+    
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    protected String determineTargetUrl(final Authentication authentication, final HttpServletRequest request) {
+
+        Map<String, String> roleTargetUrlMap = new HashMap<>();
+        roleTargetUrlMap.put("ROLE_USER", "/");
+
+        roleTargetUrlMap.put("ROLE_ADMIN", "/admin/user/list");
+
+        final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        for (final GrantedAuthority grantedAuthority : authorities) {
+            String authorityName = grantedAuthority.getAuthority();
+            if (roleTargetUrlMap.containsKey(authorityName)) {
+                return roleTargetUrlMap.get(authorityName);
+            }
+        }
+
+        throw new IllegalStateException("User role not found");
+    }
+
+
+    protected void clearAuthenticationAttributes(HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return;
+        }
+       session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+    }
+
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+            Authentication authentication) throws IOException, ServletException {
+        String targetUrl = determineTargetUrl(authentication, request);
+
+        if (response.isCommitted()) {
+            return;
+        }
+
+        redirectStrategy.sendRedirect(request, response, targetUrl);
+        clearAuthenticationAttributes(request);
+       
+
+    }
+}
+</pre>
+</div>
+           <img src="/img/chap12/11.png" width="105%" style="object-fit: cover;">
+
+           <p>Ghi đè config tại SecurityConfiguration</p>
+
+
+
+                      <img src="/img/chap12/14.png" width="105%" style="object-fit: cover;">
+                      <img src="/img/chap12/12.png" width="105%" style="object-fit: cover;">
+                      <p>Tạo route từ chối đăng nhập</p>
+                      <img src="/img/chap12/13.png" width="105%" style="object-fit: cover;">
+
+                      <p class="text-info">Tự test nhé :v</p>
+
+</section>
