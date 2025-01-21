@@ -17,6 +17,8 @@ const navigation = [
     { id: 'chapter12', title: 'Đăng nhập và Phân Quyền', file: 'chapter12.html' },
     { id: 'chapter13', title: 'Đăng xuất và Session', file: 'chapter13.html' },
     { id: 'chapter14', title: 'Về phong cách code', file: 'chapter14.html' },
+    { id: 'chapter15', title: 'Panginate', file: 'chapter15.html' },
+    { id: 'chapter15', title: 'filter dữ liệu với Specifications', file: 'chapter16.html' },
 
 ];
 
@@ -80,7 +82,7 @@ async function loadContent(filename) {
 
             // Nếu đang chạy trên localhost
             if (window.location.hostname === 'localhost' || window.location.hostname === "127.0.0.1") {
-                img.setAttribute('src', "/java-spring-mvc/" + currentSrc);
+                // img.setAttribute('src', "/java-spring-mvc/" + currentSrc);
             } else {
                 // Nếu chạy trên production
                 img.setAttribute('src', "https://dangminhdev0403.github.io/docs/java-spring-mvc/" + currentSrc);

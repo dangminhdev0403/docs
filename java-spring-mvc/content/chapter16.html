@@ -1,0 +1,159 @@
+<section>
+  <h2 class="heading">Filter với JPA Specifications</h2>
+  <p>Tài liệu :</p>
+  <ol>
+    <li>
+      <a
+        href="https://docs.spring.io/spring-data/jpa/reference/jpa/specifications.html"
+        target="_blank"
+        >Đây</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://reflectoring.io/spring-data-specifications/"
+        target="_blank"
+        >Đây</a
+      >
+    </li>
+  </ol>
+</section>
+<section>
+  <p>
+    Như đã học thì ta có thể show dữ liệu theo điều kiện thông qua
+    JpaRepository. với
+    <a
+      href="https://docs.spring.io/spring-data/jpa/reference/repositories/query-keywords-reference.html"
+      target="_blank"
+    >
+      Repository query</a
+    >
+  </p>
+  <p>
+    Nếu mọi người đã xây dựng tốt các câu query thông qua interface
+    JpaRepository.Thì chúng ta sẽ nhận ra một hạn chế rõ ràng rằng
+  </p>
+
+  <p class="text-danger">
+    Viết query rất dài , và khó thay đổi (update), và query SQL mình còn chả nhớ
+    huống chi JPA query :v
+  </p>
+  <p class="text-info">
+    Vậy nên Spring này cung cấp cho ta một cách truy vấn nâng cao hơn, rút ngắn
+    câu query và đó là
+    <a
+      class="text-warning"
+      href="https://docs.spring.io/spring-data/jpa/reference/jpa/specifications.html"
+      target="_blank"
+      >Specifications với interface JpaSpecificationExecutor.</a
+    >
+  </p>
+  <h2>
+    Java Predicate ,tài liệu tại
+    <a
+      href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html"
+      target="_blank"
+      >Đây</a
+    >
+  </h2>
+  <ol>
+    <li>
+      Predicate là functional interface trả ra boolean (true/false) mỗi vậy :v
+      .Nó đại diện cho một điều kiện hoặc một phép kiểm tra (test) logic mà bạn
+      có thể áp dụng trên một đối tượng.
+    </li>
+    <li>
+      Khi nào cần Predicate: Sử dụng function với 1 tham số đầu vào, và trả ra
+      true/false (hay được dùng với cú pháp lamda)
+    </li>
+    <li>
+      Ví dụ:
+      <a href="https://stackoverflow.com/a/38278857" target="_blank">Đây</a>
+    </li>
+    <li>
+      Chỉ cần biết nó là 1 hàm trả ra true hay false. Còn nó làm được gì, để làm
+      gì thì ko cần biết :v
+    </li>
+  </ol>
+
+  <h2>
+    JPA Criteria MetaModel tài liệu tại
+    <a href="https://vladmihalcea.com/jpa-criteria-metamodel/" target="_blank"
+      >Đây</a
+    >
+  </h2>
+  <ol>
+    <li>
+      Trước tài cài đặt nó
+      <div class="code-block">
+        <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+        <pre>
+&lt;dependency&gt;
+ &lt;groupId&gt;org.hibernate.orm&lt;/groupId&gt;
+ &lt;artifactId&gt;hibernate-jpamodelgen&lt;/artifactId&gt;
+ 
+ &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;
+
+</pre
+        >
+      </div>
+    </li>
+    <li>Đây là thư viện , mình học để biết cách xài , còn lại thư viện lo</li>
+    <li>
+      Tạo Specifications
+
+      <ul>
+        <li>Root:đại diện table muốn truy vấn</li>
+        <li>
+          CriteriaQuery: tạo ra cấu trúc tổng quan của query, dùng để modify the
+          select, join, group by, order by, etc. (ít dùng)
+        </li>
+        <li>
+          CriteriaBuilder: sử dụng predicates, để build ra điều kiện của câu
+          query
+        </li>
+      </ul>
+      <p>Mình sẽ làm lọc theo tên nhé.</p>
+      <ul>
+        <li>
+          Định nghĩa Specification.
+          <p>
+            Hãy check forder target xem có những class tương ứng với model mình
+            tạo chưa
+          </p>
+          <img src="img/chap15/8.png" width="55%" style="object-fit: cover" />
+          nếu chưa hãy thêm đoạn code này :
+          <div class="code-block">
+            <button class="copy-button" onclick="copyCode(this)">
+              Sao chép
+            </button>
+            <pre>
+ &lt;annotationProcessorPaths&gt;
+                    &lt;path&gt;
+                        &lt;groupId&gt;org.hibernate.orm&lt;/groupId&gt;
+                        &lt;artifactId&gt;hibernate-jpamodelgen&lt;/artifactId&gt;
+                     
+                    &lt;/path&gt;
+                &lt;/annotationProcessorPaths&gt;</pre
+            >
+          </div>
+
+          <img src="img/chap16/1.png" width="105%" style="object-fit: cover" />
+          <img src="img/chap16/2.png" width="105%" style="object-fit: cover" />
+        </li>
+        <li>
+          Đừng ai hỏi code này ở đâu nhé.Tài liệu tớ ném hết r, không phải tớ
+          nghĩ ra đâu nhen.
+        </li>
+        <li>
+          <img src="img/chap16/3.png" width="105%" style="object-fit: cover" />
+          <img src="img/chap16/4.png" width="105%" style="object-fit: cover" />
+          <img src="img/chap16/5.png" width="105%" style="object-fit: cover" />
+          <img src="img/chap16/6.png" width="105%" style="object-fit: cover" />
+        </li>
+        <li></li>
+      </ul>
+    </li>
+  </ol>
+</section>

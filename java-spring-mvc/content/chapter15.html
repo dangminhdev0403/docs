@@ -1,0 +1,112 @@
+<header>
+  <h1 class="heading">Panginate và JPA Specifications</h1>
+  <p class="text-info">
+    Có một câu hỏi đặt ra là tại sao minh không code chức năng
+  </p>
+  <ol>
+    <li>
+      Có rất nhiều chức năng tuỳ thuộc vào nhu cầu dự án =&gt; làm chỉ dài tài
+      liệu.
+    </li>
+
+    <li>
+      Mình chỉ hướng dẫn mọi người những kiến thức, việc áp dụng là phần của mọi
+      người
+    </li>
+  </ol>
+</header>
+
+<section>
+  <h2 class="heading">Pagination(Phân trang dữ liệu)</h2>
+  <ol>
+    <li>Fontend có thể phân trang(javascript)</li>
+    <li>
+      (Dù phân trang ở fontend ) Hiện tại ta vẫn đang hiển thì với toàn bộ dữ
+      liệu trong đb(getAll..())
+    </li>
+    <li>
+      Nếu dữ liệu nhỏ (vài chục, vài trăm rows), không vấn đề gì. Tuy nhiên, vài
+      ngàn, vài trăm ngàn, vài triệu … sẽ là vấn đề.
+    </li>
+    <li>
+      Lấy càng nhiều data, càng tốn nhiều băng thông (tốc độ truyền tải của mạng
+      internet ) và thời gian chờ đợi càng lâu, làm giảm trải nghiệm của người
+      dùng.
+    </li>
+  </ol>
+  <p class="text-danger">
+    =&gt; Chỉ lấy số lượng data vừa đủ tức phải phân trang ở backend(xài limit
+    trong sql)
+  </p>
+
+  <h2 class="heading">
+    Spring Pagination (tài liệu tại
+    <a
+      href="https://docs.spring.io/spring-data/rest/reference/paging-and-sorting.html"
+      target="_blank"
+      >Đây)</a
+    >
+  </h2>
+  <ol>
+    <li>
+      . Các loại Repository hay dùng với Spring
+      <a
+        href="https://stackoverflow.com/questions/14014086/what-is-difference-between-crudrepository-and-jparepository-interfaces-in-spring/74512964#74512964"
+        >Đây</a
+      >(nhiều quá nên mình sẽ ko liệt kê ở đây )
+    </li>
+    <li>
+      Cách xử lý Pagination với Spring:
+      <ul>
+        <li>Kế thừa JpaRepository</li>
+        <li>Sử dụng Pageable</li>
+      </ul>
+    </li>
+    <li>
+      Và đây là cách làm<b class="text-info"
+        >(sẽ rõ hơn khi học trực tiếp với mình vì mình sẽ debug phần này.)</b
+      >
+    </li>
+    <p class="text-warning">
+      Ví dụ mình đang có 15 dữ liệu users ở đây nhé!Và mình muốn phân trang với
+      mỗi trang là 5 users.
+    </p>
+
+    <img src="img/chap15/2.png" width="105%" style="object-fit: cover" />
+
+    <ol>
+      Ý tưởng:(Tớ ném cả code nhé chứ cap từng cái một mệt v)
+      <li>
+        Fontend truyền lên yêu cầu phân trang với tham số (currentPage
+        ,pageSize)
+
+        <img src="img/chap15/1.png" width="105%" style="object-fit: cover" />
+
+        <p>UserRepository</p>
+        <img src="img/chap15/3.png" width="105%" style="object-fit: cover" />
+
+        <p>
+          Đã thêm tham số ở Repository đồng nghĩa ta cũng phải sửa ở Service
+        </p>
+        <img src="img/chap15/4.png" width="105%" style="object-fit: cover" />
+      </li>
+
+      <li>
+        Backend lấy dữ liệu theo yêu cầu sau đó trả về fontend
+
+        <p>
+          Quay lại view và xem kết quả (muốn rõ ràng hơn hay cho pageSize bé
+          thôi :v)
+        </p>
+        Không truyền tham số page 
+        <img src="img/chap15/5.png" width="105%" style="object-fit: cover" />
+     
+        Khi truyền thêm
+           <img src="img/chap15/6.png" width="105%" style="object-fit: cover" />
+        <img src="img/chap15/7.png" width="105%" style="object-fit: cover" />
+      </li>
+    </ol>
+  </ol>
+</section>
+
+
