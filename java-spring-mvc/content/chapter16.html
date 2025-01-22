@@ -81,6 +81,7 @@
     <a href="https://vladmihalcea.com/jpa-criteria-metamodel/" target="_blank"
       >Đây</a
     >
+    và <a href="https://docs.oracle.com/javaee/7/api/javax/persistence/criteria/CriteriaBuilder.html" target="_blank">Đây</a>
   </h2>
   <ol>
     <li>
@@ -159,4 +160,32 @@
 </section>
 <section>
     <h2 class="heading">Filter nhiều điều kiện với Specifications</h2>
+    <p>Tư duy đơn giản là ta sẽ truyền thêm 1 param từ fontend nữa thôi :v</p>
+    <p class="text-danger">Ví dụ: tớ sẽ tìm người có name chứa chữ <b>"a"</b> và có đuôi email là<b> "@gmail.com"</b> chẳng hạn</p>
+    <p class="text-info"> Nếu mọi người chú ý đọc qua tài liệu, thì ta sẽ nhìn thấy có những từ khoá , giống giống với lệnh sql. Ừ thì :v đoán xem</p>
+    <img src="img/chap16/7.png" width="105%" style="object-fit: cover" />
+          <img src="img/chap16/8.png" width="105%" style="object-fit: cover" />
+<p class="text-info">Thôi thì mình sẽ thêm cột age vào model User nữa nhé.Để lọc theo khoảng tuổi.</p>
+   <img src="img/chap16/9.png" width="105%" style="object-fit: cover" />
+   <img src="img/chap16/10.png" width="105%" style="object-fit: cover" />
+   <p class="text-warning">
+    À Khoan , chả lẽ ta cứ phải @RequestParam mãi sao , như thế dài code cho controller quá
+
+   </p >
+<p class="text-warning">Ở đây Spring cho phép ta tạo 1 đối tượng chứa những tham số đó (param) việc của mình là khai báo thôi</p>
+<p>Tạo cho mình class res/FilterUserDTO.java ở package dto</p>
+   <img src="img/chap16/13.png" width="105%" style="object-fit: cover" />
+   <p class="text-danger">Phần này phải debug mới thấy rõ được nên hay nhắc mình nhé!</p>
+      <img src="img/chap16/14.png" width="105%" style="object-fit: cover" />
+  
+<p>Khi tham số đã nhận đầy đủ thì cứ kiến thức đã học áp dụng vô thôi.</p>
+    <img src="img/chap16/15.png" width="105%" style="object-fit: cover" />
+    <img src="img/chap16/16.png" width="105%" style="object-fit: cover" />
+   
+    <p>Đừng quên sửa tiếp controller đấy nhé </p>
+     <img src="img/chap16/17.png" width="105%" style="object-fit: cover" />
+    
+     và: 
+ <img src="img/chap16/18.png" width="105%" style="object-fit: cover" />
+
 </section>

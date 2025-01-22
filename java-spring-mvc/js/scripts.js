@@ -18,7 +18,8 @@ const navigation = [
     { id: 'chapter13', title: 'Đăng xuất và Session', file: 'chapter13.html' },
     { id: 'chapter14', title: 'Về phong cách code', file: 'chapter14.html' },
     { id: 'chapter15', title: 'Panginate', file: 'chapter15.html' },
-    { id: 'chapter15', title: 'filter dữ liệu với Specifications', file: 'chapter16.html' },
+    { id: 'chapter16', title: 'filter dữ liệu với Specifications', file: 'chapter16.html' },
+    { id: 'chapter17', title: 'Tổng kết ', file: 'chapter17.html' },
 
 ];
 
