@@ -1,0 +1,50 @@
+<header>
+  <h1 class="heading">Restful API với Spring</h1>
+  <p class="text-danger">Trước tiên mọi người lên mạng tải và đăng kí -&gt; đăng nhập Postman về nhé.</p>
+  <p class="text-warning">Trong chương này mình sẽ liệt kê toàn bộ kiến thức chúng ta phải nắm rõ với mô hình này.</p>
+</header>
+
+<section>
+
+    <ol>
+        <li>JSON(JavaScript Object Notation). tài liệu tại <a href="https://www.json.org/json-en.html" target="_blank">Đây</a>
+            <ul>
+             <li>   Khi dịch JSON ra ta thấy ngay từ khoá Object tức là đối tượng hay class trong Java.</li>
+             <li>với javascripts: JSON là một kiểu dữ liệu dạng text hay một chuỗi kĩ tự(string) ví dụ :<b> <p > '{"name":"John", "age":30, "car":null}'</p>
+</b> </li>
+
+             <li>=&gt; 2 ngôn ngữ này (ở đây là java và javascripts) sẽ nói chuyện với nhau thông qua JSON.Nói chuyện như nào , phải đi code mới rõ được :v</li>
+             
+             <li class="text-danger">Nhắc lại : ai học yếu hướng đối tượng (OOP) thì nên nắm chắc kiến thức rồi hãy học món này .</li>
+            </ul>
+        </li>
+        <li>HTTPS tại liệu tại <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank">Đây</a>
+        <p>Hiểu đơn giản HTTP là công cụ để giúp ta có thể truy cập data trên internet.</p>
+            <p>Mình sẽ ví dụ với các thao tác, thêm, sửa, xoá: client giao tiếp với server thông qua  các HTTP Method(GET ,PUT,POST,DELETE,...) </p>
+            <p>Cấu trúc HTTP Request:(Client gửi lên server)
+                <ol>
+                    <li>Request line:  method + url</li>
+                    <li>Header variable</li>
+                    <li>Message: JSON</li>
+                </ol>
+            </p>
+              <p>Cấu trúc HTTP Response:(server trả về cho client )
+                <ol>
+                    <li>version of the HTTP</li>
+                    <li>Status code + status message</li>
+                    <li>Message: JSON</li>
+                </ol>
+            </p>
+    </li>
+        <li>Api. tài liệu tại <a href="https://jsonplaceholder.typicode.com/" target="_blank">Đây</a>
+        <ol><li>
+            Là link url ta định nghĩa tại backend
+        </li>
+        <li>Fontend sẽ dùng url đó để gọi yêu cầu lên backend</li></ol>
+        
+        </li>
+       <li>
+        Mô hình RESTful API (Representational State Transfer) là một kiểu kiến trúc phần mềm cho các dịch vụ web, trong đó các tài nguyên (resources) được xác định thông qua URL và thao tác với các tài nguyên này được thực hiện thông qua các phương thức HTTP như GET, POST, PUT, DELETE, v.v.
+       </li>
+    </ol>
+</section>

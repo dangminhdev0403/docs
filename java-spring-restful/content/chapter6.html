@@ -1,0 +1,96 @@
+<header>
+  <h1 class="heading">Spring Data với JPA và Hibernate</h1>
+  <p>Thao tác xử lý data với ORM (Object Relational Mapping)</p>
+</header>
+
+<section>
+  <ol type="I">
+    <li>
+      Spring Data : tài liệu
+      <a href="https://spring.io/projects/spring-data" target="_blank">links</a>
+
+      <ol type="a">
+        <li>
+          Spring Data là công cụ giúp xử lý data (dữ liệu của ứng dụng) trong hệ
+          sinh thái của Spring
+        </li>
+        <li>
+          Mục tiêu của Spring Data là làm đơn giản hóa quá trình truy cập và sử
+          dụng data
+        </li>
+        <li>
+          - Cung cấp đối tượng “Repository” để truy cập database Lập trình viên
+          không cần biết câu lệnh truy vấn, vẫn thao tác được với database
+        </li>
+      </ol>
+    </li>
+    <li> Spring Data <b>JPA (Java Persistence API)</b> tài liệu tại <a href="https://docs.spring.io/spring-data/jpa/reference/index.html" target="_blank">Đây</a>
+    <p>Ở chương 2(Hello World) ta đã config rồi ấy nhưng học đến đây rồi mà chạy lỗi liên quan đến sql , database thì kiểm tra lại nhé</p>
+            <p>3 Dependencies cần config</p>
+
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+     <pre>
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-jdbc&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-j&lt;/artifactId&gt;
+    &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+    </pre>
+
+   
+
+</div>
+ <img src="img/chap5/1.png" alt="" width="105%" />
+
+    
+    </li>
+    <li>
+       Định nghĩa Repository Query (cái này tớ ném tài liệu đọc và áp dụng )
+      <ol>
+      
+        <li>Từ khóa truy vấn  tại: <a href="https://docs.spring.io/spring-data/jpa/reference/repositories/query-keywords-reference.html" target="_blank">Đây</a></li>
+        <li>Định nghĩa truy vấn tại: <a href="https://docs.spring.io/spring-data/jpa/reference/repositories/query-methods-details.html" target="_blank">Đây</a></li>
+      </ol>
+      Áp dụng:
+
+<li>định nghĩa tên method theo các quy tắc</li>
+<li>Spring sẽ tự động chuyển “tên method” thành câu lệnh truy vấn database</li>
+<li> nhận kết quả trả ra từ Repository</li>
+    </li>
+
+    <li>Cách Read/Write Data
+        <p>Với database, chúng ta có 2 thao tác : READ (đọc dữ liệu) và WRITE
+(update/insert/delete), tức là ghi/sửa đổi dữ liệu
+<ol><li> cơ sở dữ liệu quan hệ (relational database)</li>
+<li>cơ sở dữ liệu phi quan hệ (no sql)</li></ol>
+<b class="text-danger">Java là một ngôn ngữ hướng đối tượng, nên mình lựa chọn cơ sở dữ liệu quan hệ
+(relational database) </b>
+ </p>
+ <ol>Để thực hiện điều trên, chúng ta có 2 cách:
+<li>Sử dụng <b>JDBC( Java Database Connectivity):</b>Là cách chúng ta kiểm soát việc sử dụng database thông qua câu lệnh truy vấn, ví dụ
+truy vấn SQL
+</li>
+<li> Sử dụng <b>ORM(Object Relational Mapping):</b>Là cách chúng ta truy cập/sử dụng database thông qua các object định nghĩa trong code</li>
+</ol>
+    </li>
+    <li>Hibernate vs Spring Data JPA tham khảo: <a href="https://www.youtube.com/watch?app=desktop&v=4Py9RTVWyvE" target="_blank">youtube</a> , <a href="https://docs.jboss.org/hibernate/orm/6.4/introduction/html_single/Hibernate_Introduction.html#introduction" target="_blank">docs</a> 
+    <ol><li>Hibernate là một framework ORM (Object-Relational Mapping) trong Java. Nó giúp ánh xạ các đối tượng Java vào các bảng trong cơ sở dữ liệu quan hệ. Hibernate cung cấp các tính năng mạnh mẽ để thực hiện các thao tác CRUD, truy vấn, và quản lý các đối tượng trong cơ sở dữ liệu.</li>
+    <li> Spring Data JPA là một phần của Spring Framework, giúp trừu tượng hóa việc sử dụng JPA (Java Persistence API) để tương tác với cơ sở dữ liệu. Spring Data JPA sử dụng Hibernate hoặc bất kỳ implementation JPA nào khác (như EclipseLink, OpenJPA) để thực hiện các thao tác dữ liệu.</li></ol>
+    
+    
+    </li>
+    <p class="text-danger">Ở trong khoá này (và cả khoá sau nếu có) mình sẽ sử dụng cả 2 luôn nhé !</p>
+    <p class="text-warning">Ok Lí thuyết thế đủ rồi. Chương sau ta sẽ bắt đầu code :v.</p>
+  </ol>
+  
+
+</section>

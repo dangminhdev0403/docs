@@ -1,0 +1,100 @@
+<header>
+  <h1 class="heading">Spring Sercurity</h1>
+</header>
+
+<section>
+  <p class="code">
+    Ở chương này , tại file Application.java bước mình cần anh em sửa đổi
+  </p>
+
+  <div class="code-block">
+    <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+    <pre>
+package com.minh.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+// @SpringBootApplication(exclude =
+// org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class)
+
+public class DemoApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DemoApplication.class, args);
+	}
+
+}
+
+  </pre
+    >
+  </div>
+
+  <p>Quay về trang localhost:8080 và kết quả</p>
+  <img src="img/chap3/1.png" alt="" width="105%" />
+  <p class="text-danger">
+    Oh! What the hell? đã làm gì đâu mà phải đăng nhập??
+  </p>
+  <p>Quay lại log của IDE nhé! chúng ta sẽ có password đấy :v</p>
+  <img src="img/chap3/2.png" alt="" width="105%" />
+  <p>
+    Mặc định mỗi lần chạy dự án sẽ gen ra password khác nhau(cái này là cơ chế
+    của Spring nhé !)
+  </p>
+  <p>Nhập Username là user , password vô t sẽ lại về trang Hello World thôi!</p>
+</section>
+
+<section>
+  <h3>Vậy chuyện gì đã xảy ra ??</h3>
+  <p>
+    Mọi người hiểu đơn giản ở chương 1 chúng ta đã cài 1 dependency tên Spring
+    Sercurity vào dự án(trước sau gì cũng cài thôi nên cài luôn từ đầu) và đây
+    chính là mấu chốt
+  </p>
+  <p>
+    Mặc định Spring Sercurity sẽ bảo vệ thất cả endpoint(tức url) ta đã config ,
+    nghĩa là phải login mới có thể truy cập và tất nhiên ta cũng có thể cấu hình
+    được
+  </p>
+  <p>
+    Việc ta thêm đoạn code dưới  vào file Appilication.java <br> 
+    <span class="text-danger" style="white-space:nowrap;" >@SpringBootApplication(exclude =org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class) </span> 
+    là ta đã tắt hẳn Spring Sercurity
+  </p>
+</section>
+<section>
+   <h3> Spring Security khái niệm, cách hoạt động (tham khảo tại <a href="https://backendstory.com/spring-security-authentication-architecture-explained-in-depth/" target="_blank">Đây</a>)</h3>
+   <p>Mọi người biết  middleware không ? Thì nó cũng tương tự thế</p>
+   <p>Còn nếu không thì</p>
+   <p>Spring Security bảo vệ hệ thống thông qua các method "đặc biệt", gọi là filter.</p>
+   <p>Thứ tự của Filter là "quan trọng". Bạn hình dung nó gọi là chainFilter, có nghĩa là được
+thực hiện tuần tự, ưu tiên như sau:
+    <ol>
+        <li>- Check bảo mật với các tấn công hay gặp:CORS,CSRF ,v.v..</li>
+        <li>- Authentication : Xác thực người dùng là ai ? (ví dụ: BasicAuthenticationFilter)
+</li>
+        <li>- Authorization: người dùng  có thể làm gì (ví dụ: Authorization Filter)
+</li>
+        
+       <li class="text-danger">tất nhiên là nó ko ít như thế đâu :v nhé !</li>
+    </ol>
+
+</p>
+<p>Hiện tại Spring Sercurity đang được cấu hình mặc định (login với dữ liệu thông qua Ram)</p>
+
+<div class="demo-section">
+    <p> chúng ta cũng có thể config pass và user theo ý mình</p>
+        <p class="code">thêm đoạn code này vào file :application.properties</p>
+        <div class="code-block">
+          <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+          <pre># config spring security 
+# spring.security.user.name=admin
+# spring.security.user.password=123456</pre>
+        </div>
+      </div>
+</section>
+
+<p class="text-danger">====================================================================================================================<br>
+Chưa vội config login bằng database đâu nhé vì đã có user đâu 
+</p>
