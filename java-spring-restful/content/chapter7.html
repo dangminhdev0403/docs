@@ -33,14 +33,22 @@
   <p>
     Chúng ta sẽ bắt đầu với vai trò Admin , nên hãy phân chia code cho hợp lí:
     <img src="img/chap7/1.png" alt="" width="55%" />
+    <ol>
+      <li>config: chứa những class ghi đè cấu hình mặc đình Spring</li>
+      <li>controller: chứa những class xử lí request</li>
+      <li>service: chứa những class xử lí logic</li>
+      <li>repository: chứa những interface sẽ thao tác với database</li>
+      <li>domain:chứa các đối tượng trong ứng dụng.</li>
+    </ol>
+    <p class="text-danger">Ta sẽ code với dependencies injection</p>
   </p>
 
 
   <li>Check database đã kết nối với dự án: ở đây mình chưa có bảng nào .</li>
-      <img src="img/chap7/2.png" alt="" width="55%" />
+      <img src="img/chap7/2.png" alt="" />
 <li>
   Tạo model User và check kết quả:
-  <img src="img/chap7/4.png" alt="" width="55%" />
+  <img src="img/chap7/4.png" alt=""  />
 </li>
 
 </section>
@@ -70,4 +78,29 @@
 
 <section>
 <h2  class="heading">CRUD User</h2>
+<p class="text-danger">Ta sẽ đi từ cơ bản trước và chương sau mình sẽ đưa full lí thuyết</p>
+<p class="text-info">Nếu ai đã học khoá MVC thì về bản chất nó chả khác gì cả đâu.Điểm khác biết ở đây là:
+<ol>
+  <li>Với MVC(monolithic) ta sẽ ném data về view(JSP, Thymlef,..) đồng thời ta cũng phải xử lí data luôn, khá là cực nhọc</li>
+  <li>Còn với Rest API ta sẽ chỉ cần ném data dạng JSON cho fontend rồi kệ cho nó muốn làm gì với data ta trả về thì làm =&gt; nhàn  :v</li>
+  <li>Đa số ai học đến đây cũng gọi là nâng cao 1 xíu rồi nên mình sẽ code theo kiểu iml luôn.</li>
+</ol>
+
+</p>
+
+</section>
+<section>
+  <p>Ở chương 7 , Spring sẽ cung cấp cho ta 1 interface JpaRepository để hỗ trợ việc query dữ liệu nên chương này ta sẽ kế thừa nó và dùng thôi. </p>
+
+  <img src="img/chap7/9.png" alt=""   width="135%"/>
+  
+
+  <p>Service: </p>
+<img src="img/chap7/10.png" alt=""   width="135%"/>
+<img src="img/chap7/11.png" alt=""   width="135%"/>
+<p>Controller:</p>
+<img src="img/chap7/14.png" alt=""   width="135%"/>
+
+<p class="text-info">Vô postman test thôi. Mình sẽ test 1 api thôi nhé api còn lại sẽ tương tự</p>
+<img src="img/chap7/13.png" alt=""   width="135%"/>
 </section>

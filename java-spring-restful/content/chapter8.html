@@ -80,4 +80,46 @@
   <img src="img/chap14/3.png" width="105%" style="object-fit: cover" />
 
   <p class="text-info">Chạy dự án lên code vẫn bình thường là oke :v</p>
+
+
+  <p class="text-warning" id="line3">II/ . 1 số lưu ý trước khi viết api trên controller:</p>
+<ol>
+  <li>Tham số nhận vào (request)  phải là dạng JSON(Không phải truyền nguyên cái class của java đâu nhé :v)</li>
+  <li>Ta sẽ dùng anotation<b> @RequestBody</b> trước khi khai báo tham só nhận vào.</li>
+
+    <li>Ta sẽ không render view đâu mà ta sẽ trả về  (responese) JSON</li>
+  <li>Đặt anotation<b> @ResponseBody</b> vào đầu enpoint để Spring trả về JSON thay vì render view</li>
+  <li>
+    api có thể giống nhau nhưng  method(get,put,patch,delete) khác nhau thì sẽ hoạt động trả về kết quả khác nhau
+  </li>
+
+  <li>Việc còn lại Spring lo hết.</li>
+  
+</ol>
+
+<h2 class="heading">DTO (Data Transfer Object) : tài liệu ae copy paste gg nhé</h2>
+  <p><b>DTO (data transfer object)</b> là cách chúng ta biến đổi object này sang object khác.</p>
+   
+      <p>Mục đích : tăng thêm/hoặc giảm bớt các thuộc tính của class</p>
+      <p><b>Mapper</b> thường được sử dụng để chuyển đổi giữa <b>DTO (Data Transfer Object)</b> và Entity hoặc giữa các đối tượng thuộc các lớp khác nhau.</p>
+
+   <p class="text-danger">Phải học chắc hương đối tượng (OOP)</p>
+
+      <p>Ví dụ khi đăng kí User sẽ có các thông tin khác như : nhập lại mật khẩu , họ , tên, tên đệm ,...Ta lại phải tạo thêm cột tương ứng với model User.</p>
+      <p class="text-warning">Nếu giữ tư duy  tạo cột liên tục như vậy(cũng được) những chả khác gì ta lưu thừa dữ liệu không cần thiết vào database.Hay còn gọi là lưu dữ liệu rác.</p>
+      <p class="text-info">Mình sẽ hướng dẫn mọi người kĩ thuật Mapper DTO để giảm thiểu lưu thừa dữ liệu. </p>
+    
+
+    
+<section>
+  <p>Theo tư duy ở <a href="#line3">II/ </a> Việc ta cần làm là :
+    <ol>
+      <li>Tạo ra 2 đổi tượng (class) request(truyền lên) và response(trả về)</li>
+      <li>Chuyển đổi 2  đối tượng đó theo đúng yêu cầu.</li>
+      <li>Với người mới thì khi làm việc này khá là khó khăn, không sao code nhiều rồi cũng quen :v</li>
+      
+    </ol>
+  </p>
 </section>
+</section>
+
