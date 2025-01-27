@@ -11,6 +11,7 @@ const navigation = [
     { id: 'chapter6', title: 'Spring Data với JPA và Hibernate ', file: 'chapter6.html' },
     { id: 'chapter8', title: 'Về phong cách code', file: 'chapter8.html' },
     { id: 'chapter7', title: 'CRUD User ', file: 'chapter7.html' },
+    { id: 'chapter9', title: 'ResponseEntity ', file: 'chapter9.html' },
    
 
 

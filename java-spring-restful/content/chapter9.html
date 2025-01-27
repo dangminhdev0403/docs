@@ -1,0 +1,36 @@
+<header>
+  <h1 class="heading">Response Entity</h1>
+  </header>
+
+  <section>
+    <p class="text-warning">Sau chương CRUD User và ta cũng test với postman thì  khi server trả về liệu dạng JSON.Tuy nhiên client nhận mỗi data dạng JSON thôi là chưa đủ</p>
+    <p class="text-info">Ở chương 6 theo lí thuyết ta đã học:
+      <ol>
+        <li>client gửi yêu cầu (request) lên server thông qua RestFul APIs</li>
+        <li> Server(Backend) phải trả về(response) cho client(Fontent):
+          <ul>
+            <li>Thông tin header</li>
+            <li>Thông tin trạng thái(status code)</li>
+            <li> thông tin body(nếu có): data trả về(thường là dạng JSON) </li>
+               <li class="text-danger">Không nhất thiết tất cả các response nào đều cần đủ 3 thành phần đó</li>
+          </ul>
+        </li>
+      </ol>
+     </p>
+  </section>
+  <section>
+    <h2 class="heading">Spring ResponseEntity tài liệu tại <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html" target="_blank">Đây</a></h2>
+    <p class="text-info">Nếu ông nào đọc kĩ cái tài liệu mình đưa sẽ biết ngay rẳng Spring đã làm hết cho chúng ta rồi , việc của mình là chỉ có ném thông tin vào thôi :v</p>
+      <img src="img/chap9/1.png" width="105%" style="object-fit: cover" />
+    <img src="img/chap9/2.png" width="105%" style="object-fit: cover" >
+        <h2 class="heading">Status code (Mã phản hồi) tài liệu tại <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status" target="_blank">Đây</a></h2>
+
+  </section>
+<section>
+  <h2>Áp dụng Response Entity</h2>
+  <p class="text-info">Ta chỉ cần thay kiểu trả về thành ResponseEnity &lt;Class&gt; vô thôi .</p>
+  <img src="img/chap9/3.png" width="105%" style="object-fit: cover" />
+  Test lại postman
+  <img src="img/chap9/4.png" width="105%" style="object-fit: cover" />
+<p class="text-danger">Hãy làm tương tự với các route khác. Tớ lười code hộ lắm :v</p>
+</section>
