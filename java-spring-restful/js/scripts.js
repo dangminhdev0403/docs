@@ -13,6 +13,7 @@ const navigation = [
     { id: 'chapter7', title: 'CRUD User ', file: 'chapter7.html' },
     { id: 'chapter9', title: 'ResponseEntity ', file: 'chapter9.html' },
     { id: 'chapter10', title: 'Xử lí Exception ', file: 'chapter10.html' },
+    { id: 'chapter11', title: 'Spring Security với JWT', file: 'chapter11.html' },
    
 
 

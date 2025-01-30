@@ -1,0 +1,30 @@
+<header>
+  <h1 class="heading">Spring Security với JWT(JSON WEB TOKEN)</h1>
+  <p class="text-danger">Phần Exception có trong Java Core nên ai yếu phần này minh khuyên là nên học kĩ trước. </p>
+</header>
+
+<section>
+    <h2 class="heading">Cơ chế xác thực với mô hình stateless</h2>
+    <p class="text-warning">Với mô hình stateful sau khi đăng nhập xong ta lưu thông tin người dùng vào session và sever sẽ dựa vào session để tiến hành xác thực. </p>
+    <p class="text-info">Với stateless sẽ xác thực dựa vào token(1 chuỗi kí tự được mã hoá). </p>
+    <ol>Làm sao để có token ?
+        <li>client login với username , password</li>
+        <li>login thành công server sẽ trả về token cho client , lưu token ở đâu đó là việc của client</li>
+
+        <li>Mỗi lần client call api cần phải gửi kèm token cho server</li>
+    </ol>
+</section>
+<section>
+    <h2 class="heading">JSON WEB TOKEN (JWT) <a href="https://jwt.io/" target="_blank">links</a></h2>
+    <p class="text-info">Hiểu đơn giản đây là 1 chuỗi kĩ tự (được mã hoá) ngẫu nhiên chứa thông tin của người dùng và đảm bảo tính an toàn cho người dùng.</p>
+    <ol>Cấu trúc JSON Web Token
+        <li>Header(thông tin token ví dụ thuật toán mã hoá ..)</li>
+        <li>Payload(thông tin người dùng)</li>
+        <li>Signature(giả mã xong token , lấy được thông tin nhưng không có Signature thì khỏi gọi api =&gt; nó sẽ giúp tăng thêm độ mạnh mẽ cho token)</li>
+    </ol>
+</section>
+
+<section>
+    <h2 class="heading">Cấu hình dự án</h2>
+    
+</section>
