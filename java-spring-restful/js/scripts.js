@@ -12,6 +12,7 @@ const navigation = [
     { id: 'chapter8', title: 'Về phong cách code', file: 'chapter8.html' },
     { id: 'chapter7', title: 'CRUD User ', file: 'chapter7.html' },
     { id: 'chapter9', title: 'ResponseEntity ', file: 'chapter9.html' },
+    { id: 'chapter10', title: 'Xử lí Exception ', file: 'chapter10.html' },
    
 
 
