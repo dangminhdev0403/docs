@@ -1,30 +1,128 @@
 <header>
   <h1 class="heading">Spring Security với JWT(JSON WEB TOKEN)</h1>
-  <p class="text-danger">Phần Exception có trong Java Core nên ai yếu phần này minh khuyên là nên học kĩ trước. </p>
+  <p class="text-danger">
+    Phần Exception có trong Java Core nên ai yếu phần này minh khuyên là nên học
+    kĩ trước.
+  </p>
 </header>
 
 <section>
-    <h2 class="heading">Cơ chế xác thực với mô hình stateless</h2>
-    <p class="text-warning">Với mô hình stateful sau khi đăng nhập xong ta lưu thông tin người dùng vào session và sever sẽ dựa vào session để tiến hành xác thực. </p>
-    <p class="text-info">Với stateless sẽ xác thực dựa vào token(1 chuỗi kí tự được mã hoá). </p>
-    <ol>Làm sao để có token ?
-        <li>client login với username , password</li>
-        <li>login thành công server sẽ trả về token cho client , lưu token ở đâu đó là việc của client</li>
+  <h2 class="heading">Cơ chế xác thực với mô hình stateless</h2>
+  <p class="text-warning">
+    Với mô hình stateful sau khi đăng nhập xong ta lưu thông tin người dùng vào
+    session và sever sẽ dựa vào session để tiến hành xác thực.
+  </p>
+  <p class="text-info">
+    Với stateless sẽ xác thực dựa vào token(1 chuỗi kí tự được mã hoá).
+  </p>
+  <ol>
+    Làm sao để có token ?
+    <li>client login với username , password</li>
+    <li>
+      login thành công server sẽ trả về token cho client , lưu token ở đâu đó là
+      việc của client
+    </li>
 
-        <li>Mỗi lần client call api cần phải gửi kèm token cho server</li>
-    </ol>
+    <li>Mỗi lần client call api cần phải gửi kèm token cho server</li>
+  </ol>
 </section>
 <section>
-    <h2 class="heading">JSON WEB TOKEN (JWT) <a href="https://jwt.io/" target="_blank">links</a></h2>
-    <p class="text-info">Hiểu đơn giản đây là 1 chuỗi kĩ tự (được mã hoá) ngẫu nhiên chứa thông tin của người dùng và đảm bảo tính an toàn cho người dùng.</p>
-    <ol>Cấu trúc JSON Web Token
-        <li>Header(thông tin token ví dụ thuật toán mã hoá ..)</li>
-        <li>Payload(thông tin người dùng)</li>
-        <li>Signature(giả mã xong token , lấy được thông tin nhưng không có Signature thì khỏi gọi api =&gt; nó sẽ giúp tăng thêm độ mạnh mẽ cho token)</li>
-    </ol>
+  <h2 class="heading">
+    JSON WEB TOKEN (JWT) <a href="https://jwt.io/" target="_blank">links</a>
+  </h2>
+  <p class="text-info">
+    Hiểu đơn giản đây là 1 chuỗi kĩ tự (được mã hoá) ngẫu nhiên chứa thông tin
+    của người dùng và đảm bảo tính an toàn cho người dùng.
+  </p>
+  <ol>
+    Cấu trúc JSON Web Token
+    <li>Header(thông tin token ví dụ thuật toán mã hoá ..)</li>
+    <li>Payload(thông tin người dùng)</li>
+    <li>
+      Signature(giả mã xong token , lấy được thông tin nhưng không có Signature
+      thì khỏi gọi api =&gt; nó sẽ giúp tăng thêm độ mạnh mẽ cho token)
+    </li>
+  </ol>
 </section>
 
 <section>
-    <h2 class="heading">Cấu hình dự án</h2>
-    
+  <h2 class="heading">Cấu hình dự án</h2>
+  <p class="text-warning">Hãy mã hoá mật khẩu trước khi lưu vào database.</p>
+  <p class="text-info">
+    Tạo 2 tài khoản admin với user , đặt pass là 123456 cho dễ vào
+  </p>
+  <img src="img/chap11/1.png" width="135%" style="object-fit: cover" />
+  <img src="img/chap11/2.png" width="135%" style="object-fit: cover" />
+  Ghi đè config
+  <div class="code-block">
+    <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+    <pre>
+  @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+
+                .authorizeHttpRequests(authz -&gt;
+                // prettier-ignore
+
+                authz
+                        .requestMatchers("/").permitAll()
+                        .anyRequest().authenticated()
+
+                )
+                .sessionManagement(session -&gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        return http.build();
+    }
+</pre
+    >
+  </div>
+
+  <img src="img/chap11/3.png" width="135%" style="object-fit: cover" />
+  <p>
+    Test lại với route "/" , các route khác sẽ bị chặn và không thể truy cập
+  </p>
+  <img src="img/chap11/4.png" width="135%" style="object-fit: cover" />
+</section>
+
+<section>
+  <h2 class="heading">
+    Khái niệm OAuth <a href="https://oauth.net/" target="_blank">links</a>
+  </h2>
+  <ol>
+    <li>
+      OAuth(Open Authorization) là một chuẩn (standard) dùng để xác thực người
+      dùng thông qua token
+    </li>
+    <li>Được ứng dụng rộng rãi trong mô hình stateless</li>
+    <li>
+      <img src="img/chap11/5.png" width="135%" style="object-fit: cover" />
+    </li>
+
+    <li>
+      OAuth 2.0 : Nó đơn giản hóa quy trình ủy quyền và loại bỏ việc sử dụng chữ
+      ký số, thay vào đó sử dụng token (thường là JWT - JSON Web Token).
+      <img src="img/chap11/6.png" width="135%" style="object-fit: cover" />
+      <img src="img/chap11/8.png" width="135%" style="object-fit: cover" />
+    </li>
+    <li>
+      <p class="text-info">
+        Tóm lại Oauth2 là phiên bản mới của OAuth, minh chơi thì mình sẽ chơi
+        cái mới :v
+      </p>
+    </li>
+    <p>import dependency</p>
+    <div class="code-block">
+      <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+      <pre>
+		implementation ("org.springframework.boot:spring-boot-starter-oauth2-resource-server")</pre
+      >
+    </div>
+
+    <img src="img/chap11/7.png" width="135%" style="object-fit: cover" />
+  </ol>
 </section>
