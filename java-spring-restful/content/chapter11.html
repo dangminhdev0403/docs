@@ -57,7 +57,11 @@
   <div class="code-block">
     <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
     <pre>
-  @Bean
+  @Configuration // ghi đè config mặc định
+@EnableMethodSecurity(securedEnabled = true) // Kích hoạt bảo mật ở mức phương thức
+public class SercurityConfiguration {
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -74,10 +78,13 @@
                         .anyRequest().authenticated()
 
                 )
+                .formLogin(f -&gt; f.disable())
                 .sessionManagement(session -&gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
+
+}
 </pre
     >
   </div>

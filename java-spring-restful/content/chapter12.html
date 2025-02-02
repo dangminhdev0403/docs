@@ -1,1 +1,67 @@
-<header><h2 class="heading">Login với JWT</h2></header>
+<header><h1 class="heading">Login với JWT</h1></header>
+<ul>
+  <p class="text-warning">
+    Code thì nhiều lắm , nhớ sao được, chúng ta nên hiểu cái cách hoạt động của
+    nó và copy patse thôi
+  </p>
+  <p>Vẫn luôn chạy theo luồng</p>
+  <li>Đăng nhập thành công -&gt;tạo token</li>
+  <li>Sử dụng token để xác thực qua các api</li>
+</ul>
+
+<section>
+  <h2 class="heading">Tạo enpoint Login</h2>
+  <p class="text-danger">chuẩn bị tài khoản để đăng nhập trước đi nhé</p>
+  <ol>
+    <li>
+      Tạo DTO class login :
+        <p>import dependency vào file gradle.build</p>
+        <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>implementation("org.springframework.boot:spring-boot-starter-validation")</pre>
+</div>
+
+      <img src="img/chap12/2.png" width="135%" style="object-fit: cover" />
+      <img src="img/chap12/1.png" width="135%" style="object-fit: cover" />
+    </li>
+    <li>Ghi đè UserDetailsService</li>
+    <img src="img/chap12/3.png" width="135%" style="object-fit: cover" />
+
+    <li>Nâng cấp  GlobalException
+      <p class="text-warning"> Mình sẽ viết hàm createErrorResponse() và   handleAllExceptions() để sau này có thể tránh lặp code.</p>
+
+      <img src="img/chap12/5.png" width="135%" style="object-fit: cover" />
+
+
+    </li>
+    
+    <li>
+      Test postmant:Hãy test với mọi trường hợp lỗi trước (Không điên pass, username ,.. username không tìm thấy ...) ,
+
+      <img src="img/chap12/4.png" width="135%" style="object-fit: cover" />
+    </li>
+  </ol>
+</section>
+<section>
+    <h2 class="heading">Tạo JWT</h2>
+<p class="text-danger">Tạo 1 JWT thì t cần phải hiểu cơ chế của nó trước.Mình sẽ dùng thuật toán base64 , sau này mọi người có thể dùng thuật toán khác để mã hoá</p>
+ <img src="img/chap12/6.png" width="135%" style="object-fit: cover" />
+ <ol>
+  <li>Trước tiên ta sẽ tạo Signature , mình sẽ gọi là <b>Key</b> cho ngắn.
+  <p>Bật gitBash lên gõ lệnh .
+
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>openssl rand -base64 64</pre>
+</div>
+Ta sinh ra key ngẫu nhiên  
+
+ <img src="img/chap12/7.png" width="135%" style="object-fit: cover" />
+ <img src="img/chap12/8.png" width="135%" style="object-fit: cover" />
+
+  </p>
+  </li>
+  <li></li>
+  <li></li>
+ </ol>
+</section>
