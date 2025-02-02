@@ -1,4 +1,4 @@
-<header><h1 class="heading">Login với JWT</h1></header>
+<header><h1 class="heading">Login với JWT <a href="https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html" target="_blank">Links</a></h1></header>
 <ul>
   <p class="text-warning">
     Code thì nhiều lắm , nhớ sao được, chúng ta nên hiểu cái cách hoạt động của
@@ -61,7 +61,132 @@ Ta sinh ra key ngẫu nhiên
 
   </p>
   </li>
-  <li></li>
-  <li></li>
+  <li>ResponseEnity trả về (Không phải model đâu nhé đừng có ném @Entity với @Table vào đầu class )
+
+ <img src="img/chap12/9.png" width="135%" style="object-fit: cover" />
+
+
+  </li>
+  <li>Tạo service SercurityUltil
+     <img src="img/chap12/10.png" width="135%" style="object-fit: cover" />
+
+  </li>
+
+  <li>Ghi đè SercurityConfiguration
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>public class SercurityConfiguration {
+
+    // ! Khai báo mã hoá mật khẩu
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    private String whiteList[] = { "/", "/auth/login" };
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(c -&gt; c.disable())
+                .authorizeHttpRequests(authz -&gt; authz
+                        .requestMatchers(whiteList) // ! cho phép truy cập vào route index ,login không cần đăng nhập
+                        .permitAll()
+                        .anyRequest().authenticated())
+                .oauth2ResourceServer(oauth2 -&gt; oauth2.jwt(Customizer.withDefaults()))
+                .formLogin(f -&gt; f.disable())
+                .sessionManagement(session -&gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        return http.build();
+    }
+
+    @Value("${demo.jwt.base64-secret}")
+    private String jwtKey;
+
+    @Value("${demo.jwt.token-validity-in-seconds}")
+    private String jwtExpiration;
+
+    @Bean
+    public JwtEncoder jwtEncoder() {
+        return new NimbusJwtEncoder(new ImmutableSecret&lt;&gt;(getSecretKey()));
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(getSecretKey())
+                .macAlgorithm(SercurityUltil.MAC_ALGORITHM).build();
+        return token -&gt; {
+            try {
+                return jwtDecoder.decode(token);
+            } catch (Exception e) {
+                System.out.println("&gt;&gt; JWT Decode Error: " + e);
+
+                throw e;
+            }
+        };
+
+    }
+
+    private SecretKey getSecretKey() {
+        byte[] keyBytes = Base64.from(jwtKey).decode();
+        return new SecretKeySpec(keyBytes, 0, keyBytes.length, SercurityUltil.JWT_ALGORITHM.getName());
+    }
+}</pre>
+</div>
+
+     <img src="img/chap12/11.png" width="135%" style="object-fit: cover" />
+     <img src="img/chap12/12.png" width="135%" style="object-fit: cover" />
+     
+
+
+
+  </li>
+  <li>Đến đây ta gần như config xong jwt rồi nhé. Test postman:
+<img src="img/chap12/13.png" width="135%" style="object-fit: cover" />
+<img src="img/chap12/14.png" width="135%" style="object-fit: cover" />
+  </li>
+
+  <li>Xử lí exception với enpoint cần truyền token . 
+    <p>Nếu ta cố tình không truyền token (hoặc token fake) server sẽ không trả về gì hết </p>
+    <img src="img/chap12/15.png" width="135%" style="object-fit: cover" />
+    <p class="text-info">Giờ mình muốn nó sẽ trả về lỗi gì đó ... ví dụ token không hợp lệ ! chẳng hạn</p>
+    <p class="text-warning">Vì lỗi này xuất hiện ở tần filter , nó chưa vào controller nên server không phản hồi , nên ta phải config sau vào tầng filter nhé.</p>
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>@Component
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    private final AuthenticationEntryPoint delegate = new BearerTokenAuthenticationEntryPoint();
+
+    private final ObjectMapper objectMapper;
+
+    public CustomAuthenticationEntryPoint(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authException) throws IOException, ServletException {
+       
+        this.delegate.commence(request, response, authException);
+        response.setContentType("application/json;charset=UTF-8");
+        RestResponse&lt;Object&gt; res = new RestResponse&lt;Object&gt;();
+        res.setStatus(HttpStatus.UNAUTHORIZED.value());
+        String errorMessage = Optional.ofNullable(authException.getCause())
+                .map(Throwable::getMessage).orElse(authException.getMessage());
+
+        res.setError(errorMessage);
+        res.setMessage("Token không hợp lệ");
+        objectMapper.writeValue(response.getWriter(), res);
+    }
+
+}</pre>
+</div>
+<img src="img/chap12/16.png" width="135%" style="object-fit: cover" />
+
+<img src="img/chap12/17.png" width="135%" style="object-fit: cover" />
+
+  </li>
+
  </ol>
 </section>
