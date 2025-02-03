@@ -60,9 +60,54 @@
         <p>Call bên fontend (mình nhắc lại là việc call api bên js là phía fontend rồi nên mik ko giải thích).</p>
               <img src="img/chap14/7.png" width="135%" style="object-fit: cover" />
               <img src="img/chap14/8.png" width="135%" style="object-fit: cover" />
-
+              <p class="text-info">Khi đã log ra được thì ta chỉ cần dùng kiến thức javascript để in ra thôi.</p>
     </li>
-    <li></li>
+    <li class="text-warning">Fix CORS global 
+
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>package com.example.demo.config;
+
+import java.util.Arrays;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+@Configuration
+public class CorsConfig {
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // mở cho các cổng kết nối
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:5501",
+                "http://localhost:4173",
+                "http://localhost:5173"
+
+        ));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(
+                Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "accept", "x-no-retry",
+                        "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+
+    }
+}
+</pre>
+</div>
+
+              <img src="img/chap14/10.png" width="135%" style="object-fit: cover" />
+              <img src="img/chap14/9.png" width="135%" style="object-fit: cover" />
+
+              <p class="text-info">Test lại thôi kết quả vẫn thế</p>
+    </li>
   </ol>
   
 </section>
