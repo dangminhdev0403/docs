@@ -16,6 +16,7 @@ const navigation = [
     { id: 'chapter11', title: 'Spring Security với JWT', file: 'chapter11.html' },
     { id: 'chapter12', title: 'Login với JWT', file: 'chapter12.html' },
     { id: 'chapter13', title: 'Swagger', file: 'chapter13.html' },
+    { id: 'chapter14', title: 'Rennder Fontend với API', file: 'chapter14.html' },
    
 
 

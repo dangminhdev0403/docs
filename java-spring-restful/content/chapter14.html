@@ -1,0 +1,68 @@
+<h1 class="heading">Rennder Fontend với API</h1>
+<p class="text-danger">
+  Mình nhắc trước , đây là khoá học Java , không phải
+  JavaScript(Reactjs,angular,bla..) nên mặc định mình sẽ coi như mọi người đã
+  biết rồi.
+</p>
+<p class="text-warning">
+  Mình sẽ code với fontend thuần html, css, js thôi sau này ai dùng thư viện hay
+  framework fontend thì tương tự thôi.Hãy chuẩn bị fontend đi nhé !
+</p>
+<section>
+  <h2 class="heading">Fix CORS</h2>
+  <ol>
+    <li>
+      CROS (Cross-Origin Resource Sharing) là gì ?.
+      <a
+        href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"
+        target="_blank"
+        >Links</a
+      >
+      <p>
+        Hiểu đơn giản là server(backend) cho phép (fontend) tên miền nào truy
+        cập tài nguyên của nó.
+      </p>
+    </li>
+    <li>
+      <p>Ví dụ:</p>
+      <p>Server backend Java: localhost:8080</p>
+      <p>
+        Server fontend : localhost:5500 =&gt; khác port , chặn truy cập với mọi
+        api
+      </p>
+      <p class="text-info">
+        Tớ sẽ không đi sâu vào việc tại sao có bảo mật này ,tác dụng, bla bla
+        nên muốn hiểu sâu hãy gg,chat gpt
+      </p>
+    </li>
+    <li>
+      Bên backend phải là phía mở quyền truy cập CORS cho fontend , như ở trên
+      là cổng 5500 được phép gọi endpoit CRUD của server 8080 chẳng hạn.
+    </li>
+    <li>Đừng ông nào bảo thằng fontend fix lỗi này nhé quê quê :v.</li>
+  </ol>
+</section>
+<section>
+  <h2 class="heading">
+    Config Spring CORS
+    <a href="https://spring.io/guides/gs/rest-service-cors" target="_blank"
+      >Links</a
+    >
+  </h2>
+  <p class="text-warning">
+    Mình sẽ đi vào fix luôn nhé , ông nào ko tin có lỗi này hãy thử dùng fetch
+    api của js mà test.Trước mắt mình có 1 dao diện phèn phèn như này(hãy để ý cổng của mình là 5001 , của anh em là gì nhớ xem nhé)
+  </p>
+  <img src="img/chap14/5.png" width="135%" style="object-fit: cover" />
+  <ol>
+    <li><p class="text-warning">Fix CORS local </p>
+      <img src="img/chap14/6.png" width="135%" style="object-fit: cover" />
+        <p>Call bên fontend (mình nhắc lại là việc call api bên js là phía fontend rồi nên mik ko giải thích).</p>
+              <img src="img/chap14/7.png" width="135%" style="object-fit: cover" />
+              <img src="img/chap14/8.png" width="135%" style="object-fit: cover" />
+
+    </li>
+    <li></li>
+  </ol>
+  
+</section>
