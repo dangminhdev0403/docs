@@ -4,8 +4,13 @@
 const navigation = [
     { id: 'intro', title: 'Về tài liệu', file: 'intro.html' },
     { id: 'chapter4', title: 'Kiến trúc ứng dụng web ', file: 'chapter4.html' },
+    { id: 'chapter1', title: 'Hello World với Reactjs ', file: 'chapter1.html' },
+    { id: 'chapter2', title: 'Reactjs Component ', file: 'chapter2.html' },
+    { id: 'chapter3', title: 'Reactjs JSX ', file: 'chapter3.html' },
+    { id: 'chapter5', title: 'Reactjs: Cha và con ', file: 'chapter5.html' },
+    { id: 'chapter6', title: 'Reactjs: Hook useState', file: 'chapter6.html' },
 
-   
+
 
 ];
 
@@ -64,17 +69,17 @@ async function loadContent(filename) {
         // const imgs = document.querySelectorAll('img');
         // imgs.forEach(img => {
         //     let currentSrc = img.getAttribute('src');
-          
+
         //     let newSrc = "/docs-teach-javaspring-mvc"+currentSrc;
-            
-         
-           
-                
+
+
+
+
         //     if (window.location.hostname !== 'localhost' && window.location.hostname !== "127.0.0.1" ) {
         //         img.setAttribute('src', newSrc);
         //     }
         // });
-        
+
     } catch (error) {
         content.innerHTML = `
                     <h1>Error</h1>

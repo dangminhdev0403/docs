@@ -1,0 +1,74 @@
+<h1 class="heading">Reactjs: Cha và con</h1>
+<section>
+  <p>
+    Trước tiên hãy cài đặt React Dev Tools vào trình duyệt của mọi người nhé
+    <a
+      href="https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi"
+      target="_blank"
+      >Links</a
+    >
+  </p>
+  <img src="img/chap5/1.png" width="100%" />
+  <p>F12 lên và</p>
+  <img src="img/chap5/2.png" width="100%" />
+  <h2 class="heading">Nested Component - Quan hệ Cha-Con</h2>
+  Mọi người sẽ thấy component App sẽ bọc 2 component MyFirstConponet : hiểu đơn
+  giản component nào bọc (chứa) thì là cha , component ở trong 1 component thì
+  là con
+  <p>Ok bây giờ hãy clear file App.jsx đi</p>
+  <img src="img/chap5/3.png" width="100%" />
+  <img src="img/chap5/4.png" width="100%" />
+  <p class="text-info">
+    Thêm một bài tập nho nhỏ để rèn lại tư duy component nhé. Phần css với React
+    thì hay chat gpt cho nhanh nhé. :v
+  </p>
+  <p>
+    Mình làm để hỗ trợ phần sau , phèn phèn thôi , còn ai muốn đẹp hãy tự dùng
+    kiến thức htmk css nhé .
+  </p>
+  <img src="img/chap5/5.png" width="100%" />
+</section>
+
+<section>
+  <h2 class="heading">Truyền data từ cha sang con với <b>props</b></h2>
+  <p class="text-warning">
+    Trước tiên hãy cài thêm 1 package đề hỗ trợ việc gợi ý code và báo lỗi với
+    phần này .
+  </p>
+  <div class="code-block">
+    <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+    <pre>npm install prop-types</pre>
+  </div>
+  <p class="text-danger">
+    Chỉ có component cha truyền xuống con nhế không có ngược lại đâu :v
+  </p>
+  <ul class="ul">
+    <li>
+      Bây giờ mình muốn truyền data (1 danh sách tên chẳng hạn) từ component App
+      (cha) xuống cho thằng con TodoList
+    </li>
+    <li>
+      Ta sẽ truyền data dưới dạng object {key:value} , truyền gì cũng được nhé
+
+      <img src="img/chap5/6.png" width="100%" />
+      <img src="img/chap5/7.png" width="100%" />
+    </li>
+    <li>
+      Con nhận data
+      <img src="img/chap5/8.png" width="100%" />
+      <img src="img/chap5/9.png" width="100%" />
+    </li>
+    <li>
+      Và vì props là 1 biến object nên ta có thể
+      <img src="img/chap5/10.png" width="100%" />
+      <img src="img/chap5/11.png" width="100%" />
+    </li>
+    <li>Truyền function từ cha sang con
+        <p class="text-warning">Nãy giờ là truyền thuộc tính.Bây giờ mình muốn truyền 1 function </p>
+              <img src="img/chap5/12.png" width="100%" />
+              <img src="img/chap5/13.png" width="100%" />
+
+<p>Tự test nhé hàm onClick của js mà .</p>
+    </li>
+  </ul>
+</section>
