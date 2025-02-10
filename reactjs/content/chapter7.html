@@ -43,5 +43,37 @@
               <img src="img/chap7/6.png" width="100%" />
         <li>Hãy thử làm thêm phần header , footer vào cho đủ dao diện nhé .</li>
      </ol>
- 
+ <h2 class="heading">Nested Routes với Outlet <a href="https://reactrouter.com/6.29.0/start/overview#nested-routes" target="_blank">Links</a></h2>
+<p class="text-warning">Hiện tại mình đang dùng Header Footer với component App.</p>
+              <img src="img/chap7/7.png" width="100%" />
+<p class="text-warning">Bây giờ mình muốn dùng Header Footer cho page User và Products thì sao chả lẽ lại làm cách cũ hừm... cũng được. Tuy nhiên sau này ta có 100 component đều muốn dùng thì cũng căng đấy .</p>
+
+<h3 class="heading">Xác định cha con</h3>
+<p class="text-info">Mình muốn dùng page User và Products sẽ có   Header Footer của component App nên tớ sẽ gọi  page User và Products  là con của component App. </p>
+                   <img src="img/chap7/8.png" width="100%" />
+                   <img src="img/chap7/9.png" width="100%" />
+<p class="text-info">Tự test kết quả nhé .</p>
+
+ <h2 class="heading">Fix lỗi reload lại trang khi get route <a href="https://reactrouter.com/6.29.0/start/overview#client-side-routing" target="_blank">Links</a></h2>
+<p class="text-danger">Nếu để ý kĩ mỗi lần ta get links sẻ bị reload lại trang(nếu mạng khoẻ thì ko nói ,còn mạng yếu thì .... )đó là do thuộc tính href của thẻ a thôi.Vì thế ta cần thay thẻ a bẳng 1 thẻ khác của React Router .</p>
+                   <img src="img/chap7/10.png" width="100%" />
+<p class="text-warning">Tớ đổi trước 1 route nhé , mọi người phải đổi hết nhen :v.</p>
+<h3 class="heading">Active Links <a href="https://reactrouter.com/6.29.0/start/overview#active-links" target="_blank">Links</a></h3>
+<p class="text-warning">Đọc là biết ý nghĩa :v</p>
+                   <img src="img/chap7/11.png" width="100%" />
+
+                   <h3 class="heading">Index Route <a href="https://reactrouter.com/6.29.0/start/tutorial#index-routes" target="_blank">Links</a></h3>
+                   <p class="text-danger">! Vấn đề tồn đọng còn lại đang là mỗi lần ta chuyển route thì React đề render cả component cha (App) và con ( UserPage hoặc ProductPage) nhưng mình chỉ muốn React render dúng thằng con thôi.</p>
+                                      <img src="img/chap7/12.png" width="100%" />
+                                    <img src="img/chap7/13.png" width="100%" />
+
+
+                                     <h3 class="heading">Xử lí Page 404 (Not Found) <a href="https://reactrouter.com/6.29.0/start/tutorial#handling-not-found-errors" target="_blank">Links</a> </h3> 
+                                     <p class="text-info">Nếu ta truy cập 1 link không tồn tại nào đó sẽ có page </p>
+                                     <img src="img/chap7/14.png" width="100%" />
+                                     <p class="text-warning">Đại khái React Router bảo ta nên design 1 page 404 , thì chat gpt thôi :v</p>
+                                     <p class="text-danger">Tự làm componet NotFound nhé.</p>
+                                     <img src="img/chap7/15.png" width="100%" />
+
+
 </section>
