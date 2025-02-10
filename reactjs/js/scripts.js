@@ -10,6 +10,7 @@ const navigation = [
     { id: 'chapter5', title: 'Reactjs: Cha và con ', file: 'chapter5.html' },
     { id: 'chapter6', title: 'Reactjs: Hook useState', file: 'chapter6.html' },
     { id: 'chapter7', title: 'Reactjs: Điều hướng trang với Router', file: 'chapter7.html' },
+    { id: 'chapter8', title: ' CSS Và Thư Viện ', file: 'chapter8.html' },
 
 
 
