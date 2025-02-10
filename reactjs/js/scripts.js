@@ -9,6 +9,7 @@ const navigation = [
     { id: 'chapter3', title: 'Reactjs JSX ', file: 'chapter3.html' },
     { id: 'chapter5', title: 'Reactjs: Cha và con ', file: 'chapter5.html' },
     { id: 'chapter6', title: 'Reactjs: Hook useState', file: 'chapter6.html' },
+    { id: 'chapter7', title: 'Reactjs: Điều hướng trang với Router', file: 'chapter7.html' },
 
 
 

@@ -1,0 +1,45 @@
+<h1 class="heading ">Điều hướng trang với Router</h1>
+
+<section>
+<h2 class="heading">React chỉ là 1 thư viện ?</h2>
+<p class="text-info">Ừ thì đúng rồi nó như jquery nhưng xịn xò hơn thôi.:v và React chỉ chịu trách nhiên render (vẽ UI) thông qua props/state và JSX</p>
+<p class="text-danger">Vì vậy nếu ta muốn nhiều hơn (Ơ đây là từ trang này đi sang trang khác) ta cần tự làm (code js) hoặc add thêm thư viện khác (package)</p>
+
+<h2 class="heading">Cài đặt thư viện React router <a href="https://reactrouter.com/" target="_blank">Links</a></h2>
+<p class="text-warning">Mình đã có công cụ tội gì phải đi code chạy chi :v</p>
+
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>npm install --save-exact react-router-dom@6.23.1</pre>
+</div>
+
+<p class="text-danger">Lưu ý :mình đang xài phiên bản 6.23.1 thì ae vào đúng phiên bản đó mà đọc nhé, biết đâu nao vô links docs của nó update lên v7,v9 thì sao . </p>
+      <img src="img/chap7/1.png" width="100%" />
+<h2 class="heading">Tích hợp Router</h2>
+      <img src="img/chap7/2.png" width="100%" />
+
+      <ol>
+       Import thứ viện vào file main.jsx 
+
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";</pre>
+</div>
+      <img src="img/chap7/3.png" width="100%" />
+
+       <p class="text-warning">Hãy kiểm tra thành quả nhé :v</p>
+
+      </ol>
+     <h2 class="heading">Chia lại cấu trúc dự án.</h2>
+     <ol>
+        <li>Why?: vì React nó là lib như Jquery nên việc chia base dự án phụ thuộc vào chính bản thân mình. </li>
+        <li>Nếu một thư viện được tích hợp sẵn việc chia cấu trúc thư mục , nó sẽ là framework(vd: nextjs ,backend:javaspring)</li>
+        <li class="text-danger">Cách chia cấu trúc thư mục trong khoá học này chỉ mang tính chất tương đối.Điều quan trọng là bạn có khả năng mở rộng và bảo trì dự án của bạn</li>
+              <img src="img/chap7/4.png" width="100%" />
+
+     </ol>
+ 
+</section>
