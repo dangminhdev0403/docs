@@ -1,0 +1,86 @@
+<h1 class="heading">Call API với React</h1>
+<p class="text-warning">
+  Oh học đến chương này thì ta biết là không thể áp dụng MVC rồi đúng
+  không.Fontend riêng biệt rồi
+</p>
+<div class="text-info">
+  Sẽ có rất nhiều cách để Call API
+  <ol>
+    <li>Fetch API với Javascripts.</li>
+    <li>
+      Thư viện Axios(cũng là fetch nhưng bớt code đi nhàn :v)
+      <a
+        href="http://www.axios-http.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        >links</a
+      >
+    </li>
+    <p>vân vân và mây mây cách</p>
+  </ol>
+</div>
+<section>
+  <h2>Call API với Axios</h2>
+  <p class="text-info">
+    Dùng fetch cũng được nhưng mình muốn dùng thư viện cho code ngắn đi ấy mà
+  </p>
+  cài nó đã
+  <div class="code-block">
+    <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+    <pre>npm install axios</pre>
+  </div>
+  Khi chạy lệnh này mọi người sẽ luôn cài phiên bản Axios mới nhất , vì vậy mình
+  khuyên mọi người nên đọc docs của nó để tránh code đỏ mắt (lỗi :v)
+  <p class="text-warning">
+    Với khoá học này mình tự viết api với JavaSpring , ae tự viết nhé or kiếm
+    của ai đó cũng được, miên sao ra kết quả :v.
+  </p>
+
+  <h2 class="heading">
+    Config Axios Interceptor
+    <a
+      href="https://axios-http.com/docs/interceptors"
+      target="_blank"
+      rel="noopener noreferrer"
+      >links</a
+    >
+  </h2>
+  <p class="text-warning">
+    Tớ nghĩ mình nên có 1 folder <b>service</b> để quản lí các api từ backend
+  </p>
+  <ol>
+    <li>
+      Interceptor: giúp ta can thiệp vào resquest và response của lời gọi từ
+      fontent lên backend.
+      <ul>
+        <li>
+          Fontend -&gt; gọi axios -&gt;(Interceptor gửi thêm thông tin) backend
+        </li>
+        <li>backend -&gt; trả về -&gt;(Interceptor format data) Fontend</li>
+      </ul>
+    </li>
+
+    <li>
+      <img src="img/chap10/1.png" width="100%" alt="" />
+      <img src="img/chap10/2.png" width="100%" alt="" />
+      <img src="img/chap10/3.png" width="100%" alt="" />
+    </li>
+    <li>Tái sử dụng code với .ENV  <a href="https://vite.dev/guide/env-and-mode" target="_blank" rel="noopener noreferrer">links</a>
+      <p class="text-info">Oh nao biết đâu phần url : localhost:8080 của chúng ta lại ở 100 nơi thì sao .</p>
+
+<img src="img/chap10/11.png" width="100%" alt="" />
+      <img src="img/chap10/12.png" width="100%" alt="" />
+    </li>
+    <li>
+      Xử lí Exception .
+
+      <p class="text-warning">
+        Giờ mà call Api lỗi(Vì 1 lí do ngơ nào đó) thì ít ra ta phải có thông
+        báo cho người dùng. Tất nhiên lỗi thì phải fix rồi :v
+      </p>
+      <p class="text-danger">Thường thì backend sẽ trả về lỗi cho chúng ta (404 chẳng hạn) , còn bảo fontend thì ăn lỗi thì chắc chỉ có thể do ae code sai .</p>
+            <img src="img/chap10/13.png" width="100%" alt="" />
+
+    </li>
+  </ol>
+</section>

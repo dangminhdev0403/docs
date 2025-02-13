@@ -11,6 +11,8 @@ const navigation = [
     { id: 'chapter6', title: 'Reactjs: Hook useState', file: 'chapter6.html' },
     { id: 'chapter7', title: 'Reactjs: Điều hướng trang với Router', file: 'chapter7.html' },
     { id: 'chapter8', title: ' CSS Và Thư Viện ', file: 'chapter8.html' },
+    { id: 'chapter9', title: 'Fontend Todo list với Antd ', file: 'chapter9.html' },
+    { id: 'chapter10', title: 'Call API với axios ', file: 'chapter10.html' },
 
 
 
