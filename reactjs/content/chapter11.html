@@ -1,0 +1,49 @@
+<h1>
+  Vòng đời của React
+  <a
+    href="https://react.dev/learn/lifecycle-of-reactive-effects"
+    target="_blank"
+    rel="noopener noreferrer"
+    >links</a
+  >
+</h1>
+
+<img src="img/chap11/1.png" width="100%" alt="" />
+<ol>
+  <p class="text-danger">Với React vòng đời của nó sẽ có 3 giai đoạn</p>
+  <li>Mounting: Vẽ dao diện (vẽ html )</li>
+  <li>Update: cập nhật lại dao diện</li>
+  <li>unMount:Dao diện được xoá đi</li>
+</ol>
+
+<p class="text-info">
+  Theo kiến thức đã học, ta sẽ gọi API get list Users kiểu này.
+
+  <img src="img/chap10/14.png" width="100%" alt="" />
+</p>
+<p class="text-warning">
+  Về bản chất React sẽ luôn render lại sau mỗi lần State thay đổi.
+</p>
+<p>
+  gọi hàm loadUser -&gt; setDataUsers -&gt; render lại -&gt; loadUser .... (lặp
+  vô hạn , oẳng dự án)
+</p>
+<p class="text-danger">Chắc phải có giải pháp nào chứ nhỉ</p>
+
+<h2 class="heading">useEffect Hook</h2>
+<p class="text-warning">
+  Trước tiên hãy thử thêm đoạn code này
+
+  <img src="img/chap11/2.png" width="100%" alt="" />
+  <p class="text-danger">Oh!! Code chạy từ dưới lên :v</p>
+  
+  <img src="img/chap11/3.png" width="100%" alt="" />
+</p>
+
+<p class="text-info">Nói đơn giản hàm useEffect sẽ giúp chúng ta can thiệp vào giai đoạn Update (có thay đổi 1 giá trị nào đó mới render dao diện ) thay vì chạy tùm lum vô hạn.</p>
+<p>Oh z là ném hàm loadUsers vào useEffect là fix đc  thôi.
+  <img src="img/chap11/4.png" width="100%" alt="" />
+
+
+
+</p>

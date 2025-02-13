@@ -13,6 +13,7 @@ const navigation = [
     { id: 'chapter8', title: ' CSS Và Thư Viện ', file: 'chapter8.html' },
     { id: 'chapter9', title: 'Fontend Todo list với Antd ', file: 'chapter9.html' },
     { id: 'chapter10', title: 'Call API với axios ', file: 'chapter10.html' },
+    { id: 'chapter11', title: 'Vòng đời của React ', file: 'chapter11.html' },
 
 
 
