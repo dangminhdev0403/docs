@@ -3,7 +3,10 @@
 // Navigation data structure
 const navigation = [
     { id: 'intro', title: 'Về tài liệu', file: 'intro.html' },
-    { id: 'chapter4', title: 'Kiến trúc ứng dụng web ', file: 'chapter4.html' },
+    { id: 'chapter1', title: 'Kiến trúc ứng dụng web ', file: 'chapter1.html' },
+    { id: 'chapter2', title: 'Java OOP ', file: 'chapter2.html' },
+    { id: 'chapter3', title: 'Kiến thức cần biết trước khi code Spring ', file: 'chapter3.html' },
+ 
 
    
 

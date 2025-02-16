@@ -1,0 +1,135 @@
+<h1 class="heading">Kiến thức cần biết trước khi code Spring</h1>
+<p class="text-danger">
+  Cái này tớ cần phải làm trước khi mọi người tiếp xúc với Spring.
+</p>
+<p>Cho đỡ bỡ ngỡ</p>
+<ol>
+  <li>
+    <b>Funcfional Interfaces</b>: là một interface chỉ chứa một phương thức trừu
+    tượng duy nhất. Nó có thể có các phương thức mặc định hoặc static, nhưng chỉ
+    được phép có một phương thức trừu tượng. Functional Interface giúp hỗ trợ
+    lập trình hàm (functional programming) trong Java, đặc biệt là khi sử dụng
+    Lambda Expressions. <br />
+    <img src="img/chap3/1.png" alt="" />
+  </li>
+  <li>
+    Lambda Expression (biểu thức lambda) là một tính năng được giới thiệu từ
+    Java 8, giúp viết code ngắn gọn hơn khi làm việc với Functional Interface.
+    Lambda cho phép viết các phương thức dưới dạng hàm mà không cần khai báo lớp
+    hoặc phương thức thông thường.
+
+    <br />
+    <br />
+    <img src="img/chap3/2.png" alt="" /> <br />
+    <img src="img/chap3/3.png" alt="" />
+  </li>
+  <li>
+    Method Reference là một cách viết ngắn gọn hơn của Lambda Expression, dùng
+    để tham chiếu đến một phương thức đã tồn tại mà không cần gọi trực tiếp. Nó
+    giúp code dễ đọc hơn, đặc biệt khi lambda chỉ gọi một phương thức duy nhất. <br>
+    <img src="img/chap3/4.png" alt="" />
+    <img src="img/chap3/5.png" alt="" />
+    <img src="img/chap3/6.png" alt="" />
+    
+    <p class="text-info">Cái ví này hơi vô dụng tí , mình sẽ cho cái khác</p>
+    <img src="img/chap3/7.png" alt="" />
+
+
+
+   
+  </li>
+  <li>Default Methods trong Java là các phương thức có phần thân (body) bên trong interface.
+    <img src="img/chap3/8.png" alt="" />
+
+</li>
+<li>Stream API trong Java là một công cụ mạnh mẽ để xử lý dữ liệu theo kiểu functional programming. Nó giúp duyệt, lọc, biến đổi, và thu thập dữ liệu một cách dễ dàng và hiệu quả.
+  <p class="text-warning">✔ Ghi nhớ: Stream không thay đổi dữ liệu gốc mà tạo luồng dữ liệu mới!</p>
+      <img src="img/chap3/9.png" alt="" />
+      <img src="img/chap3/10.png" alt="" />
+
+</li>
+<li><b> Optional &lt;T&gt;</b> là một lớp trong gói java.util được giới thiệu từ Java 8 để xử lý các giá trị có thể là null một cách an toàn, tránh lỗi NullPointerException.
+
+      <img src="img/chap3/11.png" alt="" />
+
+      <h2>Full Phương thức trong Optional</h2>
+      <table border="1">
+    <thead>
+        <tr>
+            <th>Phương thức</th>
+            <th>Mô tả</th>
+            <th>Ví dụ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>of(T value)</code></td>
+            <td>Tạo một <code>Optional</code> chứa giá trị (không được <code>null</code>).</td>
+            <td><code>Optional&lt;String&gt; opt = Optional.of("Hello");</code></td>
+        </tr>
+        <tr>
+            <td><code>ofNullable(T value)</code></td>
+            <td>Tạo một <code>Optional</code>, cho phép giá trị <code>null</code>.</td>
+            <td><code>Optional&lt;String&gt; opt = Optional.ofNullable(null);</code></td>
+        </tr>
+        <tr>
+            <td><code>empty()</code></td>
+            <td>Trả về một <code>Optional</code> rỗng.</td>
+            <td><code>Optional&lt;String&gt; opt = Optional.empty();</code></td>
+        </tr>
+        <tr>
+            <td><code>isPresent()</code></td>
+            <td>Kiểm tra xem có giá trị hay không.</td>
+            <td><code>if (opt.isPresent()) { System.out.println(opt.get()); }</code></td>
+        </tr>
+        <tr>
+            <td><code>ifPresent(Consumer&lt;T&gt; action)</code></td>
+            <td>Thực hiện hành động nếu có giá trị.</td>
+            <td><code>opt.ifPresent(System.out::println);</code></td>
+        </tr>
+        <tr>
+            <td><code>ifPresentOrElse(Consumer&lt;T&gt; action, Runnable emptyAction)</code></td>
+            <td>Thực hiện hành động nếu có giá trị, nếu không thì chạy <code>emptyAction</code>.</td>
+            <td><code>opt.ifPresentOrElse(System.out::println, () -> System.out.println("No value"));</code></td>
+        </tr>
+        <tr>
+            <td><code>get()</code></td>
+            <td>Lấy giá trị bên trong <code>Optional</code>, nếu rỗng sẽ ném <code>NoSuchElementException</code>.</td>
+            <td><code>String value = opt.get();</code></td>
+        </tr>
+        <tr>
+            <td><code>orElse(T other)</code></td>
+            <td>Trả về giá trị nếu có, nếu không trả về giá trị mặc định.</td>
+            <td><code>String value = opt.orElse("Default Value");</code></td>
+        </tr>
+        <tr>
+            <td><code>orElseGet(Supplier&lt;T&gt; supplier)</code></td>
+            <td>Trả về giá trị nếu có, nếu không lấy giá trị từ <code>Supplier</code>.</td>
+            <td><code>String value = opt.orElseGet(() -> "Generated Default Value");</code></td>
+        </tr>
+        <tr>
+            <td><code>orElseThrow(Supplier&lt;X&gt; exceptionSupplier)</code></td>
+            <td>Trả về giá trị nếu có, nếu không ném exception.</td>
+            <td><code>String value = opt.orElseThrow(() -> new IllegalArgumentException("No value present"));</code></td>
+        </tr>
+        <tr>
+            <td><code>map(Function&lt;T, R&gt; mapper)</code></td>
+            <td>Chuyển đổi giá trị nếu có.</td>
+            <td><code>Optional&lt;Integer&gt; length = opt.map(String::length);</code></td>
+        </tr>
+        <tr>
+            <td><code>flatMap(Function&lt;T, Optional&lt;R&gt;&gt; mapper)</code></td>
+            <td>Tương tự <code>map()</code> nhưng trả về <code>Optional</code>.</td>
+            <td><code>Optional&lt;String&gt; upperOpt = opt.flatMap(s -> Optional.of(s.toUpperCase()));</code></td>
+        </tr>
+        <tr>
+            <td><code>filter(Predicate&lt;T&gt; predicate)</code></td>
+            <td>Lọc giá trị theo điều kiện.</td>
+            <td><code>Optional&lt;String&gt; filtered = opt.filter(s -> s.startsWith("H"));</code></td>
+        </tr>
+    </tbody>
+</table>
+
+
+</li>
+</ol>
