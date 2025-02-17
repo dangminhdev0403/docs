@@ -6,6 +6,7 @@ const navigation = [
     { id: 'chapter1', title: 'Kiến trúc ứng dụng web ', file: 'chapter1.html' },
     { id: 'chapter2', title: 'Java OOP ', file: 'chapter2.html' },
     { id: 'chapter3', title: 'Kiến thức cần biết trước khi code Spring ', file: 'chapter3.html' },
+    { id: 'chapter5', title: 'Bài tập  ', file: 'chapter5.html' },
  
 
    
