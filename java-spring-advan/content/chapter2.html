@@ -1,4 +1,12 @@
 <h1>Lập trình hướng đối tượng (OOP) trong Java.</h1>
+<p>
+  Lập trình hướng đối tượng (OOP - Object-Oriented Programming) là một phương
+  pháp lập trình dựa trên mô hình đối tượng thay vì chỉ sử dụng hàm và thủ tục
+  như lập trình hướng thủ tục (Procedural Programming).
+</p>
+pMỗi đối tượng trong OOP (class) là một thực thể có thuộc tính (dữ liệu) &lt;
+variable &gt; và hành vi (phương thức , hàm: function). Các đối tượng có thể
+tương tác với nhau để thực hiện các tác vụ trong chương trình.
 
 <section>
   Java là một ngôn ngữ lập trình hướng đối tượng (OOP), dựa trên 4 nguyên tắc
@@ -11,4 +19,90 @@
     <li>Abstraction (Trừu tượng)</li>
   </ol>
   <p class="text-danger">Học không chắc cái này thì khỏi học Java</p>
+</section>
+<section>
+  <ol>
+    <li >
+   <h3 style="font-size: larger; font-weight: bold">   Encapsulation (Đóng gói)</h3>
+
+      <p>
+        việc che giấu dữ liệu bằng cách sử dụng các access modifiers (private,
+        protected, public) và cung cấp các phương thức truy xuất (getter và
+        setter). Giúp bảo vệ dữ liệu và kiểm soát truy cập.
+      </p>
+      <p class="text-warning">Nói đơn giản hơn là cách chúng ta dùng từ khoá public và private (kèm getter setter) với các biến và hàm có trong class đó  để xử lí đối tượng với java </p>
+    </li>
+    <li>
+      <h3 style="font-size: larger; font-weight: bold">
+        Abstraction (Trừu tượng)
+      </h3>
+      <p>Trừu tượng là quá trình ẩn các chi tiết phức tạp và chỉ hiển thị các tính năng cần thiết của một đối tượng bằng cách sử dụng lớp trừu tượng (abstract class) và giao diện (interface).
+</p>
+
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Đặc điểm</th>
+            <th>Abstract Class</th>
+            <th>Interface</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Phương thức</strong></td>
+            <td>Có thể chứa cả phương thức trừu tượng (abstract) và phương thức thông thường (non-abstract).</td>
+            <td>Chỉ chứa phương thức trừu tượng (trước Java 8). Từ Java 8, có thể chứa phương thức mặc định (default) và phương thức tĩnh (static).</td>
+        </tr>
+        <tr>
+            <td><strong>Biến</strong></td>
+            <td>Có thể chứa biến instance (non-static), biến tĩnh (static), biến final và non-final.</td>
+            <td>Chỉ chứa biến hằng số (public static final).</td>
+        </tr>
+        <tr>
+            <td><strong>Kế thừa</strong></td>
+            <td>Đơn kế thừa (một lớp chỉ có thể kế thừa từ một abstract class).</td>
+            <td>Đa kế thừa (một lớp có thể triển khai nhiều interface).</td>
+        </tr>
+        <tr>
+            <td><strong>Constructor</strong></td>
+            <td>Có thể có constructor.</td>
+            <td>Không thể có constructor.</td>
+        </tr>
+        <tr>
+            <td><strong>Mục đích sử dụng</strong></td>
+            <td>Chia sẻ mã chung, quan hệ "IS-A" (là một).</td>
+            <td>Định nghĩa hợp đồng, quan hệ "CAN-DO" (có thể làm).</td>
+        </tr>
+    </tbody>
+</table>
+    </li>
+    <li>
+      <h3 style="font-size: larger; font-weight: bold">
+        Inheritance (Kế thừa)
+      </h3>
+      <p>Inheritance giúp một class con kế thừa thuộc tính và phương thức của class cha (superclass). Giúp tái sử dụng mã nguồn và tổ chức chương trình tốt hơn.
+</p>
+    </li>
+      
+    <li>
+      <h3 style="font-size: larger; font-weight: bold">
+        Polymorphism (Đa hình)
+      </h3>
+      <p>Đa hình cho phép các đối tượng của các lớp khác nhau được xử lý như các đối tượng của một lớp cha chung. Nó cho phép một giao diện đại diện cho nhiều hình thức khác nhau.</p>
+      <p class="text-warning">Đa hình được thực hiện thông qua ghi đè phương thức (method overriding) và nạp chồng phương thức (method overloading).</p>
+    </li>
+  
+  </ol>
+</section>
+
+
+<section>
+  <div class="text-info">Trong Java, một phương thức có thể trả về đối tượng con ngay cả khi kiểu trả về được khai báo là lớp cha. Điều này dựa trên tính kế thừa (Inheritance) và đa hình (Polymorphism).
+    <div class="text-danger" style="margin-top: 1rem;"> Không thể trả về đối tượng cha nếu kiểu trả về của phương thức là lớp con.</div>
+          <img src="img/chap3/12.png" alt="" />
+
+
+
+  </div>
 </section>
