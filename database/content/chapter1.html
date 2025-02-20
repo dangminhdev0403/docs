@@ -1,0 +1,25 @@
+<h1>Tránh xa câu lệnh SELECT * FORM `table`</h1>
+<p class="text-warning">Oh tại sao mình nói thế, đơn giản là khi ta gọi SELECT * FORM  , sql sẽ lôi tất cả <b>cột</b> của bảng đó ra dẫn đến chậm hiệu suất. </p>
+<ul>
+    <li>Nếu bảng có nhiều cột hoặc dữ liệu lớn, việc truy vấn SELECT * có thể gây tốn tài nguyên (bộ nhớ, băng thông mạng) vì nó trả về nhiều dữ liệu hơn mức cần thiết.</li>
+    <li>Đặc biệt, nếu bảng có các cột kiểu dữ liệu lớn như BLOB, TEXT, hoặc JSON, việc sử dụng SELECT * có thể làm chậm truy vấn.</li>
+    <li>Nói chung sau chương này dẹp ngay dùng câu lệnh query  <b>SELECT * FORM `table`</b></li>
+</ul>
+<h2>Vậy thay thế bằng cách nào ?</h2>
+<p class="text-info">Mình sẽ lấy ví dụ khi ta query 1 danh sách users  chắc chắn sẽ có cột <b>`password`</b></p>
+<ol>
+    <li>Lấy thông tin <b>password</b> của users làm gì , chả để làm gì -&gt;  SELECT * FORM thừa dữ liệu -&gt; chả để làm gì mà giảm hiệu suất  </li>
+    <li> ==&gt; ta chỉ select những cột cần thiết , thậm chí ta sẽ liệt kê hết tất cả cột nếu muốn lấy tất cả dữ liệu của bảng đó</li>
+    <li>Anh ơi em lười lắm , chịu nhé !!</li>
+</ol>
+
+<h2>Áp dụng vào dự án Spring</h2>
+<ul>
+    <p class="text-warning">Nói thật sẽ có rất nhiều cách để config nhưng mình sẽ chỉ 1 cái thôi .</p>
+    <li> Sử dụng findAll mặc định (tương đương SELECT *) ==&gt; dẹp dẹp</li>
+    <li class="text-danger">Mình sẽ xài Dynamic Projection. </li>
+    <img src="img/chap1/2.png" alt="">
+    <img src="img/chap1/1.png" alt="">
+    <img src="img/chap1/3.png" alt="">
+    <img src="img/chap1/4.png" alt="">
+</ul>
