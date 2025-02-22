@@ -1,0 +1,59 @@
+<h1 class="heading">Tránh phân mảnh khi DELETE</h1>
+
+<h2>phân mảnh khi DELETE 1 bản ghi</h2>
+
+<p>
+  Khi bạn thực hiện một thao tác DELETE trên một bản ghi trong cơ sở dữ liệu, có
+  thể xảy ra hiện tượng phân mảnh (fragmentation). Phân mảnh là tình trạng dữ
+  liệu được lưu trữ không liên tục trong không gian lưu trữ, làm tăng độ phức
+  tạp và thời gian truy xuất dữ liệu. Dưới đây là một số cách để tránh phân mảnh
+  khi DELETE một bản ghi:
+</p>
+<p class="text-warning">
+  Nói thật thì giờ đây thì không còn vấn đề phân mảnh nữa, vì hầu hết các hệ
+  quản trị cơ sở dữ liệu hiện đại đã tối ưu hóa việc quản lý không gian lưu trữ
+  và giảm thiểu phân mảnh nên rất khó đê minh hoạ.
+</p>
+<p class="text-info">
+  Tuy nhiên , ai mà biết được! Khi ta xoá hàng chục triệu bản ghi nó vẫn xảy ra
+  thì sao, vậy nên mình cứ tự tìm cách không để nó xảy ra.
+</p>
+
+<h2 class="heading">Xoá mềm ( Soft Delete)</h2>
+<p>
+  Xoá mềm là cách ta xoá dữ liệu nhưng không xoá nó khỏi database mà chỉ đánh
+  dấu là đã xoá. Và khi ta cần lấy dữ liệu ra thì ta sẽ bỏ qua các bản ghi đã
+  được đánh dấu là đã xoá.
+</p>
+<p class="text-warning">
+  Ta sẽ thêm một cột vào bảng để đánh dấu bản ghi đó đã bị xoá hay chưa. Ví dụ
+  như cột <b> isDeleted </b>
+  <img src="img/chap2/1.png" alt="" />
+</p>
+
+<h2 class="heading">Xoá cứng</h2>
+<p>Chính là câu lệnh DELETE</p>
+<ol>
+  <li>Với MySQL ta sẽ luôn có lệnh OPTIMIZE TABLE để giải quyết vấn đề này.</li>
+  <li>
+    Với Spring Data JPA ta có thể sử dụng @Modifying và @Query để thực hiện các
+    lệnh SQL thô.
+  </li>
+  <li>
+    Nếu bạn chỉ xóa một vài bản ghi, cách đơn giản nhất là dùng deleteById .
+  </li>
+  <li>
+    Còn nếu anh em muốn xoá hàng loạt cùng 1 lúc (trên 100 bản ghi thì dùng cách
+    này nhé dưới thì không bõ mà còn giản hiệu suất) .
+
+    <ul>
+      <li>JdbcTemplate là một công cụ mạnh mẽ trong Spring Framework, cho phép bạn thực thi các câu lệnh SQL trực tiếp, linh hoạt hơn so với các phương thức mặc định của JpaRepository.
+
+</li>
+      <li>Ưu điểm khi xóa cứng hàng loạt: Bạn có thể tùy chỉnh truy vấn SQL, kiểm soát hiệu suất, và thực hiện các lệnh bảo trì như OPTIMIZE TABLE trong cùng một lớp dịch vụ.
+              <img src="img/chap2/2.png" alt="" />
+
+      </li>
+    </ul>
+  </li>
+</ol>

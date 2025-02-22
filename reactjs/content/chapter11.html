@@ -43,7 +43,27 @@
 <p class="text-info">Nói đơn giản hàm useEffect sẽ giúp chúng ta can thiệp vào giai đoạn Update (có thay đổi 1 giá trị nào đó mới render dao diện ) thay vì chạy tùm lum vô hạn.</p>
 <p>Oh z là ném hàm loadUsers vào useEffect là fix đc  thôi.
   <img src="img/chap11/4.png" width="100%" alt="" />
+  <img src="img/chap11/5.png" width="100%" alt="" />
 
-
+  
+ 
 
 </p>
+<p class="text-warning">Vậy UseEffect làm được gì ?</p>
+
+<p>Như đã học mỗi lần ta thay đổi State =&gt; re-render dao diện và mình sẽ chạy 1 hàm sum() để chạy cùng với quá trình đó (side effect) </p>
+<ol>
+  UseEffect sẽ giúp ta
+  <li>Quản lí các công việc side Effect tránh việc re-render không cần thiết  </li>
+
+</ol>
+<h2 class="text-warning">Cách dùng</h2>
+<b>cú pháp : useEffect(callback(),dependencies)</b>
+<ul>
+  Các trường hợp 
+  <li>dependencies là null hoặc undefined : component re-render , callback sẽ chạy</li>
+
+  <li>dependencies là mảng rỗng [] : callback sẽ chạy 1 lần duy nhất khi component được mouted </li>
+  <li>dependencies là mảng chứa các biến [variable , variable , ]: callback chỉ chạy khi  1 trong các variable thay đổi  </li>
+  <li>cleanup(unmount) : callback trả về 1 function  , <b>cleanup chỉ chạy từ lần 2 trở đi</b></li>
+</ul>

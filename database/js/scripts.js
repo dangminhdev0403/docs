@@ -4,6 +4,7 @@
 const navigation = [
     { id: 'intro', title: 'Về tài liệu', file: 'intro.html' },
     { id: 'chapter1', title: 'Tránh xa từ *', file: 'chapter1.html' },
+    { id: 'chapter2', title: 'Tránh phân mảnh khi DELETE', file: 'chapter2.html' },
    
 
 
