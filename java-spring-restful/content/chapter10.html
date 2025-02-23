@@ -1,6 +1,9 @@
 <header>
   <h1 class="heading">Xử lí Exception (Lỗi ngoại lệ)</h1>
-  <p class="text-danger">Phần Exception có trong Java Core nên ai yếu phần này minh khuyên là nên học kĩ trước. </p>
+  <p class="text-danger">
+    Phần Exception có trong Java Core nên ai yếu phần này minh khuyên là nên học
+    kĩ trước.
+  </p>
 </header>
 
 <section>
@@ -27,47 +30,89 @@
     <li>Và cũng không nhất thiết phải đá về đủ cả 3</li>
   </ul>
   <p>Ở chương này mình sẽ hướng dẫn mọi người xử lí ngoại lệ.</p>
-
 </section>
 
 <section>
   <h1>Xử lí Exception đầu tiên</h1>
-  <p>Mình sẽ giả sử trường hợp ta gọi api get User với 1 "id" linh tinh nào đó, và thay vì phải nhận cái đống chữ rối mắt kia thì mình muốn nó trả về cho mình 1 thông báo </p>
-    <img src="img/chap10/2.png" width="135%" style="object-fit: cover" />
-    <img src="img/chap10/3.png" width="135%" style="object-fit: cover" />
-    <p>Và đây là kết quả</p>
-    <img src="img/chap10/4.png" width="135%" style="object-fit: cover" />
-  <p>Ngon chưa ? chưa đâu, cách trên mình mới chỉ để mọi người xử lí ở phạm vi class tức là phải khai báo Exception đó vào class thì mới dùng được, khá là bất tiện.</p>
+  <p>
+    Mình sẽ giả sử trường hợp ta gọi api get User với 1 "id" linh tinh nào đó,
+    và thay vì phải nhận cái đống chữ rối mắt kia thì mình muốn nó trả về cho
+    mình 1 thông báo
+  </p>
+  <img src="img/chap10/2.png" width="135%" style="object-fit: cover" />
+  <img src="img/chap10/3.png" width="135%" style="object-fit: cover" />
+  <p>Và đây là kết quả</p>
+  <img src="img/chap10/4.png" width="135%" style="object-fit: cover" />
+  <p>
+    Ngon chưa ? chưa đâu, cách trên mình mới chỉ để mọi người xử lí ở phạm vi
+    class tức là phải khai báo Exception đó vào class thì mới dùng được, khá là
+    bất tiện.
+  </p>
 </section>
 
 <section>
-  <h2>Phạm vi  Exception</h2>
+  <h2>Phạm vi Exception</h2>
   <ol>
-    <p>Khi gọi 1 api và ta gặp phải 1 Exception(Lỗi ngoại lệ) và có thể dẫn tới ứng dụng của dự án sẽ bị crash hoặc đá về lỗi 500 với 1 đống chữ ... </p>
-    <p class="text-warning">Vì vậy ta sẽ phải xử lí để đảm bảo ứng dụng chạy ổn định dù đã gặp lỗi.</p>
+    <p>
+      Khi gọi 1 api và ta gặp phải 1 Exception(Lỗi ngoại lệ) và có thể dẫn tới
+      ứng dụng của dự án sẽ bị crash hoặc đá về lỗi 500 với 1 đống chữ ...
+    </p>
+    <p class="text-warning">
+      Vì vậy ta sẽ phải xử lí để đảm bảo ứng dụng chạy ổn định dù đã gặp lỗi.
+    </p>
     <p>Ta hoàn toàn có thể xử lí:</p>
-    <li>Local Exception : xử lí ngoại lệ với từng class (ví dụ trên) với @ExcetionHandler</li>
+    <li>
+      Local Exception : xử lí ngoại lệ với từng class (ví dụ trên) với
+      @ExcetionHandler
+    </li>
     <li>Global Exception: xử lí ngoại lệ vơi tất cả class trong dự án</li>
   </ol>
 
-  <h2>  Controller Advice tài liệu tại <a href="https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann-advice.html" target="_blank">Đây</a></h2>
-  <p class="text-danger">Phần này sẽ giúp ta xử lí Global Exception với @ControllerAdvice(Với MVC) và @RestControllerAdvice(Với Rest API)</p>
- 
- 
+  <h2>
+    Controller Advice tài liệu tại
+    <a
+      href="https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann-advice.html"
+      target="_blank"
+      >Đây</a
+    >
+  </h2>
+  <p class="text-danger">
+    Phần này sẽ giúp ta xử lí Global Exception với @ControllerAdvice(Với MVC) và
+    @RestControllerAdvice(Với Rest API)
+  </p>
 </section>
 
 <section>
   <h1>Global Exception Với RestApi</h1>
 
-      <img src="img/chap10/6.png" width="135%" style="object-fit: cover" />
-  <p> hãy Test với postman , kết quả vẫn như cũ là ok.</p>
-
+  <img src="img/chap10/6.png" width="135%" style="object-fit: cover" />
+  <p>hãy Test với postman , kết quả vẫn như cũ là ok.</p>
 
   <h2>Format dữ liệu trả về(Response)</h2>
-  <p>Mình giải thích kĩ lắm rồi nhé nên bây giờ chỉ có code thôi.Hãy sử dụng đúng @RestControllerAdvice chứ không phải @Controller hay @Controller đâu</p>
-    <img src="img/chap10/7.png" width="135%" style="object-fit: cover" />
-    <img src="img/chap10/8.png" width="135%" style="object-fit: cover" />
-    <img src="img/chap10/9.png" width="135%" style="object-fit: cover" />
-  <p class="text-danger">Hãy tữ test để xem thành quả.</p>
+  <p>
+    Mình giải thích kĩ lắm rồi nhé nên bây giờ chỉ có code thôi.Hãy sử dụng đúng
+    @RestControllerAdvice chứ không phải @Controller hay @Controller đâu
+  </p>
 
+  <img src="img/chap10/7.png" width="135%" style="object-fit: cover" />
+  <p class="text-warning">
+    Spring sẽ cung cấp cho ta 1 interface ResponseBodyAdvice để tùy chỉnh nội
+    dung phản hồi (response) và nó cung cấp cho chúng ta 2 phương thức:
+  </p>
+  <ul>
+    <li><b>T beforeBodyWrite(...)</b> :Phương thức này được gọi ngay trước khi nội dung phản hồi được ghi ra. Bạn có thể dùng nó để thay đổi nội dung (body) trước khi gửi đến client.</li>
+    <li>
+      <b>supports() :</b>như cánh cổng kiểm soát: Nó quyết định liệu
+      beforeBodyWrite có được chạy hay không dựa trên logic bạn định nghĩa.
+
+      <ol><li>Nếu supports trả về true, thì Spring sẽ gọi tiếp hàm beforeBodyWrite để xử lý nội dung phản hồi.
+</li>
+      <li>Nếu supports trả về false, thì Spring sẽ bỏ qua beforeBodyWrite của implementation đó và tiếp tục quá trình xử lý phản hồi mà không can thiệp.</li></ol>
+    </li>
+    <li></li>
+  </ul>
+  <img src="img/chap10/8.png" width="135%" style="object-fit: cover" />
+
+  <img src="img/chap10/9.png" width="135%" style="object-fit: cover" />
+  <p class="text-danger">Hãy tữ test để xem thành quả.</p>
 </section>
