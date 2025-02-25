@@ -1,0 +1,58 @@
+<h2>Update Login với JWT 2</h2>
+<section>
+  <p class="text-warning">Mình sẽ config với cách nâng cao hơn.</p>
+  <p class="text-danger">
+    Trước tiên hãy mã hoá mật khẩu để đản bảo tính bảo mật
+  </p>
+  <img src="img/chap122/1.png" width="100%" style="object-fit: cover" />
+  <h3>Update Service.</h3>
+
+  <img src="img/chap122/2.png" width="100%" style="object-fit: cover" />
+  <p>Hãy tạo cho mình tài khoản admin , user nhé , hãy check lại db</p>
+  <img src="img/chap122/3.png" width="100%" style="object-fit: cover" />
+  <p>Ok ! ta sẽ tiếp tục ghi đè phàn filter</p>
+  <img src="img/chap122/4.png" width="100%" style="object-fit: cover" />
+  <p>
+    Ta sẽ không filter trực tiếp nữa , code dài :v nên mình sẽ tạo 1 class
+    <b>CustomizeRequestFilter</b>
+  </p>
+  <p class="text-danger">Ở đây mình có 1 class</p>
+  <ol>
+    <p>
+      <b>OncePerRequestFilter</b> là một lớp cơ sở trong Spring Framework (dùng
+      trong Spring MVC hoặc Spring WebFlux) giúp đảm bảo rằng một bộ lọc
+      (filter) chỉ được thực thi một lần duy nhất cho mỗi yêu cầu (request),
+      ngay cả khi yêu cầu đó được chuyển tiếp (forward) hoặc phân phối
+      (dispatch) nhiều lần trong ứng dụng. Điều này rất hữu ích cho các tác vụ
+      như xác thực (authentication), ghi log, hoặc thiết lập ngữ cảnh cho yêu
+      cầu mà bạn không muốn bị lặp lại.
+    </p>
+    <li>
+      <b>doFilterInternal</b> là một phương thức trong lớp
+      <b>OncePerRequestFilter</b> được sử dụng để thực hiện logic lọc
+      (filtering) cho mỗi yêu cầu. Phương thức này được gọi bởi phương thức
+      <b>doFilter</b> của lớp cha, và nó cho phép bạn thực hiện các tác vụ lọc
+      trước khi yêu cầu được xử lý bởi các bộ lọc khác hoặc bởi controller.
+    </li>
+    <li>
+      Với RESTful API, bạn thường chỉ cần dùng doFilterInternal , các phương
+      thức khác mọi người nên đọc thêm và tìm hiểu cách sử dụng
+    </li>
+    <li>
+      Bạn cần tạo một lớp con từ <b>OncePerRequestFilter</b> và viết logic của
+      mình trong phương thức doFilterInternal.
+    </li>
+  </ol>
+  <img src="img/chap122/5.png" width="100%" style="object-fit: cover" />
+
+  <p>Tiếp tục ghi đè config.</p>
+
+  <img src="img/chap122/6.png" width="100%" style="object-fit: cover" />
+  <img src="img/chap122/7.png" width="100%" style="object-fit: cover" />
+  <img src="img/chap122/8.png" width="100%" style="object-fit: cover" />
+</section>
+<section>
+<h2 class="heading">Cấu hình AuthController</h2>
+
+
+</section>
