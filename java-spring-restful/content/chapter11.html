@@ -69,7 +69,7 @@ public class SercurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-
+                .csrf(c -&gt c.disable())
                 .authorizeHttpRequests(authz -&gt;
                 // prettier-ignore
 
