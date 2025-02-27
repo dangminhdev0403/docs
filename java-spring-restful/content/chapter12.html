@@ -14,7 +14,7 @@
   <p class="text-danger">chuẩn bị tài khoản để đăng nhập trước đi nhé</p>
   <ol>
     <li>
-      Tạo DTO class login :
+      Tạo DTO class login với request :
         <p>import dependency vào file gradle.build</p>
         <div class="code-block">
   <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
@@ -22,9 +22,74 @@
 </div>
 
       <img src="img/chap12/2.png" width="135%" style="object-fit: cover" />
-      <img src="img/chap12/1.png" width="135%" style="object-fit: cover" />
+
+
+
+     
+    </li>
+    <li>
+      Viết AuthController.java để xử lí đăng nhập
+
+        <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+    
+    import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+
+
+    public class AuthController {
+
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    @PostMapping("/login")
+    public ResponseEntity&lt;LoginReq&gt; loginUser(@RequestBody LoginReq loginReq) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                loginReq.getEmail(), loginReq.getPassword());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        return ResponseEntity.ok(loginReq);
+
+    }
+
+}
+</pre>
+</div>
+
+
+
+       <img src="img/chap12/1.png" width="135%" style="object-fit: cover" />
+
     </li>
     <li>Ghi đè UserDetailsService</li>
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+    import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+    
+    @Component("userDetailsService")
+@RequiredArgsConstructor
+@Service
+public class CustomUserDetailService implements UserDetailsService {
+
+     private final UserService userService;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = this.userService.handleGetUserByUsername(username);
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+    }
+    
+}
+</pre>
+</div>
+
     <img src="img/chap12/3.png" width="135%" style="object-fit: cover" />
 
     <li>Nâng cấp  GlobalException
@@ -68,6 +133,194 @@ Ta sinh ra key ngẫu nhiên
 
   </li>
   <li>Tạo service SercurityUltil
+
+    <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.JwsHeader;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.stereotype.Service;
+
+
+
+@Service
+public class SecurityUtil {
+    public static final MacAlgorithm MAC_ALGORITHM = MacAlgorithm.HS512;
+
+    private final JwtEncoder jwtEncoder;
+
+    public SecurityUtil(JwtEncoder jwtEncoder) {
+        this.jwtEncoder = jwtEncoder;
+    }
+
+    @Value("${minh.jwt.base64-secret}")
+    private String jwtKey;
+
+    @Value("${minh.jwt.access-token-validity-in-seconds}")
+    private long accessTokenExpiration;
+
+    @Value("${minh.jwt.refresh-token-validity-in-seconds}")
+    private long refreshTokenExpiration;
+
+    private SecretKey getSecretKey() {
+        byte[] keyBytes = Base64.getDecoder().decode(jwtKey);
+        return new SecretKeySpec(keyBytes, 0, keyBytes.length, MAC_ALGORITHM.getName());
+
+    }
+
+    public String createAccessToken(String email, ResLoginDTO.UserLogin resLoginDTO) {
+        Instant now = Instant.now();
+        Instant validity = now.plus(accessTokenExpiration, ChronoUnit.SECONDS);
+
+        List&lt;String&gt; listAuthority = new ArrayList&lt;String&gt;();
+        listAuthority.add("ROLE_ADMIN_CREATE");
+        listAuthority.add("ROLE_ADMIN_UPDATE");
+        JwtClaimsSet claim = JwtClaimsSet.builder()
+                .issuedAt(now)
+                .expiresAt(validity)
+                .subject(email)
+                .claim("permission", listAuthority)
+                .claim("user", resLoginDTO)
+                .build();
+
+        JwsHeader jwsHeader = JwsHeader.with(MAC_ALGORITHM).build();
+        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claim)).getTokenValue();
+    }
+
+    public String createRefreshToken(String email, ResLoginDTO resLoginDTO) {
+        Instant now = Instant.now();
+        Instant validity = now.plus(refreshTokenExpiration, ChronoUnit.SECONDS);
+        JwtClaimsSet claim = JwtClaimsSet.builder()
+                .issuedAt(now)
+                .expiresAt(validity)
+                .subject(email)
+                .claim("user", resLoginDTO.getUser())
+                .build();
+
+        JwsHeader jwsHeader = JwsHeader.with(MAC_ALGORITHM).build();
+        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claim)).getTokenValue();
+    }
+
+    /**
+     * Get the login of the current user.
+     *
+     * @return the login of the current user.
+     */
+    public static Optional&lt;String&gt; getCurrentUserLogin() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
+    }
+
+    private static String extractPrincipal(Authentication authentication) {
+        if (authentication == null) {
+            return null;
+        } else if (authentication.getPrincipal() instanceof UserDetails springSecurityUser) {
+            return springSecurityUser.getUsername();
+        } else if (authentication.getPrincipal() instanceof Jwt jwt) {
+            return jwt.getSubject();
+        } else if (authentication.getPrincipal() instanceof String s) {
+            return s;
+        }
+        return null;
+    }
+
+    /**
+     * Get the JWT of the current user.
+     *
+     * @return the JWT of the current user.
+     */
+    public static Optional&lt;String&gt; getCurrentUserJWT() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return Optional.ofNullable(securityContext.getAuthentication())
+                .filter(authentication -gt; authentication.getCredentials() instanceof String)
+                .map(authentication -gt; (String) authentication.getCredentials());
+    }
+
+    /**
+     * Check if a user is authenticated.
+     *
+     * @return true if the user is authenticated, false otherwise.
+     */
+    // public static boolean isAuthenticated() {
+    // Authentication authentication =
+    // SecurityContextHolder.getContext().getAuthentication();
+    // return authentication != null
+    // &&
+    // getAuthorities(authentication).noneMatch(AuthoritiesConstants.ANONYMOUS::equals);
+    // }
+
+    /**
+     * Checks if the current user has any of the authorities.
+     *
+     * @param authorities the authorities to check.
+     * @return true if the current user has any of the authorities, false otherwise.
+     */
+    public static boolean hasCurrentUserAnyOfAuthorities(String... authorities) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (authentication != null && getAuthorities(authentication)
+                .anyMatch(authority -gt; Arrays.asList(authorities).contains(authority)));
+    }
+
+    /**
+     * Checks if the current user has none of the authorities.
+     *
+     * @param authorities the authorities to check.
+     * @return true if the current user has none of the authorities, false
+     *         otherwise.
+     */
+    public static boolean hasCurrentUserNoneOfAuthorities(String... authorities) {
+        return !hasCurrentUserAnyOfAuthorities(authorities);
+    }
+
+    /**
+     * Checks if the current user has a specific authority.
+     *
+     * @param authority the authority to check.
+     * @return true if the current user has the authority, false otherwise.
+     */
+    public static boolean hasCurrentUserThisAuthority(String authority) {
+        return hasCurrentUserAnyOfAuthorities(authority);
+    }
+
+    private static Stream&lt;String&gt; getAuthorities(Authentication authentication) {
+        return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority);
+    }
+
+    public Jwt checkValidRefreshToken(String token) {
+        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(getSecretKey())
+                .macAlgorithm(SecurityUtil.MAC_ALGORITHM).build();
+
+        try {
+            return jwtDecoder.decode(token);
+
+        } catch (Exception e) {
+            System.out.println("gt;gt; Refresh Token Error: " + e);
+
+            throw e;
+        }
+    }
+
+}
+</pre>
+</div>
+
+
+
+
      <img src="img/chap12/10.png" width="135%" style="object-fit: cover" />
 
   </li>
@@ -75,51 +328,66 @@ Ta sinh ra key ngẫu nhiên
   <li>Ghi đè SercurityConfiguration
     <div class="code-block">
   <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
-  <pre>public class SercurityConfiguration {
+  <pre>@Configuration
+public class SercurityConfiguration {
 
-    // ! Khai báo mã hoá mật khẩu
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    private String whiteList[] = { "/", "/auth/login" };
+    private String whiteList[] = { "/", "/auth/**" };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(c -&gt; c.disable())
-                .authorizeHttpRequests(authz -&gt; authz
-                        .requestMatchers(whiteList) // ! cho phép truy cập vào route index ,login không cần đăng nhập
+                .csrf(c -gt; c.disable())
+
+                .authorizeHttpRequests(authz -gt;
+                // prettier-ignore
+
+                authz
+                        .requestMatchers(
+                                whiteList)
                         .permitAll()
-                        .anyRequest().authenticated())
-                .oauth2ResourceServer(oauth2 -&gt; oauth2.jwt(Customizer.withDefaults()))
-                .formLogin(f -&gt; f.disable())
-                .sessionManagement(session -&gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        .anyRequest().authenticated()
+
+                )
+                .oauth2ResourceServer(oauth2 -gt; oauth2.jwt(Customizer.withDefaults()))
+                .formLogin(f -gt; f.disable())
+                .sessionManagement(session -gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
 
-    @Value("${demo.jwt.base64-secret}")
+    // jwt configuration
+
+    @Value("${minh.jwt.base64-secret}")
     private String jwtKey;
 
-    @Value("${demo.jwt.token-validity-in-seconds}")
-    private String jwtExpiration;
+    @Value("${minh.jwt.access-token-validity-in-seconds}")
+    private long jwtExpiration;
 
     @Bean
-    public JwtEncoder jwtEncoder() {
-        return new NimbusJwtEncoder(new ImmutableSecret&lt;&gt;(getSecretKey()));
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        grantedAuthoritiesConverter.setAuthorityPrefix("");
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("permission");
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+        return jwtAuthenticationConverter;
     }
 
     @Bean
     public JwtDecoder jwtDecoder() {
+
         NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(getSecretKey())
-                .macAlgorithm(SercurityUltil.MAC_ALGORITHM).build();
-        return token -&gt; {
+                .macAlgorithm(SecurityUtil.MAC_ALGORITHM).build();
+        return token -gt; {
             try {
                 return jwtDecoder.decode(token);
             } catch (Exception e) {
-                System.out.println("&gt;&gt; JWT Decode Error: " + e);
+                System.out.println("gt;gt; JWT Decode Error: " + e);
 
                 throw e;
             }
@@ -127,18 +395,94 @@ Ta sinh ra key ngẫu nhiên
 
     }
 
+    @Bean
+    public JwtEncoder jwtEncoder() {
+        return new NimbusJwtEncoder(new ImmutableSecret&lt;gt;(getSecretKey()));
+    }
+
     private SecretKey getSecretKey() {
-        byte[] keyBytes = Base64.from(jwtKey).decode();
-        return new SecretKeySpec(keyBytes, 0, keyBytes.length, SercurityUltil.JWT_ALGORITHM.getName());
+        byte[] keyBytes = Base64.getDecoder().decode(jwtKey);
+        return new SecretKeySpec(keyBytes, 0, keyBytes.length, SecurityUtil.MAC_ALGORITHM.getName());
+
     }
 }</pre>
 </div>
 
      <img src="img/chap12/11.png" width="135%" style="object-fit: cover" />
+
+     <p>AuthController </p>
+     <div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>@RestController
+@RequestMapping("/auth")
+@RequiredArgsConstructor
+public class AuthController {
+
+    @Value("${minh.jwt.refresh-token-validity-in-seconds}")
+    private long refreshTokenExpiration;
+
+    private final UserService userService;
+    private final SecurityUtil securityUtil;
+
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    @PostMapping("/login")
+    public ResponseEntity&lt;ResLoginDTO&gt; loginUser(@RequestBody LoginReq loginReq) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                loginReq.getEmail(), loginReq.getPassword());
+
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        ResLoginDTO resLoginDTO = new ResLoginDTO();
+        ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin();
+
+        User cUser = this.userService.handleGetUserByUsername(loginReq.getEmail());
+
+        if (cUser != null) {
+            userLogin.setId(cUser.getId());
+            userLogin.setName(cUser.getName());
+            userLogin.setEmail(cUser.getEmail());
+
+            resLoginDTO.setUser(userLogin);
+
+        }
+
+        String access_token = this.securityUtil.createAccessToken(authentication.getName(), resLoginDTO.getUser());
+        resLoginDTO.setAccessToken(access_token);
+
+        ResponseCookie cookie = ResponseCookie.from("access_token",
+                access_token)
+                .httpOnly(true)
+                .path("/")
+                .maxAge(refreshTokenExpiration).build();
+
+        return ResponseEntity.ok()
+                .header("Set-Cookie", cookie.toString())
+                .body(resLoginDTO);
+
+    }
+
+}
+</pre>
+</div>
+
      <img src="img/chap12/12.png" width="135%" style="object-fit: cover" />
      
 
 
+
+     <p class="text-danger">Ở đây mik có làm phần set Cookie để:</p>
+     <ol>
+      <li>Nếu ứng dụng của bạn có giao diện người dùng (ví dụ: một trang web hoặc SPA - Single Page Application) tương tác với API, việc lưu token trong cookie cho phép trình duyệt tự động gửi token mà không cần client (JavaScript) phải thêm token vào header Authorization: Bearer token thủ công.
+
+
+
+</li>
+      <li>Điều này đơn giản hóa logic ở phía client, đặc biệt khi ứng dụng kết hợp giữa giao diện và API.</li>
+      <li>Nếu bạn lưu token trong localStorage hoặc sessionStorage thay vì cookie, mã JavaScript độc hại có thể truy cập và lấy token. Với cookie HttpOnly, token chỉ được gửi qua HTTP và server xử lý, tăng tính an toàn.
+</li>
+     </ol>
 
   </li>
   <li>Đến đây ta gần như config xong jwt rồi nhé. Test postman:
@@ -190,4 +534,60 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
   </li>
 
  </ol>
+
+ <h2> Xử lí 401 với login </h2>
+<p class="text-danger">Vì là Login Cái lỗi này nó chưa nhảy vào Controller đâu nhé nên ko thể tống vào <b>GlobalException</b> đâu nhé </p>
+<ol>Ta phải xử lí ở tần filter :
+
+
+  <li>CustomAuthenticationEntryPoint.java
+
+
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+    import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
+
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+    
+    @Component("authenticationEntryPoint")
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+    private final ObjectMapper objectMapper;
+
+    public CustomAuthenticationEntryPoint(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authException) throws IOException, ServletException {
+        response.setContentType("application/json;charset=UTF-8");
+        ResponseDatalt;Objectgt; res = new ResponseDatalt;Objectgt;();
+        res.setStatus(HttpStatus.UNAUTHORIZED.value());
+        String errorMessage = Optional.ofNullable(authException.getCause())
+                .map(Throwable::getMessage).orElse(authException.getMessage());
+
+        res.setError(errorMessage);
+        res.setMessage("Unauthorized");
+
+        objectMapper.writeValue(response.getWriter(), res);
+    }
+
+}</pre>
+</div>
+
+
+
+
+  </li>
+  <li>Ghi đè còn fig tại <b>SercurityConfiguration</b>
+  <img src="img/chap12/18.png" width="135%" style="object-fit: cover" />
+
+  </li>
+</ol>
 </section>
