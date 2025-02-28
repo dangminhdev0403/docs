@@ -1,38 +1,162 @@
 <h1 class="heading">Xử lí resfresh ,Logout</h1>
 
-
 <ol>
+  <li>
+    <h2>Giải thích cơ chế JWT</h2>
+    <p class="text-warning">
+      Sau 1 chương học trắng cả mắt thì cuối cùng ta cũng tạo ra token để đăng
+      nhập :v
+    </p>
+    <ul>
+      <li>
+        Do chúng ta đang sử dụng mô hình stateless (font và back chả liên quan
+        gì nhau) nên không thể dùng session để lưu thông tin người dùng mà phải
+        thông qua <b>token</b>
+      </li>
+      <li>
+        Để truy cập 1 endpoint (cần đăng nhập) tại backend , mỗi lời gọi
+        (request) của fontend cần truyển thêm <b>AccessToken</b>. Token này sẽ
+        được gán ở header (Bear Token)
+      </li>
+      <li>
+        AccessToken: có thời gian sống ngắn (30 phút - 1 ngày) để đảm bảo tính
+        an toàn
+      </li>
+    </ul>
 
-    <li><h2>Giải thích cơ chế JWT </h2>
-        <p class="text-warning">Sau 1 chương học trắng cả mắt thì cuối cùng ta cũng tạo ra token để đăng nhập :v</p>
-        <ul>
-            <li>Do chúng ta đang sử dụng mô hình stateless (font và back chả liên quan gì nhau) nên không thể dùng session để lưu thông tin người dùng mà phải thông qua <b>token</b></li>
-            <li>Để truy cập 1 endpoint (cần đăng nhập) tại backend , mỗi lời gọi (request) của fontend cần truyển thêm <b>AccessToken</b>. Token này sẽ được gán ở header (Bear Token)</li>
-            <li>AccessToken: có thời gian sống ngắn (30 phút - 1 ngày) để đảm bảo tính an toàn  </li>
-        </ul>
-
-        <ol type="i">
-            <p class="text-info">Ta đã cùng nhau tạo API login rồi nhỉ</p>
-            <li>Khi fontend đăng nhập thành công , backend tạo ra access_token bao gồm 2 thành phần:
-                <ol>
-                    <li>subject:đối tượng token(Đảm bảo tính duy nhất) : ta thường ném cái email </li>
-                    <li>claim: thông tin miêu tả token</li>
-                </ol>
-
-            </li>
-           
+    <ol type="i">
+      <p class="text-info">Ta đã cùng nhau tạo API login rồi nhỉ</p>
+      <li>
+        Khi fontend đăng nhập thành công , backend tạo ra access_token bao gồm 2
+        thành phần:
+        <ol>
+          <li>
+            subject:đối tượng token(Đảm bảo tính duy nhất) : ta thường ném cái
+            email
+          </li>
+          <li>claim: thông tin miêu tả token</li>
         </ol>
+      </li>
+    </ol>
+  </li>
 
-
-    </li>
-
-<li>
+  <li>
     <h2 class="heading">Resfresh token (F5)</h2>
-    <p class="text-warning">Như đã giải thích ở trên thì khi AccessToken hết hạn , ta vẫn dùng token đó -&gt; vẫn ăn lỗi 401 như thường. </p>
+    <p class="text-warning">
+      Như đã giải thích ở trên thì khi AccessToken hết hạn , ta vẫn dùng token
+      đó -&gt; vẫn ăn lỗi 401 như thường.
+    </p>
+    <p>
+      Vậy nên khi AccessToken hết hạn , ta cần tạo mới cái khác để thay vào .
+    </p>
+    <p>
+      Tất nhiên ta không thể lôi cái accessToken ra để kiểm tra sau đó thay mới
+      được.
+    </p>
+    <p>
+      Vì vậy ResfreshToken sinh ra khi AccessToken hết hạn.Tạo ra AccessToken
+      mới để duy trì đăng nhập.
+    </p>
+    <p>
+      Refresh token giúp cân bằng giữa bảo mật (access token ngắn hạn) và tiện
+      lợi (không cần đăng nhập lại liên tục). Khi access token hết hạn, hệ thống
+      dùng refresh token để cấp một access token mới mà không cần hỏi lại thông
+      tin đăng nhập.
+    </p>
+    <p class="text-danger">
+      Refresh token không dùng để xác thực người dùng.(login)
+    </p>
+    <p>
+      Ta hoàn toàn có thể lưu refresh token trong Cookie và database.
 
+      <img src="img/chap15/1.png" width="135%" style="object-fit: cover" />
+    </p>
 
-   
-</li>
-<li> <h2 class="heading">Logout</h2></li>
+    <h4>Định nghĩa service</h4>
+    <img src="img/chap15/2.png" width="135%" style="object-fit: cover" />
 
+    <h4>Cập nhật route("/login") trong AuthController</h4>
+
+    <img src="img/chap15/3.png" width="135%" style="object-fit: cover" />
+
+    <h4>route("/refresh") trong AuthController</h4>
+  </li>
+
+  <li>
+    <h4>JWTConfiguration</h4>
+    Trước tiên hãy import thư viện này nhé
+    <img src="img/chap15/4.png" width="135%" style="object-fit: cover" />
+
+    <p class="text-warning">Viết riêng cho khoẻ.</p>
+    <div class="code-block">
+      <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+      <pre>
+@Configuration
+public class JWTConfiguration {
+
+    private static final Logger logger = LoggerFactory.getLogger(JWTConfiguration.class);
+
+    private final String jwtKey;
+    private final String refreshJwtKey;
+
+    // Constructor injection cho các giá trị từ properties
+    public JWTConfiguration(
+            @Value("${minh.jwt.base64.secret}") String jwtKey,
+            @Value("${minh.jwt.base64.secret.refresh}") String refreshJwtKey) {
+        this.jwtKey = jwtKey;
+        this.refreshJwtKey = refreshJwtKey;
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        grantedAuthoritiesConverter.setAuthorityPrefix("");
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("permission");
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+        return jwtAuthenticationConverter;
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(getSecretKey(jwtKey))
+                .macAlgorithm(SecurityUtils.MAC_ALGORITHM).build();
+        return token -&gt; {
+            try {
+                return jwtDecoder.decode(token);
+            } catch (Exception e) {
+                logger.error("JWT Decode Error: {}", e.getMessage(), e);
+                throw e;
+            }
+        };
+    }
+
+    @Bean(name = "accessTokenEncoder")
+    public JwtEncoder accessTokenEncoder() {
+        SecretKey secretKey = getSecretKey(jwtKey);
+        JWKSource&lt;SecurityContext &gt; jwkSource = new ImmutableSecret&lt;&gt;(secretKey);
+        return new NimbusJwtEncoder(jwkSource);
+    }
+
+    @Bean(name = "refreshTokenEncoder")
+    public JwtEncoder refreshTokenEncoder() {
+        SecretKey secretKey = getSecretKey(refreshJwtKey);
+        JWKSource&lt;SecurityContext &gt; jwkSource = new ImmutableSecret&lt;&gt;(secretKey);
+        return new NimbusJwtEncoder(jwkSource);
+    }
+
+    private SecretKey getSecretKey(String base64Key) {
+        byte[] keyBytes = Base64.getDecoder().decode(base64Key);
+        return new SecretKeySpec(keyBytes, 0, keyBytes.length, SecurityUtils.MAC_ALGORITHM.getName());
+    }
+
+}</pre
+      >
+    </div>
+  </li>
+    <h4>viết route ("/refresh")</h4>
+
+    <img src="img/chap15/6.png" width="135%" style="object-fit: cover" />
+  
+  <li><h2 class="heading">Logout</h2></li>
 </ol>

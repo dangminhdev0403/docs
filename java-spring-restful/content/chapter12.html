@@ -137,9 +137,17 @@ Ta sinh ra key ngẫu nhiên
     <div class="code-block">
   <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
   <pre>
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -155,72 +163,96 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Service;
 
+import com.vn.minh.domain.response.ResLoginDTO;
 
 
-@Service
-public class SecurityUtil {
+
+
     public static final MacAlgorithm MAC_ALGORITHM = MacAlgorithm.HS512;
 
-    private final JwtEncoder jwtEncoder;
+    private final JwtEncoder accessTokenEncoder;
+    private final JwtEncoder refreshTokenEncoder;
+    private final String jwtKey;
+    private final String refreshJwtKey;
+    private final long accessTokenExpiration;
+    private final long refreshTokenExpiration;
 
-    public SecurityUtil(JwtEncoder jwtEncoder) {
-        this.jwtEncoder = jwtEncoder;
+    public SecurityUtils(
+            @Qualifier("accessTokenEncoder") JwtEncoder accessTokenEncoder,
+            @Qualifier("refreshTokenEncoder") JwtEncoder refreshTokenEncoder,
+            @Value("${minh.jwt.base64.secret}") String jwtKey,
+            @Value("${minh.jwt.base64.secret.refresh}") String refreshJwtKey,
+            @Value("${minh.jwt.access-token.validity.in.seconds}") long accessTokenExpiration,
+            @Value("${minh.jwt.refresh-token.validity.in.seconds}") long refreshTokenExpiration) {
+        this.accessTokenEncoder = accessTokenEncoder;
+        this.refreshTokenEncoder = refreshTokenEncoder;
+        this.jwtKey = jwtKey;
+        this.refreshJwtKey = refreshJwtKey;
+        this.accessTokenExpiration = accessTokenExpiration;
+        this.refreshTokenExpiration = refreshTokenExpiration;
     }
 
-    @Value("${minh.jwt.base64-secret}")
-    private String jwtKey;
-
-    @Value("${minh.jwt.access-token-validity-in-seconds}")
-    private long accessTokenExpiration;
-
-    @Value("${minh.jwt.refresh-token-validity-in-seconds}")
-    private long refreshTokenExpiration;
-
-    private SecretKey getSecretKey() {
+    private SecretKey getAccessTokenSecretKey() {
         byte[] keyBytes = Base64.getDecoder().decode(jwtKey);
         return new SecretKeySpec(keyBytes, 0, keyBytes.length, MAC_ALGORITHM.getName());
+    }
 
+    private SecretKey getRefreshTokenSecretKey() {
+        byte[] keyBytes = Base64.getDecoder().decode(refreshJwtKey);
+        return new SecretKeySpec(keyBytes, 0, keyBytes.length, MAC_ALGORITHM.getName());
+    }
+
+    private String createToken(String email, Object userClaim, long expirationSeconds, JwtEncoder encoder) {
+        Instant now = Instant.now();
+        Instant validity = now.plus(expirationSeconds, ChronoUnit.SECONDS);
+
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuedAt(now)
+                .expiresAt(validity)
+                .subject(email)
+                .claim("user", userClaim)
+                .build();
+
+        JwsHeader jwsHeader = JwsHeader.with(MAC_ALGORITHM).build();
+        return encoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
     }
 
     public String createAccessToken(String email, ResLoginDTO.UserLogin resLoginDTO) {
-        Instant now = Instant.now();
-        Instant validity = now.plus(accessTokenExpiration, ChronoUnit.SECONDS);
-
-        List&lt;String&gt; listAuthority = new ArrayList&lt;String&gt;();
-        listAuthority.add("ROLE_ADMIN_CREATE");
-        listAuthority.add("ROLE_ADMIN_UPDATE");
-        JwtClaimsSet claim = JwtClaimsSet.builder()
-                .issuedAt(now)
-                .expiresAt(validity)
-                .subject(email)
-                .claim("permission", listAuthority)
-                .claim("user", resLoginDTO)
-                .build();
-
-        JwsHeader jwsHeader = JwsHeader.with(MAC_ALGORITHM).build();
-        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claim)).getTokenValue();
+        return createToken(email, resLoginDTO, accessTokenExpiration, accessTokenEncoder);
     }
 
     public String createRefreshToken(String email, ResLoginDTO resLoginDTO) {
-        Instant now = Instant.now();
-        Instant validity = now.plus(refreshTokenExpiration, ChronoUnit.SECONDS);
-        JwtClaimsSet claim = JwtClaimsSet.builder()
-                .issuedAt(now)
-                .expiresAt(validity)
-                .subject(email)
-                .claim("user", resLoginDTO.getUser())
-                .build();
-
-        JwsHeader jwsHeader = JwsHeader.with(MAC_ALGORITHM).build();
-        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claim)).getTokenValue();
+        return createToken(email, resLoginDTO.getUser(), refreshTokenExpiration, refreshTokenEncoder);
     }
+
+    public Jwt validateAccessToken(String token) {
+        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(getAccessTokenSecretKey())
+                .macAlgorithm(MAC_ALGORITHM).build();
+        try {
+            return jwtDecoder.decode(token);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid access token", e);
+        }
+    }
+
+    public Jwt checkValidRefreshToken(String token) {
+        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(getRefreshTokenSecretKey())
+                .macAlgorithm(MAC_ALGORITHM).build();
+        try {
+            return jwtDecoder.decode(token);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid refresh token", e);
+        }
+    }
+
+    // Các hàm tiện ích khác giữ nguyên...
 
     /**
      * Get the login of the current user.
      *
      * @return the login of the current user.
      */
-    public static Optional&lt;String&gt; getCurrentUserLogin() {
+    public static Optional&lt;String&gt;getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
     }
@@ -243,11 +275,11 @@ public class SecurityUtil {
      *
      * @return the JWT of the current user.
      */
-    public static Optional&lt;String&gt; getCurrentUserJWT() {
+    public static Optional&lt;String&gt;getCurrentUserJWT() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(securityContext.getAuthentication())
-                .filter(authentication -&gt; authentication.getCredentials() instanceof String)
-                .map(authentication -&gt; (String) authentication.getCredentials());
+                .filter(authentication -&gt;authentication.getCredentials() instanceof String)
+                .map(authentication -&gt;(String) authentication.getCredentials());
     }
 
     /**
@@ -272,7 +304,7 @@ public class SecurityUtil {
     public static boolean hasCurrentUserAnyOfAuthorities(String... authorities) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (authentication != null && getAuthorities(authentication)
-                .anyMatch(authority -&gt; Arrays.asList(authorities).contains(authority)));
+                .anyMatch(authority -&gt;Arrays.asList(authorities).contains(authority)));
     }
 
     /**
@@ -296,171 +328,8 @@ public class SecurityUtil {
         return hasCurrentUserAnyOfAuthorities(authority);
     }
 
-    private static Stream&lt;String&gt; getAuthorities(Authentication authentication) {
+    private static Stream&lt;String&gt;getAuthorities(Authentication authentication) {
         return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority);
-    }
-
-    public Jwt checkValidRefreshToken(String token) {
-        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(getSecretKey())
-                .macAlgorithm(SecurityUtil.MAC_ALGORITHM).build();
-
-        try {
-            return jwtDecoder.decode(token);
-
-        } catch (Exception e) {
-            System.out.println("&gt;&gt;; Refresh Token Error: " + e);
-
-            throw e;
-        }
-    }
-
-}
-</pre>
-</div>
-
-
-
-
-     <img src="img/chap12/10.png" width="135%" style="object-fit: cover" />
-
-  </li>
-
-  <li>Ghi đè SercurityConfiguration
-    <div class="code-block">
-  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
-  <pre>@Configuration
-public class SercurityConfiguration {
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    private String whiteList[] = { "/", "/auth/**" };
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(c -&gt; c.disable())
-
-                .authorizeHttpRequests(authz -&gt;
-                // prettier-ignore
-
-                authz
-                        .requestMatchers(
-                                whiteList)
-                        .permitAll()
-                        .anyRequest().authenticated()
-
-                )
-                .oauth2ResourceServer(oauth2 -&gt; oauth2.jwt(Customizer.withDefaults()))
-                .formLogin(f -&gt; f.disable())
-                .sessionManagement(session -&gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        return http.build();
-    }
-
-    // jwt configuration
-
-    @Value("${minh.jwt.base64-secret}")
-    private String jwtKey;
-
-    @Value("${minh.jwt.access-token-validity-in-seconds}")
-    private long jwtExpiration;
-
-    @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthorityPrefix("");
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("permission");
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-        return jwtAuthenticationConverter;
-    }
-
-    @Bean
-    public JwtDecoder jwtDecoder() {
-
-        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(getSecretKey())
-                .macAlgorithm(SecurityUtil.MAC_ALGORITHM).build();
-        return token -&gt; {
-            try {
-                return jwtDecoder.decode(token);
-            } catch (Exception e) {
-                System.out.println("&gt;&gt;; JWT Decode Error: " + e);
-
-                throw e;
-            }
-        };
-
-    }
-
-    @Bean
-    public JwtEncoder jwtEncoder() {
-        return new NimbusJwtEncoder(new ImmutableSecret&lt;gt;(getSecretKey()));
-    }
-
-    private SecretKey getSecretKey() {
-        byte[] keyBytes = Base64.getDecoder().decode(jwtKey);
-        return new SecretKeySpec(keyBytes, 0, keyBytes.length, SecurityUtil.MAC_ALGORITHM.getName());
-
-    }
-}</pre>
-</div>
-
-     <img src="img/chap12/11.png" width="135%" style="object-fit: cover" />
-
-     <p>AuthController </p>
-     <div class="code-block">
-  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
-  <pre>@RestController
-@RequestMapping("/auth")
-@RequiredArgsConstructor
-public class AuthController {
-
-    @Value("${minh.jwt.refresh-token-validity-in-seconds}")
-    private long refreshTokenExpiration;
-
-    private final UserService userService;
-    private final SecurityUtil securityUtil;
-
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-    @PostMapping("/login")
-    public ResponseEntity&lt;ResLoginDTO&gt; loginUser(@RequestBody LoginReq loginReq) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                loginReq.getEmail(), loginReq.getPassword());
-
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        ResLoginDTO resLoginDTO = new ResLoginDTO();
-        ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin();
-
-        User cUser = this.userService.handleGetUserByUsername(loginReq.getEmail());
-
-        if (cUser != null) {
-            userLogin.setId(cUser.getId());
-            userLogin.setName(cUser.getName());
-            userLogin.setEmail(cUser.getEmail());
-
-            resLoginDTO.setUser(userLogin);
-
-        }
-
-        String access_token = this.securityUtil.createAccessToken(authentication.getName(), resLoginDTO.getUser());
-        resLoginDTO.setAccessToken(access_token);
-
-        ResponseCookie cookie = ResponseCookie.from("access_token",
-                access_token)
-                .httpOnly(true)
-                .path("/")
-                .maxAge(refreshTokenExpiration).build();
-
-        return ResponseEntity.ok()
-                .header("Set-Cookie", cookie.toString())
-                .body(resLoginDTO);
-
     }
 
 }
