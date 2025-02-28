@@ -1,0 +1,38 @@
+<h1 class="heading">Xử lí resfresh ,Logout</h1>
+
+
+<ol>
+
+    <li><h2>Giải thích cơ chế JWT </h2>
+        <p class="text-warning">Sau 1 chương học trắng cả mắt thì cuối cùng ta cũng tạo ra token để đăng nhập :v</p>
+        <ul>
+            <li>Do chúng ta đang sử dụng mô hình stateless (font và back chả liên quan gì nhau) nên không thể dùng session để lưu thông tin người dùng mà phải thông qua <b>token</b></li>
+            <li>Để truy cập 1 endpoint (cần đăng nhập) tại backend , mỗi lời gọi (request) của fontend cần truyển thêm <b>AccessToken</b>. Token này sẽ được gán ở header (Bear Token)</li>
+            <li>AccessToken: có thời gian sống ngắn (30 phút - 1 ngày) để đảm bảo tính an toàn  </li>
+        </ul>
+
+        <ol type="i">
+            <p class="text-info">Ta đã cùng nhau tạo API login rồi nhỉ</p>
+            <li>Khi fontend đăng nhập thành công , backend tạo ra access_token bao gồm 2 thành phần:
+                <ol>
+                    <li>subject:đối tượng token(Đảm bảo tính duy nhất) : ta thường ném cái email </li>
+                    <li>claim: thông tin miêu tả token</li>
+                </ol>
+
+            </li>
+           
+        </ol>
+
+
+    </li>
+
+<li>
+    <h2 class="heading">Resfresh token (F5)</h2>
+    <p class="text-warning">Như đã giải thích ở trên thì khi AccessToken hết hạn , ta vẫn dùng token đó -&gt; vẫn ăn lỗi 401 như thường. </p>
+
+
+   
+</li>
+<li> <h2 class="heading">Logout</h2></li>
+
+</ol>

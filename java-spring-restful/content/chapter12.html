@@ -246,8 +246,8 @@ public class SecurityUtil {
     public static Optional&lt;String&gt; getCurrentUserJWT() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(securityContext.getAuthentication())
-                .filter(authentication -gt; authentication.getCredentials() instanceof String)
-                .map(authentication -gt; (String) authentication.getCredentials());
+                .filter(authentication -&gt; authentication.getCredentials() instanceof String)
+                .map(authentication -&gt; (String) authentication.getCredentials());
     }
 
     /**
@@ -272,7 +272,7 @@ public class SecurityUtil {
     public static boolean hasCurrentUserAnyOfAuthorities(String... authorities) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (authentication != null && getAuthorities(authentication)
-                .anyMatch(authority -gt; Arrays.asList(authorities).contains(authority)));
+                .anyMatch(authority -&gt; Arrays.asList(authorities).contains(authority)));
     }
 
     /**
@@ -308,7 +308,7 @@ public class SecurityUtil {
             return jwtDecoder.decode(token);
 
         } catch (Exception e) {
-            System.out.println("gt;gt; Refresh Token Error: " + e);
+            System.out.println("&gt;&gt;; Refresh Token Error: " + e);
 
             throw e;
         }
@@ -341,9 +341,9 @@ public class SercurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(c -gt; c.disable())
+                .csrf(c -&gt; c.disable())
 
-                .authorizeHttpRequests(authz -gt;
+                .authorizeHttpRequests(authz -&gt;
                 // prettier-ignore
 
                 authz
@@ -353,9 +353,9 @@ public class SercurityConfiguration {
                         .anyRequest().authenticated()
 
                 )
-                .oauth2ResourceServer(oauth2 -gt; oauth2.jwt(Customizer.withDefaults()))
-                .formLogin(f -gt; f.disable())
-                .sessionManagement(session -gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .oauth2ResourceServer(oauth2 -&gt; oauth2.jwt(Customizer.withDefaults()))
+                .formLogin(f -&gt; f.disable())
+                .sessionManagement(session -&gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
@@ -383,11 +383,11 @@ public class SercurityConfiguration {
 
         NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withSecretKey(getSecretKey())
                 .macAlgorithm(SecurityUtil.MAC_ALGORITHM).build();
-        return token -gt; {
+        return token -&gt; {
             try {
                 return jwtDecoder.decode(token);
             } catch (Exception e) {
-                System.out.println("gt;gt; JWT Decode Error: " + e);
+                System.out.println("&gt;&gt;; JWT Decode Error: " + e);
 
                 throw e;
             }
