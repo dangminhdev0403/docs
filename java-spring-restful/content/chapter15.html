@@ -2,6 +2,54 @@
 
 <ol>
   <li>
+    <h2>Cookie và Session</h2>
+
+    <p>
+      <h3>1. Cookie là gì?</h3>
+
+
+<ul>
+<li>  Cookie là một tệp nhỏ được lưu trữ trên trình duyệt của người dùng khi họ truy cập một trang web.</li>
+  <li>Dùng để lưu trữ thông tin tạm thời như: thông tin đăng nhập, tùy chọn người dùng, dữ liệu giỏ hàng...</li>
+  <li>Dữ liệu của cookie được gửi cùng với mỗi yêu cầu HTTP đến máy chủ.</li>
+</ul>
+
+
+<ul>
+   Đặc điểm:
+ <li> ✅ Lưu trữ ở phía client (trình duyệt).</li>
+  <li>✅ Có thể có thời gian hết hạn.</li>
+ <li> ✅ Dữ liệu có thể bị thay đổi hoặc bị đánh cắp nếu không bảo mật tốt</li>
+</ul>.
+
+
+
+    </p>
+
+    <p>
+      <h3>2. Session là gì?</h3>
+
+<ul>
+  
+        <li>Session là một phiên làm việc giữa client và server.</li>
+  <li>Dữ liệu session được lưu trữ ở phía server và gán một ID (Session ID) cho client để nhận diện.</li>
+  <li>Session giúp bảo mật tốt hơn cookie vì dữ liệu không bị lưu trên trình duyệt.</li>
+</ul>
+
+
+<ul>
+   Đặc điểm:
+  <li>✅ Lưu trữ ở phía server.</li>
+  <li>
+    ✅ Tự động hết hạn sau một khoảng thời gian không hoạt động.  </li>
+    <li>✅ Bảo mật hơn cookie vì dữ liệu không được lưu ở client.</li>
+
+</ul>
+
+
+    </p>
+  </li>
+  <li>
     <h2>Giải thích cơ chế JWT</h2>
     <p class="text-warning">
       Sau 1 chương học trắng cả mắt thì cuối cùng ta cũng tạo ra token để đăng
@@ -82,10 +130,16 @@
     <h4>route("/refresh") trong AuthController</h4>
   </li>
 
-  
-    <h4>viết route ("/refresh")</h4>
+  <h4>viết route ("/refresh")</h4>
 
-    <img src="img/chap15/6.png" width="135%" style="object-fit: cover" />
+  <img src="img/chap15/6.png" width="135%" style="object-fit: cover" />
 
-  <li><h2 class="heading">Logout</h2></li>
+  <li>
+    <h2 class="heading">Logout</h2>
+    <p class="text-warning">
+      Chỉ đơn giản là khi logout , ta sẽ huỷ hết refresh token còn tồn tại
+      (database , cookie)
+    </p>
+    <img src="img/chap15/7.png" width="135%" style="object-fit: cover" />
+  </li>
 </ol>

@@ -14,6 +14,8 @@ const navigation = [
     { id: 'chapter9', title: 'Fontend Todo list với Antd ', file: 'chapter9.html' },
     { id: 'chapter10', title: 'Call API với axios ', file: 'chapter10.html' },
     { id: 'chapter11', title: 'Vòng đời của React ', file: 'chapter11.html' },
+    { id: 'chapter12', title: ' React Context', file: 'chapter12.html' },
+    { id: 'chapter12', title: ' React Reducer', file: 'chapter12.html' },
 
 
 
