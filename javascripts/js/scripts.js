@@ -5,6 +5,7 @@ const navigation = [
   { id: "chap1", title: "Khái niệm SSR và CSR", file: "chap1.html" },
   { id: "chap2", title: "Array Method", file: "chap2.html" },
   { id: "chap3", title: "ES6", file: "chap3.html" },
+  { id: "chap4", title: "Bất đồng bộ", file: "chap4.html" },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {
