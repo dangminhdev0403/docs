@@ -6,6 +6,7 @@ const navigation = [
   { id: "chap2", title: "Array Method", file: "chap2.html" },
   { id: "chap3", title: "ES6", file: "chap3.html" },
   { id: "chap4", title: "Bất đồng bộ", file: "chap4.html" },
+  { id: "chap5", title: "Call API", file: "chap5.html" },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {
