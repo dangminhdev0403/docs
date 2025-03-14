@@ -7,6 +7,7 @@ const navigation = [
   { id: "chap3", title: "ES6", file: "chap3.html" },
   { id: "chap4", title: "Bất đồng bộ", file: "chap4.html" },
   { id: "chap5", title: "Call API", file: "chap5.html" },
+  { id: "chap6", title: "Cookies, Local Storage và Session Storage", file: "chap6.html" },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {
