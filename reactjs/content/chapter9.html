@@ -1,26 +1,78 @@
-<h1 class="heading">Todo list với Antd <a href="https://ant.design/components/overview/" target="_blank" rel="noopener noreferrer">links</a></h1>
+<h1 class="heading">Kĩ thuật Memoization với React</h1>
+<section>
+  <h2 class="heading">Kĩ thuật memoization</h2>
+  <p>
+    ỹ thuật memoization là một cách tối ưu hóa hiệu suất bằng cách lưu trữ kết
+    quả của các phép tính hoặc render phức tạp để tránh việc tính toán lại không
+    cần thiết khi các giá trị đầu vào không thay đổi. Điều này đặc biệt hữu ích
+    trong các ứng dụng React khi bạn muốn ngăn chặn việc re-render không cần
+    thiết của các component hoặc tối ưu hóa các hàm tính toán nặng.
+  </p>
 
-<p>Cài đặt thư viện</p>
-<p class="text-danger">
-  Lưu ý: sau này version thư viện có thể mới hơn nhé , nhên vô doc của nó để cập nhật
-</p>
-<div class="code-block">
-  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
-  <pre>npm i --save-exact antd@5.8.1 @ant-design/icons@5.3.7</pre>
-</div>
-<h2 class="heading">Todo list</h2>
-<p class="text-warning">Bầy giờ mình muốn design 1 dao diện CRUD đơn giản (Có table chứa list user , nút thêm , sửa, xoá ).</p>
-<h2>Table với Antd <a href="https://ant.design/components/table" target="_blank" rel="noopener noreferrer">links</a></h2>
-<p class="text-warning">Chọn bừa 1 cái table , copy paste vô . 
-          <img src="img/chap9/1.png" width="100%" />
-            <img src="img/chap9/2.png" width="100%" />
+  <ol style="font-size: large">
+    <li style="font-size: larger">
+      <b>React.memo</b>
 
-    <p class="text-info">Tiếp theo làm gì render ra thôi , hãy áp dụng kiến thức từ các chương trước</p>
-    <img src="img/chap9/3.png" width="100%" />
-    <p class="text-info">Thành quả:</p>
-    <img src="img/chap9/4.png" width="100%" />
-    <p class="text-warning">Hãy Tự làm thêm 1 cái form thêm user nhé .Phèn phèn thôi , mới học mà :v</p>
-        <img src="img/chap9/5.png" width="100%" />
-        <img src="img/chap9/6.png" width="100%" />
-  <p class="text-info">Giờ hãy thử tạo 1 hàm handleSave cho button lưu tất cả value Input nhập vào xem .</p>
-</p>
+      <p style="font-size: 1rem">
+        là một Higher-Order Component (HOC) dùng để ngăn chặn việc re-render của
+        một functional component nếu props của nó không thay đổi. Nó so sánh các
+        props cũ và mới (shallow comparison) để quyết định xem component có nên
+        render lại hay không.
+        <p class="text-info">Ta sẽ làm 1 ví dụ đơn giản để theo dõi sự re-render của React nhé.</p>
+              <img src="img/chap9/1.png" width="135%"/>
+
+         <p class="text-warning">Khi ta ấn vào button của cha : State count thay đổi cha re-render , ừm đúng nhưng component con cũng re-render theo không cần thiết (props value không bao h thay đổi).
+           Để khắc phục vấn đề này ta dùng React.memo trên component con (component không muốn re-render theo cha ).
+                         <img src="img/chap9/2.png" width="135%"/>
+
+         </p>     
+
+      <h2>Cách React.memo hoạt động</h2>
+
+      <ul>
+
+
+
+
+
+        <li>        Lưu lại các props của lần render trước.
+</li>
+        <li>Khi component được gọi để render lại, React so sánh từng prop trong object props mới (nextProps) với props cũ (prevProps) bằng ===.
+</li>
+        <li>Nếu tất cả các prop đều "bằng nhau" theo ===, component không render lại.
+</li>
+<li>Nếu bất kỳ prop nào thay đổi (tham chiếu khác hoặc giá trị nguyên thủy khác), component sẽ render lại.
+</li>
+
+<li>Nói 1 cách dễ hiểu hơn là , ta chỉ dùng React.memo với những props đơn giản (number, string , boolean,...) để kiểm soát re-reder , muốn hơn thì đọc tiếp ((:</li>
+<li>Không tin ư hãy thử đổi biến value thành object xem </li>
+<li>Với object/array/function: cần useMemo hoặc useCallback để tránh thay đổi tham chiếu không cần thiết.
+
+</li>
+      </ul>
+
+      </p>
+    </li>
+    <li style="font-size: larger"><b>useMemo
+
+</b>
+<ol>
+  <li>useMemo là một hook trong React dùng để memoize (lưu trữ) giá trị của một phép tính hoặc dữ liệu phức tạp.
+
+
+</li>
+  <li>Nó chỉ tính toán lại giá trị khi một trong các dependencies [] trong mảng phụ thuộc thay đổi.
+</li>
+<p>Ok giả sử mình có 1 hàm tính toán phúc tạp (ở đây là tính dãy số Fibonacci  chảng hạn )</p>
+
+  <img src="img/chap9/3.png" width="130%" alt="" />
+<p>Như những gì đã học component sẽ re-render lại đồng nghĩa với việc hàm fibonacciRecursive() sẽ phải chạy lại dù kết quả vẫn thế !</p>
+<p>Điều này là không cần thiết và gây giảm hiệu suất do ứng dụng của chúng ta phải tính toán lại dù đã có kết quả trước đó.</p>
+  <img src="img/chap9/4.png" width="130%" alt="" />
+
+</ol>
+
+</li>
+    <li style="font-size: larger"></li>
+  </ol>
+</section>
