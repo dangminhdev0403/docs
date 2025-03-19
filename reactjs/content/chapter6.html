@@ -7,11 +7,12 @@
     thì khi click nó không lưu đâu vì phạm vi hàm đó(local ) nên ta sẽ sử dụng
     state để lưu trữ các data với React
   </p>
-  \
+  <p>State được bảo toàn dữ liệu  giữa các component re-render</p>
   <p>
     Tôi sẽ không đề cập đến việc mấy ông truyền function vào function đâu nhé !
     Giờ mà nhiều dữ liệu chả lẽ nhiêu function lồng nhau :v
   </p>
+  <p>Khi 1 State được cập nhật , React sẽ re-render lại component với giá trị State mới</p>
 </section>
 <section>
   <h2 class="heading">useState</h2>
@@ -20,7 +21,16 @@
     giá trị là value khi mỗi lần ta nhập data vào ô input đó
   </p>
   <p class="text-warning">Rồi truyền vào component Input nhé.</p>
-  <img src="img/chap6/1.png" width="100%" />
+  <img src="img/chap6/1.png" width="120%" />
   <p class="text-info">Nếu mỗi  lần mọi người gõ vào input dòng text thay đổi là thành công nhé.</p>
   <p>Hãy thử làm chức năng Add xem </p>
+</section>
+<section>
+    <h2 class="heading">Lưu ý với useState</h2>
+
+    <p class="text-warning">Khi ta dùng hàm setState thì biến state sẽ không cập nhật ngay đâu mà nó sẽ cập nhật khi component re-render</p>
+    <img src="img/chap6/2.png" width="120%" />
+    <p class="test-info">Để giải quyết vấn đề này ta sẽ truyền callbakc vào setState</p>
+    <img src="img/chap6/3.png" width="120%" />
+
 </section>
