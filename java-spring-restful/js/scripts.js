@@ -25,6 +25,12 @@ const navigation = [
 
   { id: "chapter13", title: "Swagger", file: "chapter13.html" },
   { id: "chapter14", title: "Rennder Fontend với API", file: "chapter14.html" },
+  {
+    id: "chapter16",
+    title: "Phân trang với Pagination ",
+    file: "chapter16.html",
+  },
+  { id: "chapter17", title: "Filter dữ liệu với Specifications", file: "chapter17.html" },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {
