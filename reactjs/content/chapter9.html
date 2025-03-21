@@ -57,7 +57,7 @@
 
 </b>
 <ol>
-  <li>useMemo là một hook trong React dùng để memoize (lưu trữ) giá trị của một phép tính hoặc dữ liệu phức tạp.
+  <li>useMemo là một hook trong React dùng để memoize (lưu trữ) <b>giá trị của một phép tính hoặc dữ liệu phức tạp.</b>
 
 
 </li>
@@ -73,6 +73,70 @@
 </ol>
 
 </li>
-    <li style="font-size: larger"></li>
+    <li style="font-size: larger">useCallback là một Hook trong React <b>giúp ghi nhớ (memoize) một hàm và chỉ tạo lại nó khi các dependencies thay đổi</b>. Nó giúp tối ưu hiệu suất, đặc biệt là khi truyền callback xuống component con.</li>
+    <p class="text-warning">Bây giờ mình sẽ truyền hàm  handleClick xuống con chẳng hạn.</p>
+        <img src="img/chap9/5.png" width="130%" alt="" />
+     <p class="text-warning"> Và tượng tự khi mình gọi hàm onClick bên cha, component con bị re-render dù chả liên quan. </p>   
+     <p>Ok! và đây là cách fix</p>
+             <img src="img/chap9/6.png" width="130%" alt="" />
+
+
+
   </ol>
+
+  <h2>Tổng kết</h2>
+   <table style="border-collapse: collapse; width: 100%; max-width: 800px; margin: 20px auto; font-family: Arial, sans-serif;">
+    <thead>
+      <tr style="background-color: #4CAF50; color: white;">
+        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Tiêu chí</th>
+        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">React.memo</th>
+        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">useMemo</th>
+        <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">useCallback</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background-color: #f2f2f2;">
+        <td style="border: 1px solid #ddd; padding: 12px; font-weight: bold;">Khái niệm</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Là một Higher-Order Component (HOC) dùng để ngăn component re-render nếu props không đổi.</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Là một hook dùng để memoize (lưu trữ) giá trị tính toán, tránh tính lại nếu dependencies không đổi.</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Là một hook dùng để memoize callback function, giữ nguyên tham chiếu nếu dependencies không đổi.</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #ddd; padding: 12px; font-weight: bold;">Cách dùng</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">
+          Bọc component bằng <code style="background-color: #e0e0e0; padding: 2px 4px; border-radius: 3px;">React.memo</code>:<br>
+          <code style="display: block; margin-top: 5px;">const MyComponent = React.memo((props) => {...});</code>
+        </td>
+        <td style="border: 1px solid #ddd; padding: 12px;">
+          Sử dụng trong component với hàm tính toán và dependencies:<br>
+          <code style="display: block; margin-top: 5px;">const value = useMemo(() => computeValue(), [deps]);</code>
+        </td>
+        <td style="border: 1px solid #ddd; padding: 12px;">
+          Sử dụng để memoize hàm với dependencies:<br>
+          <code style="display: block; margin-top: 5px;">const handleClick = useCallback(() => {...}, [deps]);</code>
+        </td>
+      </tr>
+      <tr style="background-color: #f2f2f2;">
+        <td style="border: 1px solid #ddd; padding: 12px; font-weight: bold;">Tác dụng</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Tăng hiệu suất bằng cách ngăn re-render không cần thiết của component khi props không thay đổi.</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Giảm thời gian tính toán bằng cách lưu kết quả, chỉ tính lại khi dependencies thay đổi.</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">Ngăn tạo mới callback function, tránh re-render component con khi truyền callback qua props.</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #ddd; padding: 12px; font-weight: bold;">Khi nào sử dụng</td>
+        <td style="border: 1px solid #ddd; padding: 12px;">
+          - Khi component render thường xuyên nhưng props ít thay đổi.<br>
+          - Khi component con nằm trong cây component lớn và không cần re-render liên tục.
+        </td>
+        <td style="border: 1px solid #ddd; padding: 12px;">
+          - Khi có phép tính nặng (ví dụ: lọc mảng lớn, xử lý dữ liệu phức tạp).<br>
+          - Khi giá trị tính toán không cần thay đổi trừ khi dependencies đổi.
+        </td>
+        <td style="border: 1px solid #ddd; padding: 12px;">
+          - Khi truyền callback xuống component con và muốn tránh re-render không cần thiết.<br>
+          - Khi callback được dùng trong useEffect hoặc các hook khác.
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </section>
