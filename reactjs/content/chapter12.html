@@ -1,1 +1,209 @@
 <h1>React ConText</h1>
+<h2 class="heading">Context API là gì?</h2>
+<p>
+  <b>Context API</b> là một cơ chế được tích hợp sẵn trong React để quản lý và
+  chia sẻ dữ liệu (state) giữa các component mà không cần phải truyền props qua
+  nhiều cấp (prop drilling). Nó đặc biệt hữu ích khi bạn muốn cung cấp dữ liệu
+  toàn cục (global data) như thông tin người dùng, theme, hoặc trạng thái ứng
+  dụng cho nhiều component trong cây component.
+</p>
+<h3>Khi nào cần Context API?</h3>
+<ul>
+  <li>
+    Khi bạn có dữ liệu cần được nhiều component truy cập mà không muốn truyền
+    qua từng cấp thủ công.
+  </li>
+  <li>
+    Khi ứng dụng có cấu trúc phức tạp và việc quản lý state bằng props trở nên
+    bất tiện.
+  </li>
+</ul>
+<h3>Các thành phần chính của Context API</h3>
+<ul>
+  <li>createContext: Tạo một Context object để lưu trữ dữ liệu.</li>
+  <li>
+    Provider: Component dùng để cung cấp giá trị cho Context, cho phép các
+    component con truy cập.
+  </li>
+  <li>
+    Consumer (ít dùng hơn): Component dùng để tiêu thụ giá trị từ Context
+    (thường được thay thế bởi useContext trong functional component).
+  </li>
+</ul>
+
+<h2 class="heading">useContext</h2>
+<p class="text-warning">
+  useContext là một Hook trong React, được giới thiệu để đơn giản hóa việc sử
+  dụng Context trong functional component. Nó cho phép bạn truy cập giá trị của
+  Context mà không cần dùng đến Consumer hoặc truyền props.
+</p>
+<p class="text-info">
+  Tóm lại, nói đơn giản nó sinh ra là để ta tạo ra các props global thay vì phải
+  truyền từ cha xuống con rồi con xuống cháu , cháu xuống chắt, ...
+</p>
+<p>Ok mình sẽ đi từng bước khi sử dụng hook này .</p>
+<b>Bước 1: Định nghĩa kiểu dữ liệu cho Context</b>
+<img src="img/chap12/1.png" width="130%" alt="" />
+
+<b>Bước 2: Bọc App bằng AppProvider vừa định nghĩa </b>
+<img src="img/chap12/2.png" width="130%" alt="" />
+<b>Bước 3: Sử dụng useContext </b>
+
+<img src="img/chap12/3.png" width="130%" alt="" />
+<h2>Tổng kết</h2>
+<table
+  style="
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+  "
+>
+  <thead>
+    <tr style="background-color: #4caf50; color: white">
+      <th style="border: 1px solid #ddd; padding: 12px; text-align: left">
+        Tiêu chí
+      </th>
+      <th style="border: 1px solid #ddd; padding: 12px; text-align: left">
+        Context API
+      </th>
+      <th style="border: 1px solid #ddd; padding: 12px; text-align: left">
+        useContext
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: #f2f2f2">
+      <td style="border: 1px solid #ddd; padding: 12px">
+        <strong>Khái niệm</strong>
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        Cơ chế tích hợp trong React để chia sẻ dữ liệu toàn cục giữa các
+        component mà không cần truyền props qua nhiều cấp.
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        Hook của React dùng để truy cập giá trị từ Context trong functional
+        component một cách đơn giản.
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        <strong>Cách sử dụng</strong>
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        1. Tạo Context bằng
+        <code style="background-color: #e0e0e0; padding: 2px 4px"
+          >React.createContext()</code
+        ><br />
+        2. Cung cấp giá trị qua
+        <code style="background-color: #e0e0e0; padding: 2px 4px">Provider</code
+        ><br />
+        3. Tiêu thụ giá trị qua
+        <code style="background-color: #e0e0e0; padding: 2px 4px"
+          >Consumer</code
+        >
+        hoặc
+        <code style="background-color: #e0e0e0; padding: 2px 4px"
+          >useContext</code
+        >.
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        1. Import
+        <code style="background-color: #e0e0e0; padding: 2px 4px"
+          >useContext</code
+        >
+        từ React<br />
+        2. Gọi
+        <code style="background-color: #e0e0e0; padding: 2px 4px"
+          >useContext(Context)</code
+        >
+        trong functional component để lấy giá trị từ Context.
+      </td>
+    </tr>
+    <tr style="background-color: #f2f2f2">
+      <td style="border: 1px solid #ddd; padding: 12px">
+        <strong>Khi nào sử dụng</strong>
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        - Khi cần chia sẻ dữ liệu toàn cục (theme, auth, settings) giữa nhiều
+        component.<br />
+        - Khi prop drilling làm code dài dòng và khó bảo trì.<br />
+        - Khi ứng dụng nhỏ hoặc vừa, không cần thư viện quản lý state phức tạp
+        như Redux.
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        - Khi cần truy cập giá trị Context trong functional component mà không
+        muốn dùng
+        <code style="background-color: #e0e0e0; padding: 2px 4px">Consumer</code
+        >.<br />
+        - Khi muốn đơn giản hóa cú pháp và tăng tính tái sử dụng qua custom
+        Hook.<br />
+        - Khi làm việc với Context trong ứng dụng chỉ dùng functional component.
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        <strong>Ưu điểm</strong>
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        - Loại bỏ prop drilling<br />
+        - Dễ dàng quản lý state toàn cục<br />
+        - Tích hợp sẵn trong React, không cần thư viện ngoài.
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        - Cú pháp đơn giản, dễ đọc<br />
+        - Thay thế
+        <code style="background-color: #e0e0e0; padding: 2px 4px"
+          >Consumer</code
+        >
+        phức tạp<br />
+        - Tăng tính tái sử dụng với custom Hook.
+      </td>
+    </tr>
+    <tr style="background-color: #f2f2f2">
+      <td style="border: 1px solid #ddd; padding: 12px">
+        <strong>Nhược điểm</strong>
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        - Có thể gây re-render không cần thiết nếu không tối ưu<br />
+        - Phức tạp hơn trong ứng dụng lớn so với Redux.
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        - Chỉ dùng được trong functional component<br />
+        - Dễ lạm dụng dẫn đến code khó theo dõi.
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        <strong>Lưu ý</strong>
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        - Cần có
+        <code style="background-color: #e0e0e0; padding: 2px 4px"
+          >Provider</code
+        >
+        để cung cấp giá trị<br />
+        - Giá trị mặc định chỉ dùng khi không có
+        <code style="background-color: #e0e0e0; padding: 2px 4px">Provider</code
+        >.
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        - Nên tạo custom Hook để xử lý lỗi khi không có
+        <code style="background-color: #e0e0e0; padding: 2px 4px">Provider</code
+        ><br />
+        - Kết hợp với TypeScript để tăng type safety.
+      </td>
+    </tr>
+    <tr style="background-color: #f2f2f2">
+      <td style="border: 1px solid #ddd; padding: 12px">
+        <strong>Ví dụ ứng dụng</strong>
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        Quản lý theme, thông tin người dùng, ngôn ngữ.
+      </td>
+      <td style="border: 1px solid #ddd; padding: 12px">
+        Lấy theme từ Context để thay đổi giao diện component.
+      </td>
+    </tr>
+  </tbody>
+</table>
