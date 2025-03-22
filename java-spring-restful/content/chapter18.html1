@@ -1,0 +1,28 @@
+<h1>Exception filter</h1>
+<p class="text-warning">
+  Sẽ có trường hợp mọi người bắt đúng lỗi nhưng nó lại không format oh vậy hãy
+  thử debug.
+</p>
+<p class="text-info">
+  Như các chương trước javaSpring có rất nhiều tầng và có khi Exception sẽ nhảy
+  vào filter thay vì controler
+</p>
+<p>=&gt; DO vậy exception sẽ không được format với @ControllerAdvice.</p>
+<p>Hãy thử test ở postman với cái lỗi 404 xem</p>
+<p>ok mình sẽ đi vào xử lí</p>
+<h2>OncePerRequestFilter</h2>
+<p>
+  giúp đảm bảo rằng một filter cụ thể chỉ được thực thi một lần cho mỗi yêu cầu
+  HTTP. Điều này đặc biệt hữu ích trong các trường hợp mà filter có thể được
+  kích hoạt nhiều lần trong cùng một request
+</p>
+<ol>
+  <b> Cách hoạt động: </b>
+
+  <li>
+    OncePerRequestFilter tự động kiểm tra xem request đã được xử lý bởi filter
+    này chưa.
+  </li>
+  <li>Nếu đã xử lý, nó sẽ bỏ qua và không gọi lại filter lần nữa.</li>
+  <li>Nếu chưa xử lý, nó sẽ tiếp tục thực thi logic lọc.</li>
+</ol>

@@ -1,0 +1,49 @@
+<h1>Interceptor</h1>
+<p>Mắc định với 1 request luồng hoạt đồng trước giờ của ta.</p>
+<p>Request =&gt; Spring Sercurity =&gt; Controller</p>
+.
+<p>
+  Trước giờ chúng ta chỉ ghi đè lại cấu hình Spring Sercurity (không phải sửa)
+  rồi chạy vào Controller.
+</p>
+<p>Interceptor sẽ giúp ta can thiệp vào giữa Spring Sercurity và Controller.</p>
+<p>Request =&gt; Spring Sercurity =&gt; Interceptor =&gt; Controller</p>
+.
+
+<h2 class="heading">HandlerInterceptor</h2>
+<p>Can thiệp vào quá trình xử lý request trước/sau khi Controller xử lý.</p>
+<h3 style="color: #28a745">🔹 Các Phương Thức Chính</h3>
+<table
+  border="1"
+  cellpadding="10"
+  cellspacing="0"
+  style="border-collapse: collapse; width: 100%"
+>
+  <tr style="background-color: #28a745; color: white">
+    <th>Phương Thức</th>
+    <th>Khi Nào Gọi?</th>
+    <th>Chức Năng</th>
+  </tr>
+  <tr>
+    <td><code>preHandle()</code></td>
+    <td>Trước khi request đến Controller.</td>
+    <td>
+      Kiểm tra request, chặn nếu không hợp lệ (<code>return false</code>).
+    </td>
+  </tr>
+  <tr>
+    <td><code>postHandle()</code></td>
+    <td>Sau khi Controller xử lý nhưng trước khi Response gửi đi.</td>
+    <td>Thay đổi dữ liệu response hoặc ghi log.</td>
+  </tr>
+  <tr>
+    <td><code>afterCompletion()</code></td>
+    <td>Sau khi Response gửi về Client.</td>
+    <td>Giải phóng tài nguyên, ghi log lỗi nếu có.</td>
+  </tr>
+</table>
+
+<p>Ok bây giờ thử tạo 1 interceptor. đơn giản nhé</p>
+
+<img src="img/chap19/1.png" width="135%" style="object-fit: cover" />
+<img src="img/chap19/2.png" width="135%" style="object-fit: cover" />

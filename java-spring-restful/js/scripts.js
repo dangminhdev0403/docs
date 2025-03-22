@@ -30,7 +30,13 @@ const navigation = [
     title: "Phân trang với Pagination ",
     file: "chapter16.html",
   },
-  { id: "chapter17", title: "Filter dữ liệu với Specifications", file: "chapter17.html" },
+  {
+    id: "chapter17",
+    title: "Filter dữ liệu với Specifications",
+    file: "chapter17.html",
+  },
+  { id: "chapter18", title: "Relationships ", file: "chapter18.html" },
+  { id: "chapter19", title: "Interceptor ", file: "chapter19.html" },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {

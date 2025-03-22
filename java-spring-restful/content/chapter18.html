@@ -1,0 +1,203 @@
+<h1>Relationships với JavaSpring</h1>
+
+<ol>
+    Spring Data JPA dựa trên JPA (Java Persistence API) để ánh xạ các đối tượng Java với bảng cơ sở dữ liệu quan hệ. Các mối quan hệ phổ biến bao gồm:
+<li>
+ <b>   One-to-One (Một-đến-Một):</b>
+    Một bản ghi trong bảng A liên kết với duy nhất một bản ghi trong bảng B và ngược lại.
+</li>
+
+<li>
+  <b>  One-to-Many (Một-đến-Nhiều):</b>
+    Một bản ghi trong bảng A liên kết với nhiều bản ghi trong bảng B, nhưng mỗi bản ghi trong B chỉ liên kết với một bản ghi trong A.
+</li>
+
+<li>
+  <b>  Many-to-One (Nhiều-đến-Một):</b>
+    Nhiều bản ghi trong bảng A liên kết với một bản ghi trong bảng B.
+</li>
+<li>
+    
+  <b>  Many-to-Many (Nhiều-đến-Nhiều):</b>
+    Nhiều bản ghi trong bảng A liên kết với nhiều bản ghi trong bảng B, thường yêu cầu bảng trung gian.
+</li>
+
+
+</ol>
+
+<h2>
+    Cách định nghĩa Relationships trong Spring Data JPA
+
+
+</h2>
+<p>
+    
+ <b>   One-to-One (Một-đến-Một)</b>
+   <p> Annotation: @OneToOne.</p>
+    
+   <p> Ví dụ: Một người dùng (User) có một hồ sơ (Profile).</p>
+                 <img src="img/chap18/1.png" width="135%" style="object-fit: cover" />
+
+</p>
+
+
+<p>
+    
+ <b>    One-to-Many (Một-đến-Nhiều) và Many-to-One (Nhiều-đến-Một)</b>
+   <p>Annotation: @OneToMany và @ManyToOne.
+</p>
+    
+   <p> Một danh mục (Category) có nhiều sản phẩm (Product), nhưng mỗi sản phẩm chỉ thuộc về một danh mục.
+</p>
+                 <img src="img/chap18/2.png" width="135%" style="object-fit: cover" />
+
+</p>
+
+<p>
+    
+ <b>    Many-to-Many (Nhiều-đến-Nhiều)
+
+</b>
+   <p>Annotation: @ManyToMany
+</p>
+    
+ 
+<p>Ví dụ: Một sinh viên (Student) có thể tham gia nhiều khóa học (Course), và một khóa học có nhiều sinh viên.
+</p>
+                 <img src="img/chap18/3.png" width="135%" style="object-fit: cover" />
+
+<table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
+    <thead>
+        <tr style="background-color: #4CAF50; color: white;">
+            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Lưu ý</th>
+            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Mô tả</th>
+            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Ví dụ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="background-color: #f2f2f2;">
+            <td style="border: 1px solid #ddd; padding: 12px;">Fetch Type</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Quy định cách tải dữ liệu liên quan: <b>LAZY</b> (tải khi cần) hoặc <b>EAGER</b> (tải ngay). Mặc định: <b>LAZY</b> cho @OneToMany/@ManyToMany, <b>EAGER</b> cho @OneToOne/@ManyToOne.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;"><code>@OneToMany(fetch = FetchType.EAGER)</code></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 12px;">Cascade</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Điều khiển hành vi lan truyền (persist, remove, v.v.) từ entity cha sang entity con.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;"><code>@OneToMany(cascade = CascadeType.ALL)</code></td>
+        </tr>
+        <tr style="background-color: #f2f2f2;">
+            <td style="border: 1px solid #ddd; padding: 12px;">JoinColumn</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Xác định cột khóa ngoại trong bảng sở hữu mối quan hệ.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;"><code>@JoinColumn(name = "category_id")</code></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 12px;">MappedBy</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Chỉ định phía sở hữu mối quan hệ (tránh tạo khóa ngoại dư thừa ở phía không sở hữu).</td>
+            <td style="border: 1px solid #ddd; padding: 12px;"><code>@OneToMany(mappedBy = "category")</code></td>
+        </tr>
+        <tr style="background-color: #f2f2f2;">
+            <td style="border: 1px solid #ddd; padding: 12px;">Lazy Loading</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Cần cẩn thận với Lazy Loading ngoài session Hibernate, có thể gây lỗi <b>LazyInitializationException</b>.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Sử dụng <code>@Transactional</code> hoặc fetch dữ liệu trước.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Cascade</h2>
+<table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
+    <thead>
+        <tr style="background-color: #4CAF50; color: white;">
+            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Loại Cascade</th>
+            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Mô tả</th>
+            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Cách sử dụng</th>
+            <th style="border: 1px solid #ddd; padding: 12px; text-align: left;">Ví dụ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="background-color: #f2f2f2;">
+            <td style="border: 1px solid #ddd; padding: 12px;"><b>CascadeType.PERSIST</b></td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Lan truyền thao tác lưu (persist) từ entity cha sang entity con. Khi cha được lưu, con cũng được lưu.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Dùng khi muốn tự động lưu entity con khi lưu entity cha.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;"><code>@OneToMany(cascade = CascadeType.PERSIST)</code></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 12px;"><b>CascadeType.MERGE</b></td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Lan truyền thao tác cập nhật (merge) từ entity cha sang entity con. Khi cha được cập nhật, con cũng được cập nhật.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Dùng khi cần đồng bộ thay đổi từ cha sang con.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;"><code>@OneToMany(cascade = CascadeType.MERGE)</code></td>
+        </tr>
+        <tr style="background-color: #f2f2f2;">
+            <td style="border: 1px solid #ddd; padding: 12px;"><b>CascadeType.REMOVE</b></td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Lan truyền thao tác xóa (remove) từ entity cha sang entity con. Khi cha bị xóa, con cũng bị xóa.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Dùng khi muốn xóa toàn bộ dữ liệu liên quan.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;"><code>@OneToMany(cascade = CascadeType.REMOVE)</code></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 12px;"><b>CascadeType.REFRESH</b></td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Lan truyền thao tác làm mới (refresh) từ entity cha sang entity con. Khi cha được làm mới từ DB, con cũng được làm mới.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Dùng để đồng bộ dữ liệu từ cơ sở dữ liệu.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;"><code>@OneToMany(cascade = CascadeType.REFRESH)</code></td>
+        </tr>
+        <tr style="background-color: #f2f2f2;">
+            <td style="border: 1px solid #ddd; padding: 12px;"><b>CascadeType.DETACH</b></td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Lan truyền thao tác tách (detach) từ entity cha sang entity con. Khi cha bị tách khỏi context, con cũng bị tách.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Dùng khi cần loại bỏ quản lý của JPA cho cả cha và con.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;"><code>@OneToMany(cascade = CascadeType.DETACH)</code></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 12px;"><b>CascadeType.ALL</b></td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Bao gồm tất cả các thao tác trên (PERSIST, MERGE, REMOVE, REFRESH, DETACH). Lan truyền toàn bộ hành vi từ cha sang con.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;">Dùng khi muốn áp dụng mọi hành vi lan truyền.</td>
+            <td style="border: 1px solid #ddd; padding: 12px;"><code>@OneToMany(cascade = CascadeType.ALL)</code></td>
+        </tr>
+    </tbody>
+</table>
+     </p>
+
+     <p class="text-info">Trong Spring Boot với JPA/Hibernate, nếu bạn muốn thực hiện các hành động trước khi lưu (persist) hoặc cập nhật (update) một entity vào database, bạn có thể sử dụng các entity lifecycle callbacks</p>
+     <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+        <thead>
+            <tr style="background-color: #007bff; color: white;">
+                <th style="border: 1px solid #ddd; padding: 10px;">Annotation</th>
+                <th style="border: 1px solid #ddd; padding: 10px;">Kích Hoạt Khi</th>
+                <th style="border: 1px solid #ddd; padding: 10px;">Ví Dụ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 10px;"><b>@PrePersist</b></td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Trước khi entity được lưu (INSERT).</td>
+                <td style="border: 1px solid #ddd; padding: 10px;"><code>createdAt = LocalDateTime.now();</code></td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 10px;"><b>@PostPersist</b></td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Sau khi entity được lưu vào database.</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Gửi thông báo sau khi lưu.</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 10px;"><b>@PreUpdate</b></td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Trước khi entity được cập nhật (UPDATE).</td>
+                <td style="border: 1px solid #ddd; padding: 10px;"><code>updatedAt = LocalDateTime.now();</code></td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 10px;"><b>@PostUpdate</b></td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Sau khi entity được cập nhật.</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Ghi log khi cập nhật thành công.</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 10px;"><b>@PreRemove</b></td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Trước khi entity bị xóa (DELETE).</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Kiểm tra ràng buộc trước khi xóa.</td>
+            </tr>
+            <tr style="background-color: #f9f9f9;">
+                <td style="border: 1px solid #ddd; padding: 10px;"><b>@PostRemove</b></td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Sau khi entity bị xóa khỏi database.</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Xóa dữ liệu liên quan.</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 10px;"><b>@PostLoad</b></td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Sau khi entity được tải từ database.</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Gán giá trị tạm thời.</td>
+            </tr>
+        </tbody>
+    </table>
