@@ -37,6 +37,7 @@ const navigation = [
   },
   { id: "chapter18", title: "Relationships ", file: "chapter18.html" },
   { id: "chapter19", title: "Interceptor ", file: "chapter19.html" },
+  { id: "chapter20", title: "DataBaseInitializer ", file: "chapter20.html" },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {

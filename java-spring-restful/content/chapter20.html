@@ -1,0 +1,26 @@
+<h1 class="heading">
+  DataBaseInitializer : tạo dữ liệu mặc định trong database
+</h1>
+
+<p class="text-warning">
+  Ok nếu mọi người để ý với Spring Jpa và Hirbernate sẽ tự tạo bảng nếu ta chưa
+  tạo nhỉ <br />
+  bây giờ tớ muốn nó sẽ tự thêm dữ liệu cơ :v
+</p>
+<p>
+  Ví dụ ở đây mình sẽ muốn có 3 role ADMIN , SUPER_ADMIN , USER chẳng hạn , đỡ
+  phải viết serivce nhiều :v
+</p>
+<h2 class="heading">CommandLineRunner</h2>
+<p>
+  CommandLineRunner là 1 interface cho phép bạn thực thi một đoạn code cụ thể
+  ngay sau khi ứng dụng Spring Boot khởi động xong. Interface này có một phương
+  thức duy nhất là <b>run(String... args)</b>, nơi bạn có thể đặt các logic cần
+  thực thi.
+</p>
+<p>
+  Việc của ta là biến nó thành Serivce để có thể thực thi tạo bảng trong
+  database (Nhớ if else đàng hoàng không lại tạo linh tinh).
+</p>
+
+<img src="img/chap19/3.png" width="135%" style="object-fit: cover" />
