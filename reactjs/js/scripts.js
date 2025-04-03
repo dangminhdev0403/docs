@@ -10,13 +10,14 @@ const navigation = [
   { id: "chapter6", title: "Reactjs: Hook useState", file: "chapter6.html" },
 
   { id: "chapter61", title: "Reactjs: Hook useRef", file: "chapter61.html" },
-
-  { id: "chapter8", title: " CSS Và Thư Viện ", file: "chapter8.html" },
   {
     id: "chapter9",
     title: "Kĩ thuật Memoization với React",
     file: "chapter9.html",
   },
+
+  { id: "chapter8", title: " CSS Và Thư Viện ", file: "chapter8.html" },
+
   { id: "chapter10", title: "Call API với axios ", file: "chapter10.html" },
   { id: "chapter11", title: "Vòng đời của React ", file: "chapter11.html" },
   { id: "chapter12", title: " React Context", file: "chapter12.html" },
