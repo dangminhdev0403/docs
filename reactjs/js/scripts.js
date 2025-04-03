@@ -4,16 +4,13 @@ const navigation = [
   { id: "chapter4", title: "Kiến trúc ứng dụng web ", file: "chapter4.html" },
   { id: "chapter1", title: "Hello World với Reactjs ", file: "chapter1.html" },
   { id: "chapter2", title: "Reactjs Component ", file: "chapter2.html" },
-  { id: "chapter111", title: "Vòng đời React ", file: "chapter111.html" },
 
   { id: "chapter3", title: "Reactjs JSX ", file: "chapter3.html" },
   { id: "chapter5", title: "Reactjs: Cha và con ", file: "chapter5.html" },
   { id: "chapter6", title: "Reactjs: Hook useState", file: "chapter6.html" },
-  {
-    id: "chapter7",
-    title: "Reactjs: Điều hướng trang với Router",
-    file: "chapter7.html",
-  },
+
+  { id: "chapter61", title: "Reactjs: Hook useRef", file: "chapter61.html" },
+
   { id: "chapter8", title: " CSS Và Thư Viện ", file: "chapter8.html" },
   {
     id: "chapter9",
@@ -24,6 +21,12 @@ const navigation = [
   { id: "chapter11", title: "Vòng đời của React ", file: "chapter11.html" },
   { id: "chapter12", title: " React Context", file: "chapter12.html" },
   { id: "chapter12", title: " React Reducer", file: "chapter12.html" },
+  { id: "chapter111", title: "Vòng đời React ", file: "chapter111.html" },
+  {
+    id: "chapter7",
+    title: "Reactjs: Điều hướng trang với Router",
+    file: "chapter7.html",
+  },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {

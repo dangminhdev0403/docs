@@ -1,0 +1,25 @@
+<h2 class="heading">Reactjs: Hook useRef</h2>
+
+<p>
+  <b>useRef là một hook </b>được cung cấp bởi React để tạo ra một tham chiếu
+  (reference) có thể thay đổi mà không gây ra việc re-render component khi giá
+  trị của nó thay đổi. Nó thường được sử dụng trong các trường hợp cần truy cập
+  trực tiếp đến DOM element hoặc lưu trữ một giá trị giữa các lần render mà
+  không làm ảnh hưởng đến giao diện.
+</p>
+<h2 class="heading">Cách hoạt động của useRef</h2>
+<ol>
+  <li>
+    Khi bạn gọi useRef(), nó trả về một object với thuộc tính .current. Thuộc
+    tính này có thể được gán bất kỳ giá trị nào và giá trị đó sẽ được giữ nguyên
+    qua các lần render.
+  </li>
+  <li>
+    Không giống như state (được quản lý bởi useState), thay đổi giá trị của
+    .current không kích hoạt re-render.
+  </li>
+</ol>
+
+<div>
+  <img src="img/chap6/1.png" width="120%" />
+</div>
