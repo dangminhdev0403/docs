@@ -8,6 +8,7 @@ const navigation = [
     file: "chapter2.html",
   },
   { id: "chapter3", title: "Performance APIs", file: "chapter3.html" },
+  { id: "chapter4", title: "Index trong database", file: "chapter4.html" },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {

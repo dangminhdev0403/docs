@@ -1,0 +1,59 @@
+<h1>Index trong database</h1>
+
+<h2 class="heading">Index trong database là gì?</h2>
+<ul>
+  <li>
+    Index giống như mục lục trong một cuốn sách. Khi bạn tìm thông tin trong một
+    cuốn sách dày, thay vì đọc từ đầu đến cuối, bạn lật đến mục lục để xem thông
+    tin đó nằm ở trang nào → nhanh hơn rất nhiều.
+  </li>
+  <li>
+    Trong database cũng vậy: index giúp truy vấn dữ liệu nhanh hơn bằng cách cho
+    phép hệ quản trị cơ sở dữ liệu (DBMS) tìm thông tin mà không cần quét toàn
+    bộ bảng.
+  </li>
+</ul>
+<p class="text-info">
+  Ok với 1 bảng users mà có 1-2 chục dữ liệu thì không bõ để test đâu , nên hãy
+  làm 1 bảng có triệu bản ghi cho bõ công test.
+</p>
+<p>Mình có 1 bảng user với 10 triệu bản ghi</p>
+<img src="img/chap4/1.png" alt="" />
+<p>
+  Và giờ Mình sẽ thử dùng 1 câu lệnh
+  <b>SELECT * FROM `users` WHERE `name` LIKE '%488534%' LIMIT 100</b> chẳng hạn
+</p>
+<p>Và kết quả , 28s cho 1 bản ghi</p>
+<img src="img/chap4/2.png" alt="" />
+
+<p>
+  Với lí thuyết ở trên , vì mình không đánh index(chỉ mục) cho cột `name` nây.
+  nên truy vấn sẽ chạy qua tất cả các row của cột `name` để so sánh và lấy ra
+  những row thoả mãn
+</p>
+
+<h2>Tiến hành tạo INDEX cho cột</h2>
+<p>Ok giờ mình sẽ đi tạo thôi.</p>
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+    -- CREATE INDEX tên_index ON bảng(cột)
+    CREATE INDEX idx_email ON users(email);</pre
+  >
+</div>
+
+<p>Kiểm tra đã có index chưa</p>
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+    -- SHOW INDEXES FORM bảng
+   SHOW INDEXES FROM users</pre
+  >
+</div>
+
+<p class="text-info">Và bùm</p>
+<img src="img/chap4/3.png" alt="" />
+<p>
+  Thấy gì không , hiệu suất gấp trên 30 lần so với bình thường ( chắc là do máy
+  mình khoẻ :v máy khác có thể tầm 10-20 lần)
+</p>
