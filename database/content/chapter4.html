@@ -3,14 +3,17 @@
 <h2 class="heading">Index trong database là gì?</h2>
 <ul>
   <li>
-    Index giống như mục lục trong một cuốn sách. Khi bạn tìm thông tin trong một
-    cuốn sách dày, thay vì đọc từ đầu đến cuối, bạn lật đến mục lục để xem thông
-    tin đó nằm ở trang nào → nhanh hơn rất nhiều.
+    Index (chỉ mục) là một cấu trúc dữ liệu được tạo ra để tăng tốc độ truy vấn
+    dữ liệu từ bảng trong cơ sở dữ liệu.
   </li>
   <li>
     Trong database cũng vậy: index giúp truy vấn dữ liệu nhanh hơn bằng cách cho
     phép hệ quản trị cơ sở dữ liệu (DBMS) tìm thông tin mà không cần quét toàn
     bộ bảng.
+  </li>
+  <li>
+    Hãy tưởng tượng: Nếu bảng là một cuốn sách, thì index giống như mục lục,
+    giúp bạn tra nhanh đến vị trí cần tìm, thay vì phải đọc hết cả quyển.
   </li>
 </ul>
 <p class="text-info">
@@ -57,3 +60,615 @@
   Thấy gì không , hiệu suất gấp trên 30 lần so với bình thường ( chắc là do máy
   mình khoẻ :v máy khác có thể tầm 10-20 lần)
 </p>
+
+<h2>Các loại index trong MySQL</h2>
+
+<table
+  style="
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  "
+>
+  <tr style="background-color: #4a90e2; color: white">
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Loại Index
+    </th>
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Mô tả
+    </th>
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Ví dụ
+    </th>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">Primary Key Index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Tự động tạo, duy nhất, không NULL, dùng B-Tree.
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>id INT PRIMARY KEY</code>
+    </td>
+  </tr>
+  <tr style="background-color: #f9fcff">
+    <td style="border: 1px solid #357abd; padding: 10px">Unique Index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Đảm bảo giá trị duy nhất, cho phép NULL.
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>CREATE UNIQUE INDEX idx_email ON users(email)</code>
+    </td>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">B-Tree Index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Mặc định, hỗ trợ so sánh và khoảng giá trị.
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>CREATE INDEX idx_name ON users(name)</code>
+    </td>
+  </tr>
+  <tr style="background-color: #f9fcff">
+    <td style="border: 1px solid #357abd; padding: 10px">Full-Text Index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Tìm kiếm văn bản trong chuỗi, dùng cho MyISAM/InnoDB.
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>CREATE FULLTEXT INDEX idx_content ON articles(content)</code>
+    </td>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">Spatial Index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Dành cho dữ liệu không gian (tọa độ).
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>CREATE SPATIAL INDEX idx_location ON places(location)</code>
+    </td>
+  </tr>
+  <tr style="background-color: #f9fcff">
+    <td style="border: 1px solid #357abd; padding: 10px">Composite Index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Index trên nhiều cột, tối ưu truy vấn kết hợp.
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>CREATE INDEX idx_name_age ON users(name, age)</code>
+    </td>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">Hash Index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Dùng bảng băm, chỉ hỗ trợ `=`, dùng trong MEMORY/NDB.
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>INDEX idx_name (name) USING HASH</code>
+    </td>
+  </tr>
+</table>
+
+<h2>3. Cách tạo và quản lý index</h2>
+<table
+  style="
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  "
+>
+  <tr style="background-color: #4a90e2; color: white">
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Hành động
+    </th>
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Cú pháp
+    </th>
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Ghi chú
+    </th>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">Tạo index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>CREATE INDEX idx_name ON users(name)</code>
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Tạo sau khi bảng đã tồn tại.
+    </td>
+  </tr>
+  <tr style="background-color: #f9fcff">
+    <td style="border: 1px solid #357abd; padding: 10px">Tạo khi tạo bảng</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code
+        >CREATE TABLE users (id INT, name VARCHAR(255), INDEX idx_name
+        (name))</code
+      >
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Tích hợp index trong định nghĩa bảng.
+    </td>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">Xóa index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>DROP INDEX idx_name ON users</code>
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Xóa index không cần thiết.
+    </td>
+  </tr>
+  <tr style="background-color: #f9fcff">
+    <td style="border: 1px solid #357abd; padding: 10px">Xem index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>SHOW INDEX FROM users</code>
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Hiển thị tất cả index trong bảng.
+    </td>
+  </tr>
+</table>
+
+<h2 class="heading">4. Cách MySQL sử dụng index</h2>
+
+<table
+  style="
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  "
+>
+  <tr style="background-color: #4a90e2; color: white">
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Trường hợp
+    </th>
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Ví dụ
+    </th>
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Ghi chú
+    </th>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">WHERE</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>WHERE name = 'John'</code>
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Dùng index trên `name`.
+    </td>
+  </tr>
+  <tr style="background-color: #f9fcff">
+    <td style="border: 1px solid #357abd; padding: 10px">JOIN</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>JOIN orders ON users.id = orders.user_id</code>
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Dùng index trên `id` hoặc `user_id`.
+    </td>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">ORDER BY</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>ORDER BY name</code>
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Dùng index để sắp xếp.
+    </td>
+  </tr>
+  <tr style="background-color: #f9fcff">
+    <td style="border: 1px solid #357abd; padding: 10px">Kiểm tra</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>EXPLAIN SELECT * FROM users WHERE name = 'John'</code>
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Xem index được dùng qua cột `key`.
+    </td>
+  </tr>
+</table>
+
+<h2 class="heading">. Tối ưu hóa index</h2>
+<table
+  style="
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  "
+>
+  <tr style="background-color: #4a90e2; color: white">
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Tiêu chí
+    </th>
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Chi tiết
+    </th>
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Ví dụ
+    </th>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">Nên đánh index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Cột trong `WHERE`, `JOIN`, cột có độ chọn lọc cao.
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>CREATE INDEX idx_email ON users(email)</code>
+    </td>
+  </tr>
+  <tr style="background-color: #f9fcff">
+    <td style="border: 1px solid #357abd; padding: 10px">Không nên đánh</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Cột ít giá trị, hay cập nhật, bảng nhỏ.
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Tránh index trên `gender`.
+    </td>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">Composite Index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Cột lọc nhất đứng đầu.
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>CREATE INDEX idx_name_age ON users(name, age)</code>
+    </td>
+  </tr>
+  <tr style="background-color: #f9fcff">
+    <td style="border: 1px solid #357abd; padding: 10px">Covering Index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Index chứa đủ cột cần thiết.
+    </td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      <code>SELECT name, age FROM users WHERE name = 'John'</code>
+    </td>
+  </tr>
+</table>
+
+<h2 class="heading">Hạn chế và nhược điểm</h2>
+<table
+  style="
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  "
+>
+  <tr style="background-color: #4a90e2; color: white">
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Nhược điểm
+    </th>
+    <th style="border: 1px solid #357abd; padding: 10px; text-align: left">
+      Mô tả
+    </th>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">Chiếm dung lượng</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Tạo thêm một cấu trúc dữ liệu riêng.
+    </td>
+  </tr>
+  <tr style="background-color: #f9fcff">
+    <td style="border: 1px solid #357abd; padding: 10px">Làm chậm ghi</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      `INSERT`, `UPDATE`, `DELETE` phải cập nhật index.
+    </td>
+  </tr>
+  <tr style="background-color: #e6f0fa">
+    <td style="border: 1px solid #357abd; padding: 10px">Quá nhiều index</td>
+    <td style="border: 1px solid #357abd; padding: 10px">
+      Trình tối ưu hóa có thể chọn sai.
+    </td>
+  </tr>
+</table>
+
+<h2 style="font-size: 24px">KHI NÀO NÊN DÙNG INDEX</h2>
+<table style="border-collapse: collapse; width: 100%; font-size: 18px">
+  <thead>
+    <tr style="background-color: #f0f0f0">
+      <th style="border: 1px solid #ccc; padding: 10px">Trường hợp</th>
+      <th style="border: 1px solid #ccc; padding: 10px">Nên tạo index?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Cột dùng trong <code>WHERE</code> thường xuyên
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">✅ Có</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Cột dùng <code>JOIN</code>, <code>ORDER BY</code>, <code>GROUP BY</code>
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">✅ Có</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Cột cần đảm bảo duy nhất (<code>UNIQUE</code>)
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">✅ Có</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Tìm kiếm văn bản (<code>MATCH ... AGAINST</code>)
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">✅ FULLTEXT</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Cột có tính phân biệt cao (nhiều giá trị khác nhau)
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">✅ Tốt nhất</td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+<h2 style="font-size: 24px">KHÔNG NÊN DÙNG INDEX (Hoặc Hạn chế)</h2>
+<table style="border-collapse: collapse; width: 100%; font-size: 18px">
+  <thead>
+    <tr style="background-color: #ffecec">
+      <th style="border: 1px solid #ccc; padding: 10px">Trường hợp</th>
+      <th style="border: 1px solid #ccc; padding: 10px">Lý do</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">Bảng nhỏ (ít dòng)</td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Index không giúp nhiều vì truy vấn vốn đã nhanh
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Cột có giá trị lặp lại cao (VD: gender, status...)
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Hiệu quả index thấp, vẫn phải quét nhiều dòng
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Tạo quá nhiều index trên 1 bảng
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Làm chậm khi INSERT/UPDATE vì phải cập nhật nhiều chỉ mục
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Dùng <code>LIKE '%abc%'</code> hoặc hàm xử lý chuỗi
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Không tận dụng được index dạng BTREE
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Truy vấn dùng hàm trên cột (VD: <code>LOWER(name)</code>)
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        MySQL không dùng index nếu cột bị biến đổi
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 style="font-size: 24px">
+  📘 Giải thích chi tiết các cột trong <code>EXPLAIN</code> (MySQL)
+</h2>
+<table style="border-collapse: collapse; width: 100%; font-size: 18px">
+  <thead>
+    <tr style="background-color: #f0f0f0">
+      <th style="border: 1px solid #ccc; padding: 10px">Cột</th>
+      <th style="border: 1px solid #ccc; padding: 10px">Ý nghĩa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px"><b>id</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Thứ tự thực thi trong truy vấn (số lớn hơn chạy trước, cho biết độ lồng
+        nhau của subquery)
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px"><b>select_type</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Loại truy vấn (phân loại từng phần của truy vấn):
+        <ul style="margin: 5px 0; padding-left: 20px">
+          <li>
+            <code>SIMPLE</code>: Truy vấn đơn, không có UNION hoặc subquery
+          </li>
+          <li><code>PRIMARY</code>: Truy vấn ngoài cùng khi có subquery</li>
+          <li><code>SUBQUERY</code>: Truy vấn con trong SELECT/WHERE/HAVING</li>
+          <li><code>DERIVED</code>: Subquery trong FROM, tạo bảng tạm</li>
+          <li><code>UNION</code>: Truy vấn phía sau UNION</li>
+          <li><code>UNION RESULT</code>: Phần tổng hợp kết quả của UNION</li>
+          <li>
+            <code>DEPENDENT SUBQUERY</code>: Subquery phụ thuộc vào truy vấn cha
+            (phải chạy lại)
+          </li>
+          <li>
+            <code>DEPENDENT UNION</code>: UNION phụ thuộc vào truy vấn cha
+          </li>
+          <li><code>MATERIALIZED</code>: Subquery được cache sẵn (MySQL 8+)</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px"><b>table</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Tên bảng (hoặc alias) đang được truy vấn
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px"><b>type</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Kiểu truy cập dữ liệu:
+        <ul style="margin: 5px 0; padding-left: 20px">
+          <li><code>const</code>: Truy cập 1 hàng duy nhất</li>
+          <li><code>eq_ref</code>: So sánh khóa chính hoặc UNIQUE</li>
+          <li><code>ref</code>: So sánh với cột index thường</li>
+          <li><code>range</code>: Truy cập theo khoảng</li>
+          <li><code>index</code>: Duyệt toàn bộ index</li>
+          <li><code>ALL</code>: Quét toàn bảng ❌ (nên tránh)</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        <b>possible_keys</b>
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Danh sách các index MySQL có thể dùng
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px"><b>key</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Index thực sự được sử dụng
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px"><b>key_len</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Độ dài key (index) được dùng (tính theo byte)
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px"><b>ref</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Giá trị so sánh với cột index (hằng số, biến, cột khác)
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px"><b>rows</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Số dòng ước tính cần duyệt
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px"><b>filtered</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Phần trăm dòng được giữ lại sau khi áp dụng WHERE (càng thấp càng tệ)
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px"><b>Extra</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Thông tin bổ sung:
+        <ul style="margin: 5px 0; padding-left: 20px">
+          <li><code>Using where</code>: Có lọc điều kiện WHERE</li>
+          <li>
+            <code>Using index</code>: Chỉ đọc từ index (không đụng vào table)
+          </li>
+          <li>
+            <code>Using temporary</code>: Dùng bảng tạm (thường do GROUP BY,
+            ORDER BY)
+          </li>
+          <li>
+            <code>Using filesort</code>: Sắp xếp thủ công – hiệu suất thấp ❌
+          </li>
+          <li>
+            <code>Using join buffer</code>: Dùng bộ đệm khi join không tối ưu ❌
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 style="font-size: 24px">
+  📏 Nguyên tắc "Cùng Bên Trái" (Leftmost Prefix Rule) trong Composite Index
+</h2>
+
+<table style="border-collapse: collapse; width: 100%; font-size: 18px">
+  <thead>
+    <tr style="background-color: #f0f0f0">
+      <th style="border: 1px solid #ccc; padding: 10px">Mô tả</th>
+      <th style="border: 1px solid #ccc; padding: 10px">Chi tiết</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        <b>Composite Index</b> là gì?
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Là index bao gồm <b>nhiều cột</b> (VD: <code>INDEX (a, b, c)</code>).
+      </td>
+    </tr>
+
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        <b>Nguyên tắc "Cùng bên trái"</b>
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        MySQL <b>chỉ sử dụng index từ trái sang phải</b>, nếu bạn bỏ qua cột đầu
+        tiên thì index <u>không được sử dụng</u>.<br />
+        👉 Tức là: với <code>INDEX(a, b, c)</code> bạn phải lọc theo
+        <b>a</b> trước mới có thể dùng <b>b</b> hoặc <b>c</b>.
+      </td>
+    </tr>
+
+    <tr style="background-color: #f9f9f9">
+      <td style="border: 1px solid #ccc; padding: 10px"><b>Ví dụ đúng</b></td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Có index: <code>INDEX(a, b, c)</code><br />
+        ✅ Dùng được index với:
+        <ul style="margin: 5px 0; padding-left: 20px">
+          <li><code>WHERE a = 1</code></li>
+          <li><code>WHERE a = 1 AND b = 2</code></li>
+          <li><code>WHERE a = 1 AND b = 2 AND c = 3</code></li>
+          <li>
+            <code>WHERE a = 1 AND c = 3</code> (sử dụng được phần đầu là a)
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        <b>Ví dụ sai (không dùng được index)</b>
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        ❌ Không dùng được index nếu:
+        <ul style="margin: 5px 0; padding-left: 20px">
+          <li><code>WHERE b = 2</code></li>
+          <li><code>WHERE c = 3</code></li>
+          <li><code>WHERE b = 2 AND c = 3</code></li>
+        </ul>
+        👉 Vì **bạn đã bỏ qua cột đầu tiên** là <code>a</code>
+      </td>
+    </tr>
+
+    <tr style="background-color: #fffbe6">
+      <td style="border: 1px solid #ccc; padding: 10px">
+        <b>Lưu ý về LIKE hoặc RANGE</b>
+      </td>
+      <td style="border: 1px solid #ccc; padding: 10px">
+        Nếu sử dụng <code>LIKE '%abc'</code> hoặc <code>a &lt; 100</code> (phép
+        so sánh không =), thì các cột sau đó <b>không còn dùng index</b> được
+        nữa. <br />👉 Dừng tối ưu tại cột có phép LIKE/RANGE.
+      </td>
+    </tr>
+  </tbody>
+
+
+
+</table>
+ 
+<p class="text-warning">Tóm lại mình sẽ set  cột nào có tỉ lệ các trường khác nhau  theo thứ tự giảm dần</p>
+<p>Công thức tính tỉ lệ các trường khác nhau <br>
+<b>
+         SELECT COUNT(DISTINCT cột) / COUNT(*) AS `Ty_le_user_khac_nhau` FROM bảng;
+    
+</b> </p>
