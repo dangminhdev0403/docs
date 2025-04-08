@@ -363,7 +363,7 @@
             </div>
           </div>
         </a>
-  <a href="java-spring-advan" class="project-link">
+        <a href="java-spring-advan" class="project-link">
           <div class="project-card">
             <div class="project-content">
               <div class="project-icon">
@@ -377,7 +377,9 @@
                   />
                 </svg>
               </div>
-              <h3 class="project-title" style="white-space: nowrap;">Java Spring Bổ trợ</h3>
+              <h3 class="project-title" style="white-space: nowrap">
+                Java Spring Bổ trợ
+              </h3>
               <p class="project-description">Backend</p>
 
               <div class="project-tech">
@@ -414,10 +416,7 @@
           </div>
         </a>
 
-      
-
-
-           <a href="database" class="project-link">
+        <a href="database" class="project-link">
           <div class="project-card">
             <div class="project-content">
               <div class="project-icon">
@@ -441,7 +440,7 @@
           </div>
         </a>
 
-          <a href="javascripts" class="project-link" data-title="none">
+        <a href="javascripts" class="project-link" data-title="none">
           <div class="project-card">
             <div class="project-content">
               <div class="project-icon">
@@ -455,7 +454,40 @@
               <p class="project-description">Fontend</p>
               <div class="project-tech">
                 <span class="tech-tag">Js</span>
-                
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="typescripts" class="project-link" data-title="none">
+          <div class="project-card">
+            <div class="project-content">
+              <div class="project-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6zm-2-8h-4V7h4v2z"
+                  />
+                </svg>
+              </div>
+              <h3 class="project-title">TypeScript nền tảng</h3>
+              <div class="project-tech">
+                <span class="tech-tag">Js</span>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a href="javascripts" class="project-link" data-title="none">
+          <div class="project-card">
+            <div class="project-content">
+              <div class="project-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6zm-2-8h-4V7h4v2z"
+                  />
+                </svg>
+              </div>
+              <h3 class="project-title">Backend Expressjs</h3>
+              <div class="project-tech">
+                <span class="tech-tag">Js</span>
               </div>
             </div>
           </div>
@@ -467,7 +499,7 @@
       const aTitle = document.querySelectorAll(".project-link");
       aTitle.forEach((a) => {
         let title = a.querySelector(".project-title").textContent;
-      //  console.log(title);
+        //  console.log(title);
         a.setAttribute("data-title", title);
       });
       // Particles.js Config
