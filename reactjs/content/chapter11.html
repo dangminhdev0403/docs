@@ -16,7 +16,22 @@
   <li>unMount:Dao diện được xoá đi</li>
 </ol>
 
-<p class="text-info">
+<ol>
+  Trong ReactJS,<b> "side effect" </b>(tác dụng phụ) là những hành động xảy ra bên ngoài quá trình render của component, như:
+  
+ <b>
+    Gọi API.
+    
+    Thay đổi DOM trực tiếp.
+    
+    Thiết lập hoặc dọn dẹp timer.
+    
+    Lưu dữ liệu vào localStorage.
+    
+    Subscribing vào WebSocket hoặc event listeners.
+ </b>
+  
+</ol><p class="text-info">
   Theo kiến thức đã học, ta sẽ gọi API get list Users kiểu này.
 
   <img src="img/chap10/14.png" width="100%" alt="" />
@@ -50,6 +65,8 @@
 
 </p>
 <p class="text-warning">Vậy UseEffect làm được gì ?</p>
+
+
 
 <p>Như đã học mỗi lần ta thay đổi State =&gt; re-render dao diện và mình sẽ chạy 1 hàm sum() để chạy cùng với quá trình đó (side effect) </p>
 <ol>
