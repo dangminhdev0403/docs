@@ -2,6 +2,7 @@
 const navigation = [
   { id: "chapter1", title: "Hello World TypeScript", file: "chapter1.html" },
   { id: "chapter2", title: " TypeScript Cơ bản", file: "chapter2.html" },
+  { id: "chapter3", title: "Object và Interface", file: "chapter3.html" },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {
