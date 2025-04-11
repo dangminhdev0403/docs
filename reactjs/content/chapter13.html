@@ -1,0 +1,27 @@
+<h1>Đặt Alias đường dẫn thư mục trong React</h1>
+<p>
+  Ok Thực tế thì các dự án nói chung và dự án nói riêng thường không để đường
+  dẫn đến file là <b>../</b> hay <b>../../.. bla bla</b> như này đâu
+  <img src="img/chap13/1.png" alt="" />
+</p>
+<p>Ta sẽ đặt bí danh (alias cho đường dẫn)</p>
+<h2 class="heading">Với Dự án Reactjs Vite với JavaScripts</h2>
+<p>file<b> vite.config.js</b></p>
+<img src="img/chap13/2.png" alt="" />
+<p>Tạo thêm file jsconfig.json để IDE hiểu alias.</p>
+<img src="img/chap13/3.png" alt="" />
+<h2 class="heading">Với Dự án Reactjs Vite với TypeScripts</h2>
+<p class="text-warning">
+  Làm tương tự thôi và có 1 cách nhanh hơn 1 chút , ta đỡ phải config vite.
+</p>
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>npm install vite-tsconfig-paths --save-dev</pre>
+</div>
+<p><b>vite.config.ts</b></p>
+<img src="img/chap13/4.png" alt="" />
+<p><b>tsconfig.app.json</b></p>
+
+<img src="img/chap13/5.png" alt="" />
+<h2>Vậy là xong rồi đó </h2>
+<img src="img/chap13/6.png" alt="" />

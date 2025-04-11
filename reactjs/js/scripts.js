@@ -31,6 +31,11 @@ const navigation = [
     title: "Reactjs: Điều hướng trang với Router",
     file: "chapter7.html",
   },
+  {
+    id: "chapter13",
+    title: " Đặt Alias đường dẫn thư mục trong React",
+    file: "chapter13.html",
+  },
   { id: "chapter113", title: " Redux", file: "chapter113.html" },
 ];
 
