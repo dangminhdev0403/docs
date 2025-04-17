@@ -1,0 +1,27 @@
+<h1>Index trong JavaSpring6</h1>
+<p class="text-warning">
+  Ok qua trước trước ta đã tìm hiểu index trong MYSQL là gì rồi.
+</p>
+<p>Bây giờ áp dụng vào dự án thôi</p>
+<h2 class="heading">Sử dụng @Index trong Spring Data JPA</h2>
+<p class="text-info">
+  Annotation @Index được sử dụng trong annotation @Table để chỉ định một chỉ mục
+  trên một hoặc nhiều cột trong bảng.
+  <img src="img/chap6/1.png" alt="" />
+</p>
+<ol>
+  <li>name: Tên của chỉ mục (phải là duy nhất trong cơ sở dữ liệu).</li>
+  <li>
+    columnList: Danh sách các cột (cách nhau bằng dấu phẩy) mà chỉ mục áp dụng.
+  </li>
+  <li>
+    unique: (Tùy chọn) Nếu đặt là true, chỉ mục sẽ là duy nhất (unique index),
+    đảm bảo không có bản ghi nào trùng giá trị trên các cột được chỉ định.
+  </li>
+</ol>
+
+<h2 class="heading">Index Spring Data MongoDB:</h2>
+<p class="text-info">
+  Trong Spring Data MongoDB, bạn có thể sử dụng annotation @Indexed hoặc
+  @CompoundIndex để định nghĩa chỉ mục trên các trường của một document. Ví dụ:
+</p>

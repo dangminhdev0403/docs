@@ -1,8 +1,7 @@
 // Navigation data structure
 const navigation = [
-  { id: "chapter1", title: "Hello World TypeScript", file: "chapter1.html" },
-  { id: "chapter2", title: " TypeScript Cơ bản", file: "chapter2.html" },
-  { id: "chapter3", title: "Object và Interface", file: "chapter3.html" },
+
+  { id: "chap1", title: "Routing trong Express", file: "chap1.html" },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {
