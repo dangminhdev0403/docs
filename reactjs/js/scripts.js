@@ -36,6 +36,12 @@ const navigation = [
     title: " Đặt Alias đường dẫn thư mục trong React",
     file: "chapter13.html",
   },
+  {
+    id: "chapter14",
+    title: "Quản lí form với React Hook Form",
+    file: "chapter14.html",
+  },
+
   { id: "chapter113", title: " Redux", file: "chapter113.html" },
 ];
 
