@@ -1,0 +1,31 @@
+<h2 class="heading">Cấu hình file launch.json cho dự án Reactjs trong VS Code</h2>
+
+
+<p class="text-danger">
+  runtimeExecutable : sẽ là đường dẫn đến browser.exe trong pc anh em
+  <p>Mình xài cốc cốc và đường dẫn đến file browser.exe trong pc là: <br> C:\Program Files\CocCoc\Browser\Application\browser.exe.</p>
+  hãy thêm / vào nhé
+</p>
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Vite + React with Coc Coc",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/src",
+      "runtimeExecutable": "C:\\Program Files\\CocCoc\\Browser\\Application\\browser.exe",
+      "breakOnLoad": true,
+      "sourceMaps": true,
+      "trace": true,
+      "skipFiles": ["&lt;node_internals&gt;/**"]
+    }
+  ]
+}
+</pre>
+</div>
+
+<p class="text-warning">Cấu hình xong ấn F5 để vào debug</p>

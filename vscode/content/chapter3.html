@@ -1,0 +1,37 @@
+<h2 class="heading">Cấu hình file launch.json cho dự án Nestjs trong VS Code</h2>
+
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "attach",
+      "name": "Attach to NestJS Debug",
+      "port": 9229,
+      "restart": true,
+      "protocol": "inspector",
+      "skipFiles": ["&lt;node_internals&gt;/**", "node_modules/**"],
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+    }
+  ]
+}
+</pre>
+</div>
+
+<h2 class="heading">Cấu hình thêm (Nếu cần thiết)</h2>
+
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+"skipFiles": [
+  "&lt;node_internals&gt;/**",
+  "node_modules/**",           // Bỏ qua thư viện ngoài
+  "&lt;node_internals&gt;/**",
+]
+
+</pre
+  >
+</div>
