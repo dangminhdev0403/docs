@@ -42,7 +42,8 @@ const navigation = [
     file: "chapter14.html",
   },
 
-  { id: "chapter113", title: " Redux", file: "chapter113.html" },
+  { id: "chapter18", title: " Redux", file: "chapter18.html" },
+  { id: "chapter19", title: "Todo App Redux Core", file: "chapter19.html" },
 ];
 
 const updatedNavigation = navigation.map((item, index) => {

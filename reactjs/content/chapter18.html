@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kiến trúc Redux - Toàn bộ kiến thức</title>
+  </head>
+  <body
+    style="
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 40px;
+      max-width: 900px;
+      margin: auto;
+    "
+  >
+    <h1 style="color: #2c3e50">
+      🧠 Kiến Trúc Redux - Toàn Bộ Kiến Thức Cốt Lõi
+    </h1>
+
+    <h2 style="color: #34495e">I. Redux là gì?</h2>
+    <p>
+      <strong>Redux</strong> là một thư viện quản lý
+      <strong>state toàn cục (global state)</strong> cho ứng dụng JavaScript,
+      phổ biến nhất là với React.
+    </p>
+    <ul>
+      <li>Giúp quản lý dữ liệu tập trung, dễ kiểm soát.</li>
+      <li>Giảm sự phụ thuộc vào truyền props giữa các component.</li>
+      <li>Luồng dữ liệu một chiều, dễ debug và test.</li>
+    </ul>
+
+    <h2 style="color: #34495e">II. Khi nào nên dùng Redux?</h2>
+    <ul>
+      <li>Ứng dụng phức tạp, có nhiều component cần chia sẻ dữ liệu.</li>
+      <li>Dữ liệu cần quản lý rõ ràng, có thể undo/redo, cache, đồng bộ.</li>
+      <li>State khó kiểm soát nếu dùng Context hoặc useState.</li>
+    </ul>
+
+    <h2 style="color: #34495e">III. Kiến trúc Redux</h2>
+    <p>Dưới đây là sơ đồ dòng chảy dữ liệu của Redux:</p>
+    <pre style="background: #ecf0f1; padding: 15px; border-radius: 8px">
+UI → dispatch(action) → reducer(state, action) → new state → UI
+  </pre
+    >
+
+    <ol>
+      <li><strong>Action:</strong> Mô tả việc gì đã xảy ra.</li>
+      <li><strong>Reducer:</strong> Xử lý hành động và trả về state mới.</li>
+      <li>
+        <strong>Store:</strong> Nơi lưu trữ toàn bộ state và xử lý dispatch.
+      </li>
+      <li><strong>Dispatch:</strong> Gửi một action tới store để xử lý.</li>
+      <li><strong>Selector:</strong> Truy xuất dữ liệu từ store.</li>
+    </ol>
+
+    <h2 style="color: #34495e">IV. Các khái niệm cốt lõi</h2>
+    <h3 style="margin-top: 20px">1. Action</h3>
+    <p>Là một <strong>object đơn giản</strong> mô tả hành động xảy ra:</p>
+    <pre style="background: #ecf0f1; padding: 10px; border-radius: 6px">
+{ type: 'ADD_TODO', payload: 'Học Redux' }
+  </pre
+    >
+
+    <h3>2. Action Creator</h3>
+    <p>Hàm tạo ra một action:</p>
+    <pre style="background: #ecf0f1; padding: 10px; border-radius: 6px">
+function addTodo(text) {
+  return { type: 'ADD_TODO', payload: text };
+}
+  </pre
+    >
+
+    <h3>3. Reducer</h3>
+    <p>
+      Hàm nhận vào state hiện tại và action, trả về state mới (pure function):
+    </p>
+    <pre style="background: #ecf0f1; padding: 10px; border-radius: 6px">
+function todoReducer(state = [], action) {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [...state, { text: action.payload, done: false }];
+    default:
+      return state;
+  }
+}
+  </pre
+    >
+
+    <h3>4. Store</h3>
+    <p>Nơi lưu trữ toàn bộ state:</p>
+    <pre style="background: #ecf0f1; padding: 10px; border-radius: 6px">
+import { createStore } from 'redux';
+const store = createStore(todoReducer);
+  </pre
+    >
+
+    <h3>5. Dispatch</h3>
+    <p>Dùng để gửi action tới reducer thông qua store:</p>
+    <pre style="background: #ecf0f1; padding: 10px; border-radius: 6px">
+store.dispatch(addTodo('Học Redux'));
+  </pre
+    >
+
+    <h3>6. useSelector và useDispatch (React)</h3>
+    <p>Hook để lấy state và gửi action trong React:</p>
+    <pre style="background: #ecf0f1; padding: 10px; border-radius: 6px">
+const todos = useSelector(state => state.todos);
+const dispatch = useDispatch();
+  </pre
+    >
+
+    <h2 style="color: #34495e">V. Ưu điểm & Nhược điểm của Redux</h2>
+    <table style="width: 100%; border-collapse: collapse">
+      <thead>
+        <tr style="background: #bdc3c7">
+          <th style="padding: 8px; border: 1px solid #7f8c8d">Ưu điểm</th>
+          <th style="padding: 8px; border: 1px solid #7f8c8d">Nhược điểm</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #bdc3c7">
+            Quản lý state rõ ràng, predict được
+          </td>
+          <td style="padding: 8px; border: 1px solid #bdc3c7">
+            Cần viết nhiều boilerplate nếu không dùng Redux Toolkit
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #bdc3c7">
+            Dễ test, debug, time-travel
+          </td>
+          <td style="padding: 8px; border: 1px solid #bdc3c7">
+            Dễ làm quá phức tạp nếu dùng sai
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 style="color: #34495e">VI. Redux Toolkit là gì?</h2>
+    <p>Là phiên bản hiện đại của Redux:</p>
+    <ul>
+      <li>Giảm viết tay các phần như action/reducer.</li>
+      <li>
+        Tích hợp sẵn <strong>Immer</strong>, <strong>Redux Thunk</strong>.
+      </li>
+      <li>
+        API ngắn gọn hơn: <code>createSlice()</code>,
+        <code>configureStore()</code>.
+      </li>
+    </ul>
+
+    <h2 style="color: #34495e">✅ Tổng kết</h2>
+    <ul>
+      <li><strong>Redux = predictable state container</strong>.</li>
+      <li>
+        Các thành phần chính:
+        <strong>action, reducer, store, dispatch, selector</strong>.
+      </li>
+      <li>Redux Toolkit là cách dùng Redux hiện đại, tối ưu cho developer.</li>
+    </ul>
+  </body>
+</html>
