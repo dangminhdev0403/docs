@@ -11,11 +11,192 @@
   <p>Kéo về và npm i thôi .</p>
 
 </p>
-<h2 class="heading">Cài thêm phụ thuộc</h2>
+<h2 class="heading">1. Cài thêm phụ thuộc</h2>
 <div class="code-block">
     <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
     <pre>npm i redux react-redux  </pre>
   </div>
   
+<p>Hãy cài extendsion Redux DevTools. ở trình duyệt nhé</p>
+  <h2>2.Tạo kho chung (Store)</h2>
+  <p>Trong Redux, store (kho) là nơi lưu trữ toàn bộ state (trạng thái) toàn cục của ứng dụng.
+    <ol type="I">
+        <li>Store là một đối tượng trung tâm giúp:
 
+            
+            
+            
+            
+            </li>
+        <li>            Lưu trữ tất cả dữ liệu của ứng dụng (state)
+        </li>
+        <li>            Cho phép đọc state hiện tại
+        </li>
+        <li>            Cho phép cập nhật state thông qua dispatch(action)
+        </li>
+        <li>            Cho phép lắng nghe sự thay đổi state (subscriptions)
+        </li>
+    </ol>
+  </p>
+  <p>Ae tạo thêm thư mục redux cho dễ quản lí nhé.</p>
+  <p><b>store.ts</b></p>
 
+  <div class="code-block">
+    <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+    <pre>import { compose, createStore } from "redux";
+        import rootReducer from "./reducer";
+        // 👉 Tạo store chính của Redux, truyền vào:
+    // - ta sẽ tạo rootReducer: nơi xử lý cập nhật state
+    // - composeEnhancers(): bật hỗ trợ Redux DevTools nếu có
+        const composeEnhancers =
+          (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+        export const store = createStore(rootReducer, composeEnhancers());  </pre>
+  </div>
+  
+<img src="img/chap19/1.png" width="100%" alt="">
+
+    <h2>3. Tạo reducer</h2>
+    <p>Reducer là một hàm thuần túy (pure function) nhận vào state hiện tại và action, và trả về state mới.
+        <ol type="I">
+            <li>Reducer có nhiệm vụ xử lý các action và cập nhật state tương ứng.
+            </li>
+            <li>Reducer không được thay đổi trực tiếp state hiện tại mà phải tạo ra một bản sao mới của state.
+            </li>
+            <li>Reducer có thể kết hợp nhiều reducer nhỏ thành một reducer lớn hơn (root reducer).
+            </li>
+        </ol>
+    </p>
+    <p><b>reducer.ts</b></p>
+    
+    <div class="code-block">
+        <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+        <pre>const initialState = {
+            filters: {
+              Search: "",
+              Status: "All",
+              Priority: [],
+              todoLíst: [
+                {
+                  id: 1,
+                  name: "Learn React",
+                  completed: false,
+                  priority: "High",
+                },
+                {
+                  id: 2,
+                  name: "Learn Redux",
+                  completed: true,
+                  priority: "Medium",
+                },
+                {
+                  id: 3,
+                  name: "Learn JavaScript",
+                  completed: false,
+                  priority: "Low",
+                },
+              ],
+            },
+          };
+          const rootReducer = (state = initialState, action) =&gt; {
+            console.log({ state, action });
+            switch (action.type) {
+              case "ADD_TODO":
+                return {
+                  ...state,
+                  filters: {
+                    ...state.filters,
+                    todoLíst: [...state.filters.todoLíst, action.payload],
+                  },
+                };
+              case "SET_SEARCH":
+                return {
+                  ...state,
+                  filters: {
+                    ...state.filters,
+                    Search: action.payload,
+                  },
+                };
+              case "SET_STATUS":
+                return {
+                  ...state,
+                  filters: {
+                    ...state.filters,
+                    Status: action.payload,
+                  },
+                };
+              case "SET_PRIORITY":
+                return {
+                  ...state,
+                  filters: {
+                    ...state.filters,
+                    Priority: action.payload,
+                  },
+                };
+              default:
+                return state;
+            }
+          };
+          
+          export default rootReducer;
+          </pre>
+      </div>
+        <p>Reducer này sẽ xử lý các action như thêm todo, tìm kiếm, lọc theo trạng thái và độ ưu tiên.</p>
+
+<h2>4. Tạo action</h2>
+<p>Action là một đối tượng JavaScript đơn giản mô tả một hành động xảy ra trong ứng dụng.
+    <ol type="I">
+        <li>Action có ít nhất một thuộc tính type để xác định loại hành động.
+        </li>
+        <li>Action có thể có thêm các thuộc tính khác để truyền dữ liệu cần thiết cho reducer.
+        </li>
+        <li>Action creator là một hàm tạo ra action.</li>
+    </ol>
+</p>
+<p><b>action.ts</b></p>
+
+<div class="code-block">
+    <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+    <pre>
+        // Định nghĩa các action types
+        export const ADD_TODO = "ADD_TODO";
+        export const SET_SEARCH = "SET_SEARCH";
+        export const SET_STATUS = "SET_STATUS";
+        export const SET_PRIORITY = "SET_PRIORITY";
+        
+        // Action creators
+        export const addTodo = (todo: any) =&gt; ({
+          type: ADD_TODO,
+          payload: todo,
+        });
+        
+        export const setSearch = (searchText: string) =&gt; ({
+          type: SET_SEARCH,
+          payload: searchText,
+        });
+        
+        export const setStatus = (status: string) =&gt; ({
+          type: SET_STATUS,
+          payload: status,
+        });
+        
+        export const setPriority = (priorities: string[]) =&gt; ({
+          type: SET_PRIORITY,
+          payload: priorities,
+        });
+        
+
+    </pre>
+  </div>
+
+  <h2>5. Kết nối Store vào ứng dụng React</h2>
+<p>Để kết nối Redux với React, ta sử dụng Provider từ react-redux để bao bọc ứng dụng của mình.</p>
+<p><b>main.tsx</b></p>
+<img src="img/chap19/2.png" width="100%" alt="">
+
+<h2>6. Dùng useSelector và useDispatch trong component</h2>
+<ol>
+    <li>Dispatch ( bắn / gửi) action đến Redux: <b>useDispatch</b></li>
+    <li>Truy xuất state: <b>useSelector</b></li>
+</ol>
+<p>Ok cái này mik sẽ làm 1 chức năng thôi nhen , ae sẽ phải tự làm những cái khác</p>
+<img src="img/chap19/3.png" width="100%" alt="">
