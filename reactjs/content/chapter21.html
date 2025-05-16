@@ -1,0 +1,101 @@
+<h1>Todo App Redux Toolkit</h1>
+<p>
+  Ok toàn bộ cái lí thuyết nó dày cộp thế thôi , ta phải vào thực hành mới rõ
+  được
+</p>
+<p>Ok ta sẽ sử dụng lại cái todo app với redux toolkit nhé</p>
+
+<h2>1. Store.ts</h2>
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+import { configureStore } from "@reduxjs/toolkit";
+        import { todoListSlice } from "../components/TodoList/TodoListSlice";
+        
+        // Tạo Redux store bằng hàm configureStore của Redux Toolkit
+        const store = configureStore({
+          reducer: {
+            // Khai báo reducer có tên là 'todoList' trong Redux store
+            // todoListSlice.reducer là reducer được export từ slice TodoList
+            // State của Redux sẽ có dạng: { todoList: ... }
+            todoList: todoListSlice.reducer,
+          },
+        });
+        
+        export default store;
+        </pre
+  >
+</div>
+
+<h2>2. Tạo slice</h2>
+
+<p>
+  Slice là một phần của Redux store, bao gồm reducer và action creators liên
+  quan đến một phần cụ thể của state.
+</p>
+<p>
+  Trong Redux Toolkit, slice là cách tổ chức logic quản lý một phần của state
+  kèm theo:
+</p>
+<ul>
+  <li>Tên của state (name)</li>
+  <li>Giá trị khởi tạo (initialState)</li>
+  <li>Các hàm xử lý (reducer) để cập nhật state</li>
+  <li>Tự động tạo action tương ứng với từng reducer</li>
+  <li>
+    👉 createSlice() giúp bạn không cần viết switch-case dài dòng như Redux
+    truyền thống.
+  </li>
+</ul>
+
+<div class="code-block">
+  <button class="copy-button" onclick="copyCode(this)">Sao chép</button>
+  <pre>
+// Import hàm createSlice từ Redux Toolkit để tạo slice nhanh chóng
+    import { createSlice } from "@reduxjs/toolkit";
+    
+    // Tạo một slice cho todoList
+    export const todoListSlice = createSlice({
+      // Tên slice, sẽ được dùng làm tiền tố cho các action type (ví dụ: 'todoList/addTodo')
+      name: "todoList",
+    
+      // Trạng thái ban đầu của slice là một mảng các công việc
+      initialState: [
+        {
+          id: 1,
+          name: "Learn React",
+          completed: false,
+          priority: "High",
+        },
+        {
+          id: 2,
+          name: "Learn Redux",
+          completed: true,
+          priority: "Medium",
+        },
+        {
+          id: 3,
+          name: "Learn JavaScript",
+          completed: false,
+          priority: "Low",
+        },
+      ],
+    
+      // Các reducer dùng để xử lý action và cập nhật state
+      reducers: {
+        // Thêm một công việc mới vào danh sách
+        // action.payload phải là một object todo mới (có id, name, completed, priority)
+        addTodo: (state, action) =&gt; {
+          state.push(action.payload); // Redux Toolkit dùng Immer, nên có thể mutate trực tiếp
+        },
+      },
+    });
+    </pre
+  >
+</div>
+
+<img src="img/chap21/1.png" width="100%" alt="" />
+
+<h2>3. thực hiện dispatch</h2>
+
+<img src="img/chap21/2.png" width="100%" alt="" />

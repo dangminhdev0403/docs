@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redux Toolkit 2025 - TypeScript & Giải Thích</title>
+  </head>
+  <body
+    style="
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.8;
+      font-size: 18px;
+      padding: 40px;
+      max-width: 1000px;
+      margin: auto;
+    "
+  >
+    <h1 style="color: #d32f2f; font-size: 32px">
+      🔥 Redux Toolkit 2025 - Tài liệu đầy đủ + TypeScript
+    </h1>
+
+    <p>
+      <strong>Redux Toolkit (RTK)</strong> là cách chính thức, hiện đại để quản
+      lý state trong ứng dụng React, hỗ trợ sẵn TypeScript, async logic, và giảm
+      rất nhiều boilerplate.
+    </p>
+
+    <h2 style="color: #1976d2">1. Cài đặt</h2>
+    <pre style="background: #eee; padding: 10px; font-size: 17px">
+npm install @reduxjs/toolkit react-redux</pre
+    >
+    <p>
+      <strong>Giải thích:</strong> Đây là 2 thư viện cần thiết để dùng Redux
+      trong React.
+    </p>
+
+    <h2 style="color: #1976d2">2. Tạo Slice bằng TypeScript</h2>
+    <pre style="background: #eee; padding: 10px; font-size: 17px">
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface CounterState {
+  value: number;
+}
+
+const initialState: CounterState = {
+  value: 0
+};
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    increment: (state) => { state.value++ },
+    decrement: (state) => { state.value-- },
+    incrementByAmount: (state, action: PayloadAction&lt;number&gt;) =&gt; {
+      state.value += action.payload;
+    },
+  }
+});
+
+export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export default counterSlice.reducer;
+  </pre
+    >
+    <p>
+      <strong>Giải thích:</strong> Sử dụng
+      <code>PayloadAction&lt;number&gt;</code> để gõ chính xác cho action. Immer
+      giúp ta viết "mutate" trực tiếp.
+    </p>
+
+    <h2 style="color: #1976d2">3. Cấu hình Store</h2>
+    <pre style="background: #eee; padding: 10px; font-size: 17px">
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from '../features/counter/counterSlice';
+
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+  },
+});
+
+export type RootState = ReturnType&lt;typeof store.getState&gt;;
+export type AppDispatch = typeof store.dispatch;
+  </pre
+    >
+    <p>
+      <strong>Giải thích:</strong> Tự động tích hợp Redux DevTools, middleware
+      và tạo RootState, AppDispatch dùng trong toàn app.
+    </p>
+
+    <h2 style="color: #1976d2">4. Tích hợp Redux với React</h2>
+    <pre style="background: #eee; padding: 10px; font-size: 17px">
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root')!);
+root.render(
+  &lt;Provider store={store}&gt;
+    &lt;App /&gt;
+  &lt;/Provider&gt;
+);
+  </pre
+    >
+    <p>
+      <strong>Giải thích:</strong> Dùng <code>Provider</code> để cung cấp Redux
+      store cho toàn bộ cây component.
+    </p>
+
+    <h2 style="color: #1976d2">5. Sử dụng useSelector và useDispatch</h2>
+    <pre style="background: #eee; padding: 10px; font-size: 17px">
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState, AppDispatch } from '../app/store';
+import { increment } from './counterSlice';
+
+const count = useSelector((state: RootState) =&gt; state.counter.value);
+const dispatch = useDispatch&lt;AppDispatch&gt;();
+
+dispatch(increment());
+  </pre
+    >
+    <p>
+      <strong>Giải thích:</strong> Gõ kiểu rõ ràng cho selector và dispatch.
+      Dispatch dùng generic <code>&lt;AppDispatch&gt;</code> để hỗ trợ async.
+    </p>
+
+    <h2 style="color: #1976d2">6. Async với createAsyncThunk</h2>
+    <pre style="background: #eee; padding: 10px; font-size: 17px">
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+export const fetchUserById = createAsyncThunk(
+  'user/fetchById',
+  async (userId: string) =&gt; {
+    const response = await fetch(`/api/user/${userId}`);
+    return await response.json();
+  }
+);
+  </pre
+    >
+    <p>
+      <strong>Giải thích:</strong> Tạo thunk async tự động có 3 trạng thái:
+      pending, fulfilled, rejected. Trạng thái này có thể dùng trong slice.
+    </p>
+
+    <h2 style="color: #1976d2">7. RTK Query cơ bản (data fetching)</h2>
+    <pre style="background: #eee; padding: 10px; font-size: 17px">
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+export const api = createApi({
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  endpoints: (builder) =&gt; ({
+    getTodos: builder.query&lt;Todo[], void&gt;({
+      query: () =&gt; 'todos',
+    }),
+  }),
+});
+
+export const { useGetTodosQuery } = api;
+  </pre
+    >
+    <p>
+      <strong>Giải thích:</strong> RTK Query hỗ trợ auto-caching, re-fetch,
+      status loading/error và tách endpoint rõ ràng.
+    </p>
+
+    <h2 style="color: #1976d2">8. TypeScript: RootState & AppDispatch</h2>
+    <pre style="background: #eee; padding: 10px; font-size: 17px">
+export type RootState = ReturnType&lt;typeof store.getState&gt;;
+export type AppDispatch = typeof store.dispatch;
+  </pre
+    >
+    <p>
+      <strong>Giải thích:</strong> Cách chính xác để gõ kiểu cho toàn bộ ứng
+      dụng Redux + React.
+    </p>
+
+    <h2 style="color: #1976d2">9. Best Practices</h2>
+    <ul>
+      <li>Viết slice tách theo feature (counterSlice.ts, userSlice.ts...)</li>
+      <li>Đặt logic gọi API vào createAsyncThunk hoặc RTK Query</li>
+      <li>Tránh dùng Redux cho UI state đơn giản (nên dùng useState)</li>
+      <li>Dùng TypeScript để đảm bảo an toàn và dễ bảo trì</li>
+    </ul>
+
+    <hr />
+
+    <p style="font-style: italic; font-size: 16px">
+      ✅ Tài liệu này được biên soạn năm 2025 bởi một senior ReactJS. Mọi code
+      ví dụ đều viết bằng TypeScript, theo chuẩn mới nhất.
+    </p>
+  </body>
+</html>
